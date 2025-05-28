@@ -23,7 +23,7 @@
 
           <div class="layout-row-wrap" *ngIf="showDetails()">
             <div class="flex-50 mat-body-strong">
-              {{ 'Principal' | translate }}
+              {{ 'labels.inputs.Principal' | translate }}
             </div>
 
             <div class="flex-50 r-amount right-label">
@@ -31,7 +31,7 @@
             </div>
 
             <div class="flex-50 mat-body-strong">
-              {{ 'Interest' | translate }}
+              {{ 'labels.inputs.Interest' | translate }}
             </div>
 
             <div class="flex-50 r-amount right-label">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="flex-50 mat-body-strong">
-              {{ 'Fees' | translate }}
+              {{ 'labels.inputs.Fees' | translate }}
             </div>
 
             <div class="flex-50 r-amount right-label">
@@ -47,7 +47,7 @@
             </div>
 
             <div class="flex-50 mat-body-strong">
-              {{ 'Penalties' | translate }}
+              {{ 'labels.inputs.Penalties' | translate }}
             </div>
 
             <div class="flex-50 r-amount right-label">
@@ -118,6 +118,10 @@
             <mat-label> {{ 'labels.inputs.Note' | translate }}</mat-label>
             <textarea matInput formControlName="note" cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
           </mat-form-field>
+
+          <mat-checkbox formControlName="skipInterestRefund" *ngIf="showInterestRefundCheckbox()">
+            {{ 'labels.inputs.Skip Interest Refund Transaction Posting' | translate }}
+          </mat-checkbox>
         </div>
 
         <mat-card-actions class="layout-row align-center gap-5px responsive-column">

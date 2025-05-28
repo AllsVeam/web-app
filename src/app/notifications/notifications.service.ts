@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 /** rxjs Imports */
 import { Observable, of } from 'rxjs';
+import { AuthService } from 'app/zitadel/auth.service';
 
 /**
  * Notification service.
@@ -15,7 +16,10 @@ export class NotificationsService {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   /**
    * @returns {Observable<any>} Notifications.

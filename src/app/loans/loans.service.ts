@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Dates } from 'app/core/utils/dates';
 import { SettingsService } from 'app/settings/settings.service';
+import { DisbursementData } from './models/loan-account.model';
 
 /**
  * Loans service.
@@ -97,6 +98,14 @@ export class LoansService {
 
   createDelinquencyActions(loanId: string, delinquencyActions: any) {
     return this.http.post(`/loans/${loanId}/delinquency-actions`, delinquencyActions);
+  }
+
+  getDeferredIncomeData(loanId: string) {
+    return this.http.get(`/loans/${loanId}/deferredincome`);
+  }
+
+  getBuyDownFeeData(loanId: string): Observable<any> {
+    return this.http.get(`/loans/${loanId}/buydown-fees`);
   }
 
   /**
@@ -667,5 +676,13 @@ export class LoansService {
     loansAccountData.allowPartialPeriodInterestCalcualtion = loansAccountData.allowPartialPeriodInterestCalculation;
     delete loansAccountData.allowPartialPeriodInterestCalculation;
     return loansAccountData;
+  }
+
+  saveLoanDisbursementDetailsData(disbursementData: DisbursementData[]): void {
+    localStorage.setItem('disbursementData', JSON.stringify(disbursementData));
+  }
+
+  getLoanDisbursementDetailsData(): DisbursementData[] {
+    return JSON.parse(localStorage.getItem('disbursementData'));
   }
 }

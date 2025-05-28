@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 /** Environment Configuration */
 
@@ -35,7 +35,7 @@ import { ProfileModule } from './profile/profile.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ConfigurationWizardModule } from './configuration-wizard/configuration-wizard.module';
 import { PortalModule } from '@angular/cdk/portal';
-
+import { SharedModule } from 'app/zitadel/shared/shared.module';
 /** Main Routing Module */
 import { AppRoutingModule } from './app-routing.module';
 import { DatePipe, LocationStrategy } from '@angular/common';
@@ -47,6 +47,13 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { AuthenticationInterceptor as TokenInterceptor } from './core/authentication/authentication.interceptor';
+import {TokenInterceptor as ZitadelTokenInterceptor} from './zitadel/token.interceptor';
+import { AuthService } from './zitadel/auth.service';
+//import { CallbackComponent } from './zitadel/callback/callback.component';
+//import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
+
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {
     // Remove the 'labels.catalogs.' prefix and return the fallback value
@@ -55,10 +62,10 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
 }
 
 /**
- * App Module
- *
- * Core module and all feature modules should be imported here in proper order.
- */
+* App Module
+*
+* Core module and all feature modules should be imported here in proper order.
+*/
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -66,6 +73,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   imports: [
+    //SharedModule,
+    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -82,7 +91,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     PortalModule,
     CoreModule,
     HomeModule,
@@ -110,9 +118,26 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   declarations: [
     WebAppComponent,
-    NotFoundComponent
+    //NotFoundComponent,
+    //CallbackComponent
   ],
-  providers: [DatePipe],
+  providers: [
+  DatePipe,
+  AuthService,
+  {
+    provide: HTTP_INTERCEPTORS,
+useClass: !(
+  environment.OIDC.oidcServerEnabled === false ||
+  environment.OIDC.oidcServerEnabled === 'false' ||
+  environment.OIDC.oidcServerEnabled === 0 ||
+  environment.OIDC.oidcServerEnabled === '0' ||
+  environment.OIDC.oidcServerEnabled === null ||
+  environment.OIDC.oidcServerEnabled === undefined
+) ? TokenInterceptor : ZitadelTokenInterceptor,
+multi: true
+
+  }
+],
   bootstrap: [WebAppComponent]
 })
 export class AppModule {}

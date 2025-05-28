@@ -14,74 +14,76 @@
 
       <div class="mat-typography account-card-title">
         <mat-card-title>
-          <div class="flex-60">
-            <h3>
-              <i
-                class="fa fa-stop"
-                [ngClass]="recurringDepositsAccountData.status.code | statusLookup"
-                [matTooltip]="recurringDepositsAccountData.status.value"
-              ></i>
-              {{ 'labels.inputs.Recurring Deposit' | translate }} :
-              {{ recurringDepositsAccountData.depositProductName }}
-              <mifosx-account-number accountNo="{{ recurringDepositsAccountData.accountNo }}"></mifosx-account-number>
-            </h3>
-            <span class="account-overview">
-              {{ 'labels.text.' + entityType | translate }} {{ 'labels.inputs.name' | translate }}:
-              {{ recurringDepositsAccountData.clientName || recurringDepositsAccountData.groupName }}
-              <span class="m-l-10" *ngIf="recurringDepositsAccountData.clientAccountNo">
-                <mifosx-account-number
-                  accountNo="{{ recurringDepositsAccountData.clientAccountNo }}"
-                ></mifosx-account-number>
+          <div class="layout-row responsive-column">
+            <div class="flex-60">
+              <h3>
+                <i
+                  class="fa fa-stop"
+                  [ngClass]="recurringDepositsAccountData.status.code | statusLookup"
+                  [matTooltip]="recurringDepositsAccountData.status.value"
+                ></i>
+                {{ 'labels.inputs.Recurring Deposit' | translate }} :
+                {{ recurringDepositsAccountData.depositProductName }}
+                <mifosx-account-number accountNo="{{ recurringDepositsAccountData.accountNo }}"></mifosx-account-number>
+              </h3>
+              <span class="account-overview">
+                {{ 'labels.text.' + entityType | translate }} {{ 'labels.inputs.name' | translate }}:
+                {{ recurringDepositsAccountData.clientName || recurringDepositsAccountData.groupName }}
+                <span class="m-l-10" *ngIf="recurringDepositsAccountData.clientAccountNo">
+                  <mifosx-account-number
+                    accountNo="{{ recurringDepositsAccountData.clientAccountNo }}"
+                  ></mifosx-account-number>
+                </span>
               </span>
-            </span>
-          </div>
+            </div>
 
-          <div
-            *ngIf="
-              !recurringDepositsAccountData.status.rejected &&
-              !recurringDepositsAccountData.status.submittedAndPendingApproval
-            "
-          >
-            <h3>{{ 'labels.heading.Account Overview' | translate }}</h3>
-            <table class="account-overview">
-              <tbody>
-                <tr>
-                  <td>{{ 'labels.inputs.Current Balance' | translate }}</td>
-                  <td class="r-amount">
-                    {{
-                      recurringDepositsAccountData.summary.accountBalance
-                        | currency: currency.code : 'symbol-narrow' : '1.2-2'
-                    }}
-                  </td>
-                </tr>
-                <tr>
-                  <td>{{ 'labels.inputs.Deposit Amount' | translate }}</td>
-                  <td class="r-amount">
-                    {{
-                      recurringDepositsAccountData.depositAmount | currency: currency.code : 'symbol-narrow' : '1.2-2'
-                    }}
-                  </td>
-                </tr>
-                <tr>
-                  <td>{{ 'labels.inputs.Deposit Period' | translate }}</td>
-                  <td class="r-amount">{{ recurringDepositsAccountData.depositPeriod | number }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <span class="flex-auto"></span>
-          <div class="flex-5">
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="accountMenu"
-              aria-label="Loan account actions"
-              yPosition="below"
+            <div
+              class="flex-30"
+              *ngIf="
+                !recurringDepositsAccountData.status.rejected &&
+                !recurringDepositsAccountData.status.submittedAndPendingApproval
+              "
             >
-              <mat-icon matListIcon class="actions-menu">
-                <fa-icon icon="bars" size="sm"></fa-icon>
-              </mat-icon>
-            </button>
+              <h3>{{ 'labels.heading.Account Overview' | translate }}</h3>
+              <table class="account-overview">
+                <tbody>
+                  <tr>
+                    <td>{{ 'labels.inputs.Current Balance' | translate }}</td>
+                    <td class="r-amount">
+                      {{
+                        recurringDepositsAccountData.summary.accountBalance
+                          | currency: currency.code : 'symbol-narrow' : '1.2-2'
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'labels.inputs.Deposit Amount' | translate }}</td>
+                    <td class="r-amount">
+                      {{
+                        recurringDepositsAccountData.depositAmount | currency: currency.code : 'symbol-narrow' : '1.2-2'
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'labels.inputs.Deposit Period' | translate }}</td>
+                    <td class="r-amount">{{ recurringDepositsAccountData.depositPeriod | number }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex-5">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="accountMenu"
+                aria-label="Loan account actions"
+                yPosition="below"
+              >
+                <mat-icon matListIcon class="actions-menu">
+                  <fa-icon icon="bars" size="sm"></fa-icon>
+                </mat-icon>
+              </button>
+            </div>
           </div>
         </mat-card-title>
       </div>

@@ -1,12 +1,25 @@
 /** Angular Imports */
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 /** rxjs Imports */
 import { finalize } from 'rxjs/operators';
 
 /** Custom Services */
 import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { MatFormField, MatPrefix, MatLabel, MatError, MatSuffix } from '@angular/material/form-field';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+
+/** Ruta de seguridad Zitadel*/
+import { AuthService } from '../../zitadel/auth.service';
+import { environment } from '../../../environments/environment';
+
+
 
 /**
  * Login form component.
@@ -14,9 +27,29 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 @Component({
   selector: 'mifosx-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+  styleUrls: ['./login-form.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatPrefix,
+    FaIconComponent,
+    MatIconButton,
+    MatCheckbox,
+    MatProgressBar,
+    MatProgressSpinner
+  ]
 })
 export class LoginFormComponent implements OnInit {
+ public environment = environment;
+oidcServerEnabled = !(
+  (window as any)?.env?.oidcServerEnabled === false ||
+  (window as any)?.env?.oidcServerEnabled === 'false' ||
+  (window as any)?.env?.oidcServerEnabled === 0 ||
+  (window as any)?.env?.oidcServerEnabled === '0' ||
+  (window as any)?.env?.oidcServerEnabled === null ||
+  (window as any)?.env?.oidcServerEnabled === undefined
+);
+
+
   /** Login form group. */
   loginForm: FormGroup;
   /** Password input field type. */
@@ -24,13 +57,16 @@ export class LoginFormComponent implements OnInit {
   /** True if loading. */
   loading = false;
 
+  isLoggedIn = false;
+
   /**
    * @param {FormBuilder} formBuilder Form Builder.
    * @param {AuthenticationService} authenticationService Authentication Service.
    */
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    public authService: AuthService
   ) {}
 
   /**
@@ -40,6 +76,18 @@ export class LoginFormComponent implements OnInit {
    */
   ngOnInit() {
     this.createLoginForm();
+  }
+
+  login2() {
+    this.authService.login();
+  }
+
+  getUsers() {
+    this.authService.getUsers();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   /**

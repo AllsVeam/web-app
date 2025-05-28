@@ -12,6 +12,7 @@ import { GeneralTabComponent } from './centers-view/general-tab/general-tab.comp
 import { NotesTabComponent } from './centers-view/notes-tab/notes-tab.component';
 import { DatatableTabComponent } from './centers-view/datatable-tab/datatable-tab.component';
 import { EditCenterComponent } from './edit-center/edit-center.component';
+import { CenterActionsComponent } from './centers-view/center-actions/center-actions.component';
 
 /** Custom Resolvers */
 import { OfficesResolver } from 'app/accounting/common-resolvers/offices.resolver';
@@ -91,11 +92,19 @@ const routes: Routes = [
               ]
             },
             {
+              path: 'actions/:action',
+              data: { title: 'Center Actions', breadcrumb: 'action', routeParamBreadcrumb: 'action' },
+              component: CenterActionsComponent,
+              resolve: {
+                centersActionData: CenterActionsResolver
+              }
+            },
+            {
               path: 'edit',
               component: EditCenterComponent,
-              data: { title: 'Edit Center', breadcrumb: 'Edit' },
+              data: { title: 'Edit Center', breadcrumb: 'Edit', routeParamBreadcrumb: false },
               resolve: {
-                centerDataAndTemplate: CenterDataAndTemplateResolver
+                centerData: CenterDataAndTemplateResolver
               }
             }
           ]
@@ -108,6 +117,18 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    OfficesResolver,
+    CenterViewResolver,
+    SavingsAccountResolver,
+    CenterResourceResolver,
+    CenterSummaryResolver,
+    CenterNotesResolver,
+    CenterDatatableResolver,
+    CenterDatatablesResolver,
+    CenterActionsResolver,
+    CenterDataAndTemplateResolver
+  ]
 })
 export class CentersRoutingModule {}

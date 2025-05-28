@@ -121,7 +121,7 @@ import { LoanProductPaymentStrategyStepComponent } from './loan-products/loan-pr
 import { ViewAdvancePaymenyAllocationComponent } from './loan-products/view-loan-product/shared/view-advance-paymeny-allocation/view-advance-paymeny-allocation.component';
 import { AdvancePaymentAllocationTabComponent } from './loan-products/loan-product-stepper/loan-product-payment-strategy-step/advance-payment-allocation-tab/advance-payment-allocation-tab.component';
 import { LoanProductSummaryComponent } from './loan-products/common/loan-product-summary/loan-product-summary.component';
-import { LoanProductCapitalizedIncomeStepComponent } from './loan-products/loan-product-stepper/loan-product-capitalized-income-step/loan-product-capitalized-income-step.component';
+import { LoanProductDeferredIncomeRecognitionStepComponent } from './loan-products/loan-product-stepper/loan-product-capitalized-income-step/loan-product-deferred-income-recognition-step.component';
 
 /**
  * Products Module
@@ -133,9 +133,7 @@ import { LoanProductCapitalizedIncomeStepComponent } from './loan-products/loan-
     SharedModule,
     ProductsRoutingModule,
     PipesModule,
-    DirectivesModule
-  ],
-  declarations: [
+    DirectivesModule,
     ProductsComponent,
     LoanProductsComponent,
     LoanProductDetailsStepComponent,
@@ -251,7 +249,7 @@ import { LoanProductCapitalizedIncomeStepComponent } from './loan-products/loan-
     ViewAdvancePaymenyAllocationComponent,
     AdvancePaymentAllocationTabComponent,
     LoanProductSummaryComponent,
-    LoanProductCapitalizedIncomeStepComponent
+    LoanProductDeferredIncomeRecognitionStepComponent
   ]
 })
 export class ProductsModule {}

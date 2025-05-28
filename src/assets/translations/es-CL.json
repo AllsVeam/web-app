@@ -3,6 +3,10 @@
   "Logged in as": "Conectado como",
   "Remember me": "Recordar me",
   "errors": {
+    "Capitalized Income amount adjusted already adjusted": "Monto de Ingreso Capitalizado ajustado ya ajustado",
+    "Capitalized Income Adjustment amount must be lower or equal to": "El monto del Ajuste de Ingreso Capitalizado debe ser menor o igual a",
+    "Buy Down Fee amount already adjusted": "Importe de la comisión de recompra ya ajustado",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "El importe del ajuste de la cuota de readquisición debe ser igual o inferior a",
     "Email not valid": "Correo electrónico no válido",
     "Filling Details": "Haga clic para comenzar a completar los detalles. * Los campos de marca son necesarios. Para más detalles haga clic en:",
     "Password is required": "se requiere contraseña",
@@ -365,6 +369,7 @@
       "Create Group": "Crea un Grupo",
       "Create Holiday": "Crear Festivo",
       "Create Hook": "Crear gancho",
+      "Create Interest Refund": "Crear reembolso de intereses",
       "Create Journal Entries": "Crear entradas de diario",
       "Create Loan Product": "Crear producto de Crédito",
       "Create Office": "Crear Oficina",
@@ -536,6 +541,10 @@
       "Inactive": "Inactivo",
       "Loans": "Préstamos",
       "CENTER": "CENTRO",
+      "Capitalized Income": "Ingresos capitalizados",
+      "Capitalized Income Adjustment": "Ajuste de ingresos capitalizados",
+      "Buy Down Fee": "Comisión de compra",
+      "Buy Down Fee Adjustment": "Ajuste de la tasa de recompra",
       "Client": "Cliente",
       "cash_mgmt": "gestión_efectivo",
       "collection_sheet": "hoja_coleccion",
@@ -810,6 +819,7 @@
       "Add/Edit Currency": "Agregar/Editar moneda",
       "Address": "Domicilio",
       "Adjustment Capitalized Income Transaction": "Ajuste de Transacción de Ingreso Capitalizado",
+      "Adjustment Buy Down Fee Transaction": "Transacción de la Comisión de Adquisición de Ajuste",
       "Advanced Accounting Rules": "Reglas de contabilidad avanzadas",
       "All Charges": "Todos los cargos",
       "All Dividends": "Todos los dividendos",
@@ -1154,7 +1164,14 @@
       "Grace On Principal": "Gracia al director",
       "Insert Installment": "Insertar cuota",
       "Interest Rate": "Tasa de interés",
-      "Principal Amount": "Monto principal"
+      "Principal Amount": "Monto principal",
+      "Buy Down Fees": "Tarifas de compra",
+      "Fee Amount": "Importe de la tarifa",
+      "Amortized Amount": "Importe amortizado",
+      "Not Yet Amortized Amount": "Monto aun no amortizado",
+      "Adjusted Amount": "Importe ajustado",
+      "Charged Off Amount": "Importe cancelado",
+      "Date": "Fecha"
     },
     "inputs": {
       "accounting": {
@@ -1212,6 +1229,7 @@
       "Address Type": "Tipo de dirección",
       "Adjust advance payments toward future installments": "Ajustar los pagos por adelantado a cuotas futuras",
       "Adjust interest rates for remainder of loan": "Ajustar las tasas de interés para el resto del Crédito",
+      "Adjustment Amount": "Monto del ajuste",
       "Advance payments adjustment type": "Tipo de ajuste de pagos anticipados",
       "Advanced Payment Allocation Transactions": "Transacciones de asignación de pagos anticipados",
       "Advanced Payment Allocation Transaction Type": "Tipo de transacción de asignación de pago avanzada",
@@ -1235,6 +1253,7 @@
       "Alt": "Alt.",
       "Amortization": "Amortización",
       "Amortization Type": "Tipo de amortización",
+      "Amortized Amount": "Monto amortizado",
       "Amount": "Monto",
       "Amount Collected": "Monto recaudado",
       "Amount Paid": "Monto pagado",
@@ -1337,6 +1356,7 @@
       "ChargeOff Fraud Expense": "Cargo por fraude de cancelación",
       "Charges": "Comisiones",
       "Checked Date": "Fecha comprobada",
+      "Client Ip": "IP del cliente",
       "Checked To Date": "Comprobado hasta la fecha",
       "Checker": "Inspector",
       "Checker From Date": "Comprobador desde la fecha",
@@ -1420,6 +1440,7 @@
       "Created At": "Creado en",
       "Created By": "Creado por",
       "Created On": "Creado en",
+      "Creation Date": "Fecha de creación",
       "Credit": "Crédito",
       "Credit Account": "Cuenta de crédito",
       "Credit Account Name": "Nombre de la cuenta de crédito",
@@ -1542,7 +1563,7 @@
       "Due days for repayment event": "Días de vencimiento para el evento de pago",
       "Due for collection on": "Vencimiento para su cobro el",
       "Dropdown": "Desplegable",
-      "Eexpected Disbursement Date": "Fecha prevista de curso",
+      "Expected Disbursement Date": "Fecha prevista de curso",
       "Effective Date": "Fecha efectiva",
       "Effective From": "Válido desde",
       "Email": "Correo electrónico",
@@ -1872,6 +1893,7 @@
       "Mandatory": "Obligatorio",
       "Mandatory Guarantee(%)": "Garantía obligatoria(%)",
       "Manual Entries Allowed": "Permitir Entradas manuales",
+      "Manual Journal Entry": "Entrada de diario manual",
       "Mapper Key": "Clave del asignador",
       "Mapper Value": "Valor del asignador",
       "Mapping id": "Identificación de mapeo",
@@ -2371,6 +2393,7 @@
       "Unassignment Date": "Fecha de desasignación",
       "Unique": "Único",
       "Unit Type": "Tipo de unidad",
+      "Unrecognized Amount": "Monto no reconocido",
       "Updated By": "Actualizado por",
       "Updated on": "Actualizado en",
       "Url": "URL",
@@ -2467,7 +2490,17 @@
       "Enable income capitalization": "Habilitar capitalización de ingresos",
       "Income capitalization calculation type": "Tipo de cálculo de capitalización de ingresos",
       "Income capitalization strategy": "Estrategia de capitalización de ingresos",
-      "Income capitalization type": "Tipo de capitalización de ingresos"
+      "Income capitalization type": "Tipo de capitalización de ingresos",
+      "DEFERRED INCOME RECOGNITION": "Reconocimiento de ingresos diferidos",
+      "Enable Buy down fee": "Habilitar comisión de compra anticipada",
+      "Merchant Buy down fee": "Tarifa de compra inicial del comerciante",
+      "Buy down fee calculation type": "Tipo de cálculo de comisión de compra anticipada",
+      "Buy down fee strategy": "Estrategia de comisión de compra anticipada",
+      "Buy down fee income type": "Tipo de ingreso de comisión de compra anticipada",
+      "Buy down fees": "Tarifas de compra anticipada",
+      "Income from Buy down fees": "Ingresos por comisiones de compra inicial",
+      "Buy down fee Expense": "Gastos por comisiones de compra inicial",
+      "Skip Interest Refund Transaction Posting": "Omitir el registro de la devolución de intereses"
     },
     "links": {
       "Community": "Comunidad",
@@ -2503,6 +2536,8 @@
       "Block Deposit": "Bloquear depósitos",
       "Block Withdrawal": "Bloquear retiros",
       "Breadcrumbs": "Migas de pan",
+      "Buy Down Fee": "Comisión de compra inicial",
+      "Buy Down Fee Adjustment": "Ajuste de la comisión de compra",
       "Calculate Interest": "Calcular interés",
       "Capitalized Income": "Ingreso capitalizado",
       "Capitalized Income Adjustment": "Ajuste de ingresos capitalizados",
@@ -3276,12 +3311,16 @@
       "Mandatory": "Obligatorio",
       "Voluntary": "Voluntario",
       "Write a note": "Escribe una nota",
-      "“Maker-Checker” principle requires every tasks": "El principio \"Maker-Checker\" requiere que dos personas completen cada tarea para reducir la posibilidad de errores y uso indebido. Una persona inicia el proceso y la segunda lo completa."
+      "“Maker-Checker” principle requires every tasks": "El principio \"Maker-Checker\" requiere que dos personas completen cada tarea para reducir la posibilidad de errores y uso indebido. Una persona inicia el proceso y la segunda lo completa.",
+      "Buy Down Fees": "Tarifas de compra"
     },
     "titles": {
       "Dashboard": "Tableros",
       "Home": "Inicio",
       "Login": "Acceso"
+    },
+    "messages": {
+      "No Data Found": "No se encontraron datos"
     }
   },
   "languages": {
@@ -3494,6 +3533,7 @@
     "Yes": "Sí",
     "loan product will be active and available to clients": "La fecha en que el producto de Crédito estará activo y disponible para los clientes. Si está en blanco, el producto de Crédito estará activo tan pronto como se cree.",
     "loan product will become inactive and unavailable to clients": "La fecha en que el producto de Crédito quedará inactivo y no estará disponible para los clientes. Si está en blanco, el producto de carga nunca quedará inactivo.",
-    "Refund transactions where interest refund will automatically be calculated": "Transacciones de reembolso en las que el reembolso de intereses se calculará automáticamente"
+    "Refund transactions where interest refund will automatically be calculated": "Transacciones de reembolso en las que el reembolso de intereses se calculará automáticamente",
+    "Create Interest Refund": "Crear reembolso de intereses"
   }
 }

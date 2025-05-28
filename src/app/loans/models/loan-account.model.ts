@@ -115,3 +115,33 @@ export interface RepaymentSchedulePeriod {
   totalWrittenOffForPeriod?: number;
   totalInstallmentAmountForPeriod?: number;
 }
+
+export interface DisbursementData {
+  actualDisbursementDate: Date;
+  expectedDisbursementDate: Date;
+  principal: number;
+  id?: number;
+}
+
+export interface LoanDeferredIncomeData {
+  capitalizedIncomeData: LoanCapitalizedIncomeData[];
+}
+
+export interface LoanCapitalizedIncomeData {
+  amount: number;
+  amortizedAmount?: number;
+  unrecognizedAmount?: number;
+  amountAdjustment?: number;
+}
+
+export interface BuyDownFeeAmortizationDetails {
+  id: number;
+  loanId: number;
+  transactionId: number;
+  buyDownFeeDate: string;
+  buyDownFeeAmount: number;
+  amortizedAmount: number;
+  notYetAmortizedAmount: number;
+  adjustedAmount: number;
+  chargedOffAmount: number;
+}

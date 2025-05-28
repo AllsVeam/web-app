@@ -2,7 +2,7 @@
   <mat-card>
     <form [formGroup]="postInterestSavingsAccountForm" (ngSubmit)="submit()">
       <mat-card-content>
-        <mat-form-field class="flex-fill" (click)="transactionDatePicker.open()">
+        <mat-form-field class="flex-100" (click)="transactionDatePicker.open()">
           <mat-label>{{ 'labels.inputs.Transaction Date' | translate }}</mat-label>
           <input
             matInput

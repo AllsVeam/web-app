@@ -1,16 +1,33 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Dates } from 'app/core/utils/dates';
 import { SavingsService } from 'app/savings/savings.service';
 import { SettingsService } from 'app/settings/settings.service';
 import { Currency } from 'app/shared/models/general.model';
 import { SystemService } from 'app/system/system.service';
+import { MatCard, MatCardTitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { InputAmountComponent } from '../../../shared/input-amount/input-amount.component';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+
+type TransactionCommandType = 'holdamount' | 'blockaccount' | 'blockdeposit' | 'blockwithdrawal';
+
+interface TransactionType {
+  holdamount: boolean;
+  blockaccount: boolean;
+  blockdeposit: boolean;
+  blockwithdrawal: boolean;
+}
 
 @Component({
   selector: 'mifosx-manage-savings-account',
   templateUrl: './manage-savings-account.component.html',
-  styleUrls: ['./manage-savings-account.component.scss']
+  styleUrls: ['./manage-savings-account.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatCardTitle,
+    InputAmountComponent
+  ]
 })
 export class ManageSavingsAccountComponent implements OnInit {
   @Input() currency: Currency;
@@ -22,16 +39,11 @@ export class ManageSavingsAccountComponent implements OnInit {
   manageSavingsAccountForm: UntypedFormGroup;
   /** Savings Account Id */
   savingAccountId: string;
-  transactionCommand: string;
+  transactionCommand: TransactionCommandType;
 
   reasonOptions: any = [];
 
-  transactionType: {
-    holdamount: boolean;
-    blockaccount: boolean;
-    blockdeposit: boolean;
-    blockwithdrawal: boolean;
-  } = {
+  transactionType: TransactionType = {
     holdamount: false,
     blockaccount: false,
     blockdeposit: false,
@@ -130,7 +142,7 @@ export class ManageSavingsAccountComponent implements OnInit {
 
   submit() {
     let command = '';
-    let payload = {};
+    let payload: { transactionAmount?: number; [key: string]: any } = {};
 
     if (this.transactionType.holdamount) {
       const manageSavingsAccountFormData = this.manageSavingsAccountForm.value;

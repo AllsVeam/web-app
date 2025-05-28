@@ -3,9 +3,14 @@
 
   <div class="flex-fill">
     <span class="flex-40">{{ 'labels.inputs.Product' | translate }}:</span>
-    <span class="flex-60">{{
-      loansAccount.productId | find: loansAccountTemplate.productOptions : 'id' : 'name'
-    }}</span>
+    <span class="flex-60">
+      <mifosx-long-text
+        [chars]="60"
+        textValue="
+      {{ loansAccount.productId | find: loansAccountTemplate.productOptions : 'id' : 'name' }}"
+      >
+      </mifosx-long-text
+    ></span>
   </div>
 
   <div class="flex-fill" *ngIf="loansAccount.loanOfficerId">

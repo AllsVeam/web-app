@@ -13,7 +13,7 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 /** Environment Configuration */
-import { environment } from 'environments/environment';
+import { environment } from '../environments/environment';
 
 /** Custom Services */
 import { Logger } from './core/logger/logger.service';
@@ -32,6 +32,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { I18nService } from './core/i18n/i18n.service';
 import { ThemingService } from './shared/theme-toggle/theming.service';
 
+import { AuthService } from './zitadel/auth.service';
+import { ApiService } from './api.service';
+
 /** Initialize Logger */
 const log = new Logger('MifosX');
 
@@ -48,6 +51,7 @@ import localeLV from '@angular/common/locales/lv';
 import localeNE from '@angular/common/locales/ne';
 import localePT from '@angular/common/locales/pt';
 import localeSW from '@angular/common/locales/sw';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 registerLocaleData(localeCS);
 registerLocaleData(localeEN);
 registerLocaleData(localeES);
@@ -79,12 +83,17 @@ registerLocaleData(localeSW);
 
     ])
 
-  ]
+  ],
+
+  // eslint-disable-next-line @angular-eslint/prefer-standalone
+  standalone: false
 })
 export class WebAppComponent implements OnInit {
   buttonConfig: KeyboardShortcutsConfiguration;
 
   i18nService: I18nService;
+  isLoggedIn = false;
+  protectedData: any;
 
   /**
    * @param {Router} router Router for navigation.
@@ -113,7 +122,9 @@ export class WebAppComponent implements OnInit {
     private themingService: ThemingService,
     private dateUtils: Dates,
     private idle: IdleTimeoutService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private apiService: ApiService
   ) {}
 
   @HostBinding('class') public cssClass: string;
@@ -129,7 +140,42 @@ export class WebAppComponent implements OnInit {
    *
    * 4) Alerts
    */
+  checkLogin() {
+    const token = this.authService.getAccessToken();
+    this.isLoggedIn = !!token;
+  }
+
+  login() {
+    this.authService.login();
+  }
+
+  logout() {
+    //this.authService.logout();
+    this.isLoggedIn = false;
+  }
+
+  loadProtectedData() {
+    this.apiService.getProtectedResource().subscribe(
+      (data) => {
+        this.protectedData = data;
+      },
+      (error) => {
+        console.error('Error loading protected data:', error);
+      }
+    );
+  }
+
   ngOnInit() {
+    let code = localStorage.getItem('auth_code');
+
+    if (code) {
+      //this.router.navigate(['/callback'], { queryParams: { code } });
+      const codeVerifier = localStorage.getItem('code_verifier');
+      this.authService.exchangeCodeForTokens(code, codeVerifier);
+    }
+
+    //this.checkLogin();
+
     this.themingService.theme.subscribe((value: string) => {
       this.cssClass = value;
     });
@@ -205,8 +251,10 @@ export class WebAppComponent implements OnInit {
     }
     // Set default max date picker as Today
     this.settingsService.setBusinessDate(this.dateUtils.formatDate(new Date(), SettingsService.businessDateFormat));
-    // Set the server list from the env var FINERACT_API_URLS
-    this.settingsService.setServers(environment.baseApiUrls.split(','));
+    // Set the server list from the env var FINERACT_API_URLS, but avoid overwriting "Add new server" user choice
+    if (!this.settingsService.servers) {
+      this.settingsService.setServers(environment.baseApiUrls.split(','));
+    }
     // Set the Tenant Identifier(s) list from the env var
     if (!localStorage.getItem('mifosXTenantIdentifier')) {
       this.settingsService.setTenantIdentifier(environment.fineractPlatformTenantId || 'default');
@@ -228,9 +276,6 @@ export class WebAppComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
-  }
 
   help() {
     window.open('https://mifosforge.jira.com/wiki/spaces/docs/pages/52035622/User+Manual', '_blank');

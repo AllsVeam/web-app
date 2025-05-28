@@ -19,11 +19,55 @@ import {
 import { LoanProducts } from '../../loan-products';
 import { CodeName, OptionData, StringEnumOptionData } from '../../../../shared/models/option-data.model';
 import { Accounting } from 'app/core/utils/accounting';
+import { DecimalPipe } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow
+} from '@angular/material/table';
+import { MatAccordion } from '@angular/material/expansion';
+import { ViewAdvancePaymenyAllocationComponent } from '../../view-loan-product/shared/view-advance-paymeny-allocation/view-advance-paymeny-allocation.component';
+import { GlAccountDisplayComponent } from '../../../../shared/accounting/gl-account-display/gl-account-display.component';
+import { ChargesPenaltyFilterPipe } from '../../../../pipes/charges-penalty-filter.pipe';
+import { DateFormatPipe } from '../../../../pipes/date-format.pipe';
+import { FormatNumberPipe } from '../../../../pipes/format-number.pipe';
+import { YesnoPipe } from '../../../../pipes/yesno.pipe';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 @Component({
   selector: 'mifosx-loan-product-summary',
   templateUrl: './loan-product-summary.component.html',
-  styleUrls: ['./loan-product-summary.component.scss']
+  styleUrls: ['./loan-product-summary.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatDivider,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatAccordion,
+    ViewAdvancePaymenyAllocationComponent,
+    GlAccountDisplayComponent,
+    DecimalPipe,
+    ChargesPenaltyFilterPipe,
+    DateFormatPipe,
+    FormatNumberPipe,
+    YesnoPipe
+  ]
 })
 export class LoanProductSummaryComponent implements OnInit, OnChanges {
   @Input() action: string;
@@ -156,11 +200,16 @@ export class LoanProductSummaryComponent implements OnInit, OnChanges {
             this.loanProduct.incomeFromCapitalizationAccountId,
             incomeAccountData
           ),
+          incomeFromBuyDownAccount: this.glAccountLookUp(
+            this.loanProduct.incomeFromBuyDownAccountId,
+            incomeAccountData
+          ),
 
           writeOffAccount: this.glAccountLookUp(this.loanProduct.writeOffAccountId, expenseAccountData),
           goodwillCreditAccount: this.glAccountLookUp(this.loanProduct.goodwillCreditAccountId, expenseAccountData),
           chargeOffExpenseAccount: this.glAccountLookUp(this.loanProduct.writeOffAccountId, expenseAccountData),
           chargeOffFraudExpenseAccount: this.glAccountLookUp(this.loanProduct.writeOffAccountId, expenseAccountData),
+          buyDownExpenseAccount: this.glAccountLookUp(this.loanProduct.buyDownExpenseAccountId, expenseAccountData),
 
           overpaymentLiabilityAccount: this.glAccountLookUp(
             this.loanProduct.overpaymentLiabilityAccountId,
@@ -306,6 +355,23 @@ export class LoanProductSummaryComponent implements OnInit, OnChanges {
           this.loanProductsTemplate.capitalizedIncomeTypeOptions
         );
         this.loanProduct.capitalizedIncomeType = optionValue;
+      }
+      if (this.isAdvancedPaymentAllocation && this.loanProduct.enableBuyDownFee) {
+        optionValue = this.optionDataLookUp(
+          this.loanProduct.buyDownFeeCalculationType,
+          this.loanProductsTemplate.buyDownFeeCalculationTypeOptions
+        );
+        this.loanProduct.buyDownFeeCalculationType = optionValue;
+        optionValue = this.optionDataLookUp(
+          this.loanProduct.buyDownFeeStrategy,
+          this.loanProductsTemplate.buyDownFeeStrategyOptions
+        );
+        this.loanProduct.buyDownFeeStrategy = optionValue;
+        optionValue = this.optionDataLookUp(
+          this.loanProduct.buyDownFeeIncomeType,
+          this.loanProductsTemplate.buyDownFeeIncomeTypeOptions
+        );
+        this.loanProduct.buyDownFeeIncomeType = optionValue;
       }
       optionValue = this.optionDataLookUp(
         this.loanProduct.interestRateFrequencyType,

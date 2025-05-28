@@ -3,6 +3,10 @@
   "Logged in as": "Přihlášen jako",
   "Remember me": "Zapamatuj si mě",
   "errors": {
+    "Capitalized Income amount adjusted already adjusted": "Výše kapitalizovaného příjmu již upravená",
+    "Capitalized Income Adjustment amount must be lower or equal to": "Částka úpravy kapitalizovaného příjmu musí být nižší nebo rovna",
+    "Buy Down Fee amount already adjusted": "Výše poplatku za odkup již byla upravena",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "Výše úpravy poplatku za odkoupení musí být nižší nebo rovna",
     "Email not valid": "Email není platný",
     "Filling Details": "Kliknutím začněte vyplňovat podrobnosti. * pole označení jsou nezbytná. Pro více podrobností klikněte na:",
     "Password is required": "Je vyžadováno heslo",
@@ -365,6 +369,7 @@
       "Create Group": "Vytvořit skupinu",
       "Create Holiday": "Vytvořte dovolenou",
       "Create Hook": "Vytvořte háček",
+      "Create Interest Refund": "Vytvořit vrácení úroků",
       "Create Journal Entries": "Vytvářejte záznamy deníku",
       "Create Loan Product": "Vytvořte produkt půjčky",
       "Create Office": "Vytvořit Office",
@@ -536,6 +541,10 @@
       "Inactive": "Inactive",
       "Loans": "Loans",
       "CENTER": "CENTRUM",
+      "Capitalized Income": "Kapitalizovaný příjem",
+      "Capitalized Income Adjustment": "Úprava kapitalizovaného příjmu",
+      "Buy Down Fee": "Poplatek za odkup",
+      "Buy Down Fee Adjustment": "Úprava poplatku za odkup",
       "Client": "Client",
       "cash_mgmt": "cash_mgmt",
       "collection_sheet": "kolekce_list",
@@ -810,6 +819,7 @@
       "Add/Edit Currency": "Přidat/upravit měnu",
       "Address": "Adresa",
       "Adjustment Capitalized Income Transaction": "Úprava Transakce s kapitalizovaným příjmem",
+      "Adjustment Buy Down Fee Transaction": "Úprava poplatku za odkoupení Transakce",
       "Advanced Accounting Rules": "Pokročilá účetní pravidla",
       "All Charges": "Všechny poplatky",
       "All Dividends": "Všechny dividendy",
@@ -1154,7 +1164,14 @@
       "Grace On Principal": "Grace na ředitelce",
       "Insert Installment": "Vložit splátku",
       "Interest Rate": "Úroková sazba",
-      "Principal Amount": "Částka jistiny"
+      "Principal Amount": "Částka jistiny",
+      "Buy Down Fees": "Poplatky za odkup",
+      "Fee Amount": "Částka poplatku",
+      "Amortized Amount": "Amortizovaná částka",
+      "Not Yet Amortized Amount": "Dosud neamortizovana castka",
+      "Adjusted Amount": "Upravená částka",
+      "Charged Off Amount": "Odepsaná částka",
+      "Date": "Datum"
     },
     "inputs": {
       "accounting": {
@@ -1213,6 +1230,7 @@
       "Address Type": "Typ adresy",
       "Adjust advance payments toward future installments": "Upravte zálohové platby směrem k budoucím splátkám",
       "Adjust interest rates for remainder of loan": "Upravte úrokové sazby pro zbytek půjčky",
+      "Adjustment Amount": "Částka úpravy",
       "Advance payments adjustment type": "Typ úpravy záloh",
       "Advanced Payment Allocation Transactions": "Pokročilé transakce alokace plateb",
       "Advanced Payment Allocation Transaction Type": "Typ transakce pro pokročilé přidělování plateb",
@@ -1236,6 +1254,7 @@
       "Alt": "Alt",
       "Amortization": "Amortizace",
       "Amortization Type": "Typ amortizace",
+      "Amortized Amount": "Amortizovaná částka",
       "Amount": "Množství",
       "Amount Collected": "Vybraná částka",
       "Amount Paid": "Částka vyplacená",
@@ -1338,6 +1357,7 @@
       "ChargeOff Fraud Expense": "Poplatek za podvody",
       "Charges": "Poplatky",
       "Checked Date": "Datum kontroly",
+      "Client Ip": "IP klienta",
       "Checked To Date": "Zkontrolováno k dnešnímu dni",
       "Checker": "Dáma",
       "Checker From Date": "Kontrola od data",
@@ -1421,6 +1441,7 @@
       "Created At": "Vytvořeno v",
       "Created By": "Vytvořil",
       "Created On": "Vytvořeno dne",
+      "Creation Date": "Datum vytvoření",
       "Credit": "Kredit",
       "Credit Account": "Úvěrový účet",
       "Credit Account Name": "Název kreditního účtu",
@@ -1543,7 +1564,7 @@
       "Due days for repayment event": "Dny splatnosti pro případ splácení",
       "Due for collection on": "Termín odběru dne",
       "Dropdown": "Rozbalovací nabídka",
-      "Eexpected Disbursement Date": "Očekávané datum výplaty",
+      "Expected Disbursement Date": "Očekávané datum výplaty",
       "Effective Date": "Datum účinnosti",
       "Effective From": "Účinné od",
       "Email": "E-mailem",
@@ -1873,6 +1894,7 @@
       "Mandatory": "Povinné",
       "Mandatory Guarantee(%)": "Povinná záruka (%)",
       "Manual Entries Allowed": "Ruční vkládání povoleno",
+      "Manual Journal Entry": "Ruční zápis do deníku",
       "Mapper Key": "Mapper Key",
       "Mapper Value": "Hodnota mapovače",
       "Mapping id": "ID mapování",
@@ -2371,6 +2393,7 @@
       "Unassignment Date": "Datum vyřazení",
       "Unique": "Unikátní",
       "Unit Type": "Typ jednotky",
+      "Unrecognized Amount": "Nerozpoznaná částka",
       "Updated By": "Aktualizováno uživatelem",
       "Updated on": "Aktualizováno dne",
       "Url": "URL",
@@ -2467,7 +2490,17 @@
       "Enable income capitalization": "Povolit kapitalizaci příjmu",
       "Income capitalization calculation type": "Typ výpočtu kapitalizace příjmu",
       "Income capitalization strategy": "Strategie kapitalizace příjmu",
-      "Income capitalization type": "Typ kapitalizace příjmu"
+      "Income capitalization type": "Typ kapitalizace příjmu",
+      "DEFERRED INCOME RECOGNITION": "Vykazování odložených výnosů",
+      "Enable Buy down fee": "Povolit poplatek za odkup",
+      "Merchant Buy down fee": "Poplatek za odkup obchodníka",
+      "Buy down fee calculation type": "Typ výpočtu poplatku za odkup",
+      "Buy down fee strategy": "Strategie poplatku za odkup",
+      "Buy down fee income type": "Typ příjmu z poplatku za odkup",
+      "Buy down fees": "Poplatky za odkup",
+      "Income from Buy down fees": "Příjmy z poplatků za odkup",
+      "Buy down fee Expense": "Náklady na poplatek za odkup",
+      "Skip Interest Refund Transaction Posting": "Přeskočit zaúčtování vrácení úroků"
     },
     "links": {
       "Community": "Společenství",
@@ -2503,6 +2536,8 @@
       "Block Deposit": "Blokový vklad",
       "Block Withdrawal": "Blokovat výběr",
       "Breadcrumbs": "Strouhanka",
+      "Buy Down Fee": "Poplatek za odkup",
+      "Buy Down Fee Adjustment": "Úprava poplatku za odkup",
       "Calculate Interest": "Vypočítejte úrok",
       "Capitalized Income": "Kapitalizovaný příjem",
       "Capitalized Income Adjustment": "Úprava kapitalizovaného příjmu",
@@ -3276,12 +3311,16 @@
       "Mandatory": "Povinné",
       "Voluntary": "Dobrovolný",
       "Write a note": "Napište poznámku",
-      "“Maker-Checker” principle requires every tasks": "Princip „Maker-Checker“ vyžaduje, aby každý úkol prováděli dva lidé, aby se snížila pravděpodobnost chyb a zneužití. Jedna osoba proces iniciuje a druhá jej dokončí."
+      "“Maker-Checker” principle requires every tasks": "Princip „Maker-Checker“ vyžaduje, aby každý úkol prováděli dva lidé, aby se snížila pravděpodobnost chyb a zneužití. Jedna osoba proces iniciuje a druhá jej dokončí.",
+      "Buy Down Fees": "Poplatky za odkup"
     },
     "titles": {
       "Dashboard": "Přístrojová deska",
       "Home": "Domov",
       "Login": "Přihlásit se"
+    },
+    "messages": {
+      "No Data Found": "Nebyla nalezena žádná data"
     }
   },
   "languages": {
@@ -3494,6 +3533,7 @@
     "Yes": "Ano",
     "loan product will be active and available to clients": "Datum, kdy bude úvěrový produkt aktivní a dostupný klientům. Pokud nevyplníte, bude úvěrový produkt aktivní, jakmile bude vytvořen.",
     "loan product will become inactive and unavailable to clients": "Datum, kdy se úvěrový produkt stane neaktivním a nedostupným pro klienty. Pokud je prázdné, produkt zatížení se nikdy nestane neaktivním.",
-    "Refund transactions where interest refund will automatically be calculated": "Transakce s vrácením peněz, kde bude automaticky vypočítána refundace úroků"
+    "Refund transactions where interest refund will automatically be calculated": "Transakce s vrácením peněz, kde bude automaticky vypočítána refundace úroků",
+    "Create Interest Refund": "Vytvořit vrácení úroků"
   }
 }

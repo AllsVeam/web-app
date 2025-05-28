@@ -1,3 +1,5 @@
+// Version 1
+
 /*
  * Entry point of global application style.
  * Component-specific style should not go here and be included directly as part of the components.
@@ -580,6 +582,10 @@
   gap: 10px;
 }
 
+.menu-right-section fa-icon {
+  z-index: 1000;
+}
+
 .menu-right-section {
   margin-left: auto;
   display: flex;
@@ -590,4 +596,40 @@
 .content {
   display: contents;
   flex: 1;
+}
+
+mifosx-notifications-page td {
+  text-align: center;
+  padding: 16px;
+  color: #999;
+}
+
+.red {
+  color: red;
+}
+
+.full-width-flex {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+//Re-positions account type field on list standing instructions page
+.type-field {
+  position: absolute;
+  left: 1px;
+  top: 20px;
+}
+
+//Re-positions account id field on list standing instructions page
+.account-Id-field {
+  position: absolute;
+  left: 490px;
+  top: 20px;
+}
+
+//Re-positions client name label on list standing instructions page
+.client-Name {
+  position: absolute;
+  left: 490px;
 }

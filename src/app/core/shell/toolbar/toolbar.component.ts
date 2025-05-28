@@ -15,7 +15,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 /** rxjs Imports */
 import { Observable } from 'rxjs';
@@ -28,7 +28,20 @@ import { ConfigurationWizardService } from '../../../configuration-wizard/config
 
 /** Custom Components */
 import { ConfigurationWizardComponent } from '../../../configuration-wizard/configuration-wizard.component';
-import { NotificationsTrayComponent } from 'app/shared/notifications-tray/notifications-tray.component';
+
+/** Ruta de seguridad Zitadel*/
+import { AuthService } from '../../../zitadel/auth.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { SearchToolComponent } from '../../../shared/search-tool/search-tool.component';
+import { LanguageSelectorComponent } from '../../../shared/language-selector/language-selector.component';
+import { MatIcon } from '@angular/material/icon';
+import { NotificationsTrayComponent as NotificationsTrayComponent_1 } from '../../../shared/notifications-tray/notifications-tray.component';
+import { ThemeToggleComponent } from '../../../shared/theme-toggle/theme-toggle.component';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
  * Toolbar component.
@@ -36,7 +49,22 @@ import { NotificationsTrayComponent } from 'app/shared/notifications-tray/notifi
 @Component({
   selector: 'mifosx-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    FaIconComponent,
+    MatMenuTrigger,
+    SearchToolComponent,
+    LanguageSelectorComponent,
+    MatIcon,
+    NotificationsTrayComponent_1,
+    ThemeToggleComponent,
+    MatMenu,
+    MatMenuItem
+  ]
 })
 export class ToolbarComponent implements OnInit, AfterViewInit, AfterContentChecked {
   /* Reference of institution */
@@ -47,7 +75,6 @@ export class ToolbarComponent implements OnInit, AfterViewInit, AfterContentChec
   @ViewChild('appMenu') appMenu: ElementRef<any>;
   /* Template for popover on appMenu */
   @ViewChild('templateAppMenu') templateAppMenu: TemplateRef<any>;
-  @ViewChild('notificationsTray') notificationsTray: NotificationsTrayComponent;
 
   /** Subscription to breakpoint observer for handset. */
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -77,7 +104,8 @@ export class ToolbarComponent implements OnInit, AfterViewInit, AfterContentChec
     private popoverService: PopoverService,
     private configurationWizardService: ConfigurationWizardService,
     private dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    public authService: AuthService
   ) {}
 
   /**
@@ -114,10 +142,11 @@ export class ToolbarComponent implements OnInit, AfterViewInit, AfterContentChec
    * Logs out the authenticated user and redirects to login page.
    */
   logout() {
-    this.authenticationService.logout().subscribe(() => {
-      this.notificationsTray.destroy();
-      this.router.navigate(['/login'], { replaceUrl: true });
-    });
+    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+  }
+
+  logout2() {
+    this.authService.logout();
   }
 
   /**

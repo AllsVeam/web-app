@@ -53,13 +53,24 @@ export const environment = {
       idleTimeout: loadedEnv['sessionIdleTimeout'] || 300000 // 5 minutes
     }
   },
+  httpCacheEnabled: loadedEnv.httpCacheEnabled || false,
 
   vNextApiUrl: window['env']['vNextApiUrl'] || 'https://apis.mifos.community',
   vNextApiProvider: window['env']['vNextApiProvider'] || '/vnext1',
   vNextApiVersion: window['env']['vNextApiVersion'] || '/v1.0',
   interbankTransfers: window['env']['interbankTransfers'] || false,
 
-  minPasswordLength: loadedEnv['minPasswordLength'] || 12
+  minPasswordLength: loadedEnv['minPasswordLength'] || 12,
+
+  // OIDC Plugin Environment variables
+
+  OIDC: {
+    oidcServerEnabled: window['env']['oidcServerEnabled'] || false, 
+    oidcBaseUrl: window['env']['oidcBaseUrl'] || 'https://plugin-auth-ofrdfj.us1.zitadel.cloud',
+    oidcClientId: window['env']['oidcClientId'] || '321191693166683125',
+    oidcApiUrl: window['env']['oidcApiUrl'] || 'https://localhost:8443/fineract-provider/',
+    oidcFrontUrl: window['env']['oidcFrontUrl'] || 'http://localhost:4200/'
+  }
 };
 
 // Server URL

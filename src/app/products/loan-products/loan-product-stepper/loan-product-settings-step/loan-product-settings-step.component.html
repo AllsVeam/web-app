@@ -212,7 +212,7 @@
 
     <span class="flex-48 hide-lt-md"></span>
 
-    <div style="display: flex; justify-content: flex-start; width: 100%">
+    <div class="full-width-flex">
       <div *ngIf="isAdvancedTransactionProcessingStrategy">
         <h3 class="mat-h4 flex-98">{{ 'labels.inputs.Loan Charge-off behaviour' | translate }}</h3>
 
@@ -252,14 +252,13 @@
         </mat-option>
       </mat-select>
       <button
-        mat-button
         *ngIf="loanProductSettingsForm.controls.delinquencyBucketId"
         matSuffix
         mat-icon-button
         aria-label="Clear"
         (click)="clearProperty($event, 'delinquencyBucketId')"
       >
-        <i class="fa fa-close"></i>
+        <fa-icon icon="close" size="md"></fa-icon>
       </button>
     </mat-form-field>
 
