@@ -1,5 +1,11 @@
 <div class="container">
-  <mat-horizontal-stepper class="mat-elevation-z8" labelPosition="bottom" #loanProductStepper>
+  <mat-stepper
+    orientation="vertical"
+    [linear]="false"
+    class="mat-elevation-z8"
+    labelPosition="bottom"
+    #loanProductStepper
+  >
     <ng-template matStepperIcon="number">
       <fa-icon icon="pencil-alt" size="sm"></fa-icon>
     </ng-template>
@@ -54,6 +60,8 @@
         (supportedInterestRefundTypes)="setSupportedInterestRefundTypes($event)"
       >
       </mifosx-loan-product-interest-refund-step>
+
+      <mifosx-stepper-buttons></mifosx-stepper-buttons>
     </mat-step>
 
     <mat-step *ngIf="isAdvancedPaymentStrategy">
@@ -91,20 +99,20 @@
       </mifosx-loan-product-charges-step>
     </mat-step>
 
-    <mat-step *ngIf="isAdvancedPaymentStrategy" [stepControl]="loanIncomeCapitalizationForm" completed>
-      <ng-template matStepLabel>{{ 'labels.inputs.INCOME CAPITALIZATION' | translate }}</ng-template>
+    <mat-step *ngIf="isAdvancedPaymentStrategy" [stepControl]="loanDeferredIncomeRecognitionForm" completed>
+      <ng-template matStepLabel>{{ 'labels.inputs.DEFERRED INCOME RECOGNITION' | translate }}</ng-template>
 
       <mifosx-loan-product-capitalized-income-step
-        [capitalizedIncome]="capitalizedIncome"
+        [deferredIncomeRecognition]="deferredIncomeRecognition"
         [capitalizedIncomeCalculationTypeOptions]="loanProductsTemplate.capitalizedIncomeCalculationTypeOptions"
         [capitalizedIncomeStrategyOptions]="loanProductsTemplate.capitalizedIncomeStrategyOptions"
         [capitalizedIncomeTypeOptions]="loanProductsTemplate.capitalizedIncomeTypeOptions"
-        (setCapitalizedIncome)="setCapitalizedIncome($event)"
+        [buyDownFeeCalculationTypeOptions]="loanProductsTemplate.buyDownFeeCalculationTypeOptions"
+        [buyDownFeeStrategyOptions]="loanProductsTemplate.buyDownFeeStrategyOptions"
+        [buyDownFeeIncomeTypeOptions]="loanProductsTemplate.buyDownFeeIncomeTypeOptions"
         (setViewChildForm)="setViewChildForm($event)"
       >
       </mifosx-loan-product-capitalized-income-step>
-
-      <mifosx-stepper-buttons></mifosx-stepper-buttons>
     </mat-step>
 
     <mat-step [stepControl]="loanProductAccountingForm">
@@ -114,7 +122,7 @@
         [loanProductsTemplate]="loanProductsTemplate"
         [accountingRuleData]="accountingRuleData"
         [loanProductFormValid]="loanProductFormValid"
-        [capitalizedIncome]="capitalizedIncome"
+        [deferredIncomeRecognition]="deferredIncomeRecognition"
       >
       </mifosx-loan-product-accounting-step>
     </mat-step>
@@ -130,5 +138,5 @@
       >
       </mifosx-loan-product-preview-step>
     </mat-step>
-  </mat-horizontal-stepper>
+  </mat-stepper>
 </div>

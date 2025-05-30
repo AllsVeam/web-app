@@ -2,7 +2,7 @@
   <mat-card>
     <form [formGroup]="undoApprovalRecurringDepositsAccountForm" (ngSubmit)="submit()">
       <mat-card-content>
-        <mat-form-field class="flex-fill">
+        <mat-form-field class="flex-100">
           <mat-label>{{ 'labels.inputs.Note' | translate }}</mat-label>
           <textarea matInput formControlName="note" cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
         </mat-form-field>

@@ -5,6 +5,8 @@
   "errors": {
     "Capitalized Income amount adjusted already adjusted": "क्यापिटलाइज्ड आय रकम पहिले नै समायोजन गरिएको छ",
     "Capitalized Income Adjustment amount must be lower or equal to": "पूंजीकृत आय समायोजन रकम कम वा बराबर हुनुपर्छ",
+    "Buy Down Fee amount already adjusted": "बाइ डाउन शुल्क रकम पहिले नै समायोजन गरिएको छ।",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "खरिद शुल्क समायोजन रकम निम्न भन्दा कम वा बराबर हुनुपर्छ:",
     "Email not valid": "इमेल मान्य छैन",
     "Filling Details": "विवरणहरू भर्न सुरु गर्न क्लिक गर्नुहोस्। * मार्क क्षेत्रहरू आवश्यक छन्। थप विवरणहरूको लागि क्लिक गर्नुहोस्:",
     "Password is required": "पासवर्ड आवश्यक छ",
@@ -367,6 +369,7 @@
       "Create Group": "समूह सिर्जना गर्नुहोस्",
       "Create Holiday": "छुट्टी सिर्जना गर्नुहोस्",
       "Create Hook": "हुक सिर्जना गर्नुहोस्",
+      "Create Interest Refund": "ब्याज फिर्ता सिर्जना गर्नुहोस्",
       "Create Journal Entries": "जर्नल प्रविष्टिहरू सिर्जना गर्नुहोस्",
       "Create Loan Product": "ऋण उत्पादन सिर्जना गर्नुहोस्",
       "Create Office": "कार्यालय सिर्जना गर्नुहोस्",
@@ -540,6 +543,8 @@
       "CENTER": "केन्द्र",
       "Capitalized Income": "पुँजीगत आय",
       "Capitalized Income Adjustment": "पूंजीकृत आय समायोजन",
+      "Buy Down Fee": "खरिद शुल्क",
+      "Buy Down Fee Adjustment": "खरिद शुल्क समायोजन",
       "Client": "ग्राहक",
       "cash_mgmt": "cash_mgmt",
       "collection_sheet": "संग्रह_पाना",
@@ -815,6 +820,7 @@
       "Add/Edit Currency": "मुद्रा थप्नुहोस्/सम्पादन गर्नुहोस्",
       "Address": "ठेगाना",
       "Adjustment Capitalized Income Transaction": "समायोजन पूंजीकृत आय लेनदेन",
+      "Adjustment Buy Down Fee Transaction": "समायोजन खरिद शुल्क कारोबार",
       "Advanced Accounting Rules": "उन्नत लेखा नियमहरू",
       "All Charges": "सबै शुल्कहरू",
       "All Dividends": "सबै लाभांश",
@@ -1159,7 +1165,14 @@
       "Grace On Principal": "प्रिन्सिपलमा अनुग्रह",
       "Insert Installment": "किस्ता घुसाउनुहोस्",
       "Interest Rate": "ब्याज दर",
-      "Principal Amount": "मूल रकम"
+      "Principal Amount": "मूल रकम",
+      "Buy Down Fees": "खरीद शुल्क",
+      "Fee Amount": "शुल्क रकम",
+      "Amortized Amount": "परिशोधित रकम",
+      "Not Yet Amortized Amount": "Not Yet Amortized Amount",
+      "Adjusted Amount": "समायोजित रकम",
+      "Charged Off Amount": "चार्ज गरिएको रकम",
+      "Date": "मिति"
     },
     "inputs": {
       "accounting": {
@@ -1217,6 +1230,7 @@
       "Address Type": "ठेगानाको प्रकार",
       "Adjust advance payments toward future installments": "भविष्यका किस्ताहरूमा अग्रिम भुक्तानीहरू समायोजन गर्नुहोस्",
       "Adjust interest rates for remainder of loan": "बाँकी ऋणको लागि ब्याज दर समायोजन गर्नुहोस्",
+      "Adjustment Amount": "समायोजन रकम",
       "Advance payments adjustment type": "अग्रिम भुक्तानी समायोजन प्रकार",
       "Advanced Payment Allocation Transactions": "उन्नत भुक्तानी आवंटन लेनदेन",
       "Advanced Payment Allocation Transaction Type": "उन्नत भुक्तानी सम्झौता लेनदेन प्रकार",
@@ -1240,6 +1254,7 @@
       "Alt": "Alt",
       "Amortization": "परिशोधन",
       "Amortization Type": "परिशोधन प्रकार",
+      "Amortized Amount": "परिशोधित रकम",
       "Amount": "रकम",
       "Amount Collected": "जम्मा भएको रकम",
       "Amount Paid": "तिरीएको रकम",
@@ -1342,6 +1357,7 @@
       "ChargeOff Fraud Expense": "धोखाधडी खर्च चार्ज गर्नुहोस्",
       "Charges": "शुल्कहरू",
       "Checked Date": "जाँच गरिएको मिति",
+      "Client Ip": "क्लाइन्ट आईपी",
       "Checked To Date": "मिति सम्म जाँच गरियो",
       "Checker": "परीक्षक",
       "Checker From Date": "मिति देखि परीक्षक",
@@ -1425,6 +1441,7 @@
       "Created At": "मा सिर्जना गरियो",
       "Created By": "द्वारा सिर्जना गरिएको",
       "Created On": "मा सिर्जना गरियो",
+      "Creation Date": "सिर्जना मिति",
       "Credit": "क्रेडिट",
       "Credit Account": "क्रेडिट खाता",
       "Credit Account Name": "क्रेडिट खाता नाम",
@@ -1877,6 +1894,7 @@
       "Mandatory": "अनिवार्य",
       "Mandatory Guarantee(%)": "अनिवार्य ग्यारेन्टी (%)",
       "Manual Entries Allowed": "म्यानुअल प्रविष्टिहरूलाई अनुमति दिइएको छ",
+      "Manual Journal Entry": "म्यानुअल जर्नल प्रविष्टि",
       "Mapper Key": "म्यापर कुञ्जी",
       "Mapper Value": "म्यापर मान",
       "Mapping id": "म्यापिङ आईडी",
@@ -2375,6 +2393,7 @@
       "Unassignment Date": "असाइनमेन्ट मिति",
       "Unique": "अद्वितीय",
       "Unit Type": "एकाइ प्रकार",
+      "Unrecognized Amount": "अपरिचित रकम",
       "Updated By": "द्वारा अपडेट गरिएको",
       "Updated on": "मा अद्यावधिक गरियो",
       "Url": "Url",
@@ -2471,7 +2490,17 @@
       "Enable income capitalization": "आय पूंजीकरण सक्षम गर्नुहोस्",
       "Income capitalization calculation type": "आय पूंजीकरण गणना प्रकार",
       "Income capitalization strategy": "आय पूंजीकरण रणनीति",
-      "Income capitalization type": "आय पूँजीकरण प्रकार"
+      "Income capitalization type": "आय पूँजीकरण प्रकार",
+      "DEFERRED INCOME RECOGNITION": "स्थगित आय पहिचान",
+      "Enable Buy down fee": "बाइ डाउन शुल्क सक्षम गर्नुहोस्",
+      "Merchant Buy down fee": "मर्चेन्ट बाइ डाउन शुल्क",
+      "Buy down fee calculation type": "बाइ डाउन शुल्क गणना प्रकार",
+      "Buy down fee strategy": "बाइ डाउन शुल्क रणनीति",
+      "Buy down fee income type": "बाइ डाउन शुल्क आय प्रकार",
+      "Buy down fees": "खरिद शुल्क",
+      "Income from Buy down fees": "खरिद शुल्कबाट हुने आम्दानी",
+      "Buy down fee Expense": "खरीद शुल्क खर्च",
+      "Skip Interest Refund Transaction Posting": "ब्याज फिर्ता पोस्टिङ्ग छोड्नुहोस्"
     },
     "links": {
       "Community": "समुदाय",
@@ -2507,6 +2536,8 @@
       "Block Deposit": "ब्लक निक्षेप",
       "Block Withdrawal": "ब्लक निकासी",
       "Breadcrumbs": "ब्रेडक्रम्ब्स",
+      "Buy Down Fee": "खरिद डाउन शुल्क",
+      "Buy Down Fee Adjustment": "डाउन शुल्क समायोजन किन्नुहोस्",
       "Calculate Interest": "ब्याज गणना गर्नुहोस्",
       "Capitalized Income": "पुँजीगत आय",
       "Capitalized Income Adjustment": "पूंजीकृत आय समायोजन",
@@ -3280,12 +3311,16 @@
       "Mandatory": "अनिवार्य",
       "Voluntary": "स्वैच्छिक",
       "Write a note": "नोट लेख्नुहोस्",
-      "“Maker-Checker” principle requires every tasks": "\"मेकर-चेकर\" सिद्धान्तले त्रुटि र दुरुपयोगको सम्भावना कम गर्न प्रत्येक कार्यहरू दुई व्यक्तिद्वारा पूरा गर्न आवश्यक छ। एक व्यक्तिले प्रक्रिया सुरु गर्छ र दोस्रोले यसलाई पूरा गर्दछ।"
+      "“Maker-Checker” principle requires every tasks": "\"मेकर-चेकर\" सिद्धान्तले त्रुटि र दुरुपयोगको सम्भावना कम गर्न प्रत्येक कार्यहरू दुई व्यक्तिद्वारा पूरा गर्न आवश्यक छ। एक व्यक्तिले प्रक्रिया सुरु गर्छ र दोस्रोले यसलाई पूरा गर्दछ।",
+      "Buy Down Fees": "खरीद शुल्क"
     },
     "titles": {
       "Dashboard": "ड्यासबोर्ड",
       "Home": "घर",
       "Login": "लग - इन"
+    },
+    "messages": {
+      "No Data Found": "कुनै डाटा फेला परेन"
     }
   },
   "languages": {
@@ -3498,6 +3533,7 @@
     "Yes": "हो",
     "loan product will be active and available to clients": "ऋण उत्पादन सक्रिय र ग्राहकहरूको लागि उपलब्ध हुने मिति। खाली भएमा, ऋण उत्पादन सिर्जना हुने बित्तिकै सक्रिय हुनेछ।",
     "loan product will become inactive and unavailable to clients": "ऋण उत्पादन निष्क्रिय र ग्राहकहरु को लागी अनुपलब्ध हुने मिति। यदि खाली छ भने, लोड उत्पादन कहिल्यै निष्क्रिय हुनेछैन।",
-    "Refund transactions where interest refund will automatically be calculated": "फिर्ता लेनदेन जहाँ ब्याज फिर्ता स्वतः गणना हुनेछ"
+    "Refund transactions where interest refund will automatically be calculated": "फिर्ता लेनदेन जहाँ ब्याज फिर्ता स्वतः गणना हुनेछ",
+    "Create Interest Refund": "ब्याज फिर्ता सिर्जना गर्नुहोस्"
   }
 }

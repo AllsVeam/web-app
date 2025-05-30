@@ -100,6 +100,14 @@ export class LoansService {
     return this.http.post(`/loans/${loanId}/delinquency-actions`, delinquencyActions);
   }
 
+  getDeferredIncomeData(loanId: string) {
+    return this.http.get(`/loans/${loanId}/deferredincome`);
+  }
+
+  getBuyDownFeeData(loanId: string): Observable<any> {
+    return this.http.get(`/loans/${loanId}/buydown-fees`);
+  }
+
   /**
    * Returns the loan template data with specific condition
    * @param loanId Loan Id

@@ -49,6 +49,19 @@ export interface CapitalizedIncome {
   capitalizedIncomeType?: string;
 }
 
+export interface BuyDownFee {
+  enableBuyDownFee: boolean;
+  buyDownFeeCalculationType?: string;
+  buyDownFeeStrategy?: string;
+  buyDownFeeIncomeType?: string;
+  merchantBuyDownFee?: boolean;
+}
+
+export interface DeferredIncomeRecognition {
+  capitalizedIncome?: CapitalizedIncome;
+  buyDownFee?: BuyDownFee;
+}
+
 export class PaymentAllocationTransactionTypes {
   public static DEFAULT_TRANSACTION: PaymentAllocationTransactionType = { id: 1, value: 'Default', code: 'DEFAULT' };
 }

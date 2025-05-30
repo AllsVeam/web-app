@@ -318,6 +318,14 @@ export class AuthenticationService {
     }
   }
 
+  public saveZitadelCredentials(credentials: Credentials): void {
+    this.setCredentials(credentials);
+  }
+
+  public saveZitadeloAuthTokenDetailsStorageKey(tokenResponse: OAuth2Token): void {
+    this.storage.setItem(this.oAuthTokenDetailsStorageKey, JSON.stringify(tokenResponse));
+  }
+
   /**
    * Following functions are for two factor authentication and require
    * first level authorization headers to be setup for the requests.

@@ -1,10 +1,13 @@
 /** Angular Imports */
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 /** Custom Services */
 import { SettingsService } from 'app/settings/settings.service';
+import { MatFormField, MatLabel, MatPrefix, MatError } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
  * Server Selector Component
@@ -12,7 +15,12 @@ import { SettingsService } from 'app/settings/settings.service';
 @Component({
   selector: 'mifosx-server-selector',
   templateUrl: './server-selector.component.html',
-  styleUrls: ['./server-selector.component.scss']
+  styleUrls: ['./server-selector.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatPrefix,
+    MatIcon
+  ]
 })
 export class ServerSelectorComponent implements OnInit {
   /** Input server. */
@@ -65,9 +73,13 @@ export class ServerSelectorComponent implements OnInit {
    */
   addNewServer(): void {
     let servers;
-    this.settingsService.setServer(this.form.value.url);
+    let url = this.form.value.url;
+    if (url.endsWith('/')) {
+      url = url.slice(0, -1);
+    }
+    this.settingsService.setServer(url);
     servers = this.settingsService.servers;
-    servers.push(this.form.value.url);
+    servers.push(url);
     this.settingsService.setServers(servers);
     window.location.reload();
   }

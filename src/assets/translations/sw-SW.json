@@ -5,6 +5,8 @@
   "errors": {
     "Capitalized Income amount adjusted already adjusted": "Kiasi cha Mapato ya Mtaji kilichorekebishwa tayari kimerekebishwa",
     "Capitalized Income Adjustment amount must be lower or equal to": "Kiasi cha Marekebisho ya Mapato ya Mtaji lazima kiwe chini au sawa na",
+    "Buy Down Fee amount already adjusted": "Kiasi cha Ada ya Kununua Chini tayari kimerekebishwa",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "Kiasi cha Marekebisho ya Ada ya Kununua Chini lazima kiwe cha chini au sawa na",
     "Email not valid": "Barua pepe si halali",
     "Filling Details": "Bofya ili kuanza kujaza maelezo. * maeneo ya alama ni muhimu. Kwa maelezo zaidi bofya:",
     "Password is required": "Nenosiri linahitajika",
@@ -367,6 +369,7 @@
       "Create Group": "Unda Kikundi",
       "Create Holiday": "Unda Likizo",
       "Create Hook": "Unda Hook",
+      "Create Interest Refund": "Unda Marejesho ya Riba",
       "Create Journal Entries": "Unda Maingizo ya Jarida",
       "Create Loan Product": "Tengeneza Bidhaa ya Mkopo",
       "Create Office": "Unda Ofisi",
@@ -540,6 +543,8 @@
       "CENTER": "KITUO",
       "Capitalized Income": "Mapato ya Mtaji",
       "Capitalized Income Adjustment": "Marekebisho ya Mapato ya Mtaji",
+      "Buy Down Fee": "Ada ya Kununua Chini",
+      "Buy Down Fee Adjustment": "Nunua Marekebisho ya Ada ya Chini",
       "Client": "Mteja",
       "cash_mgmt": "cash_mgmt",
       "collection_sheet": "laha_ya_mkusanyo",
@@ -815,6 +820,7 @@
       "Add/Edit Currency": "Ongeza/Hariri Sarafu",
       "Address": "Anwani",
       "Adjustment Capitalized Income Transaction": "Marekebisho ya Muamala wa Mapato ya Mtaji",
+      "Adjustment Buy Down Fee Transaction": "Marekebisho ya Muamala wa Ada ya Kununua Chini",
       "Advanced Accounting Rules": "Sheria za Juu za Uhasibu",
       "All Charges": "Malipo Yote",
       "All Dividends": "Gawio Zote",
@@ -1159,7 +1165,14 @@
       "Grace On Principal": "Grace On Principal",
       "Insert Installment": "Weka Ufungaji",
       "Interest Rate": "Kiwango cha Riba",
-      "Principal Amount": "Kiasi cha Mkuu"
+      "Principal Amount": "Kiasi cha Mkuu",
+      "Buy Down Fees": "Ada za Ununuzi",
+      "Fee Amount": "Kiasi cha Ada",
+      "Amortized Amount": "Kiasi Kilichoondolewa",
+      "Not Yet Amortized Amount": "Kiasi Bado Kijaondolewa",
+      "Adjusted Amount": "Kiasi Kilichorekebishwa",
+      "Charged Off Amount": "Kiasi Kilichofutwa",
+      "Date": "Tarehe"
     },
     "inputs": {
       "accounting": {
@@ -1217,6 +1230,7 @@
       "Address Type": "Aina ya Anwani",
       "Adjust advance payments toward future installments": "Rekebisha malipo ya awali kwa awamu zijazo",
       "Adjust interest rates for remainder of loan": "Rekebisha viwango vya riba kwa salio la mkopo",
+      "Adjustment Amount": "Kiasi cha Marekebisho",
       "Advance payments adjustment type": "Aina ya marekebisho ya malipo ya mapema",
       "Advanced Payment Allocation Transactions": "Miamala ya Kina ya Ugawaji wa Malipo",
       "Advanced Payment Allocation Transaction Type": "Aina ya ununuzi wa ugawaji wa malipo ya hali ya juu",
@@ -1240,6 +1254,7 @@
       "Alt": "Alt",
       "Amortization": "Mapato",
       "Amortization Type": "Aina ya Malipo",
+      "Amortized Amount": "Kiasi kilichopunguzwa",
       "Amount": "Kiasi",
       "Amount Collected": "Kiasi Kilichokusanywa",
       "Amount Paid": "Kiasi Kilicholipwa",
@@ -1342,6 +1357,7 @@
       "ChargeOff Fraud Expense": "Lipiza Gharama za Ulaghai",
       "Charges": "Malipo",
       "Checked Date": "Tarehe ya Kukaguliwa",
+      "Client Ip": "IP ya mteja",
       "Checked To Date": "Imeangaliwa Hadi Sasa",
       "Checker": "Kikagua",
       "Checker From Date": "Checker Kutoka Tarehe",
@@ -1425,6 +1441,7 @@
       "Created At": "Imeundwa Katika",
       "Created By": "Imetengenezwa na",
       "Created On": "Imeundwa Juu",
+      "Creation Date": "Tarehe ya Uumbaji",
       "Credit": "Mikopo",
       "Credit Account": "Akaunti ya Mkopo",
       "Credit Account Name": "Jina la Akaunti ya Mkopo",
@@ -1877,6 +1894,7 @@
       "Mandatory": "Lazima",
       "Mandatory Guarantee(%)": "Dhamana ya Lazima(%)",
       "Manual Entries Allowed": "Maingizo Mwongozo Yanaruhusiwa",
+      "Manual Journal Entry": "Kuingia kwa Jarida kwa Mwongozo",
       "Mapper Key": "Ufunguo wa ramani",
       "Mapper Value": "Thamani ya ramani",
       "Mapping id": "Kitambulisho cha ramani",
@@ -2375,6 +2393,7 @@
       "Unassignment Date": "Tarehe ya kutokabidhiwa",
       "Unique": "Kipekee",
       "Unit Type": "Aina ya kitengo",
+      "Unrecognized Amount": "Kiasi Kisichotambulika",
       "Updated By": "Imesasishwa Na",
       "Updated on": "Ilisasishwa",
       "Url": "Url",
@@ -2471,7 +2490,17 @@
       "Enable income capitalization": "Washa mtaji wa mapato",
       "Income capitalization calculation type": "Aina ya kukokotoa mtaji wa mapato",
       "Income capitalization strategy": "Mkakati wa mtaji wa mapato",
-      "Income capitalization type": "Aina ya mtaji wa mapato"
+      "Income capitalization type": "Aina ya mtaji wa mapato",
+      "DEFERRED INCOME RECOGNITION": "Utambuzi wa mapato ulioahirishwa",
+      "Enable Buy down fee": "Washa ada ya Kununua chini",
+      "Merchant Buy down fee": "Mfanyabiashara Nunua ada ya chini",
+      "Buy down fee calculation type": "Nunua aina ya hesabu ya ada ya chini",
+      "Buy down fee strategy": "Nunua mkakati wa ada ya chini",
+      "Buy down fee income type": "Nunua aina ya mapato ya chini",
+      "Buy down fees": "Nunua ada za chini",
+      "Income from Buy down fees": "Mapato kutoka kwa ada ya Kununua",
+      "Buy down fee Expense": "Kununua ada ya chini Gharama",
+      "Skip Interest Refund Transaction Posting": "Ruka uchapishaji wa muamala wa kurejesha riba"
     },
     "links": {
       "Community": "Jumuiya",
@@ -2507,6 +2536,8 @@
       "Block Deposit": "Kuzuia Amana",
       "Block Withdrawal": "Zuia Uondoaji",
       "Breadcrumbs": "Makombo ya mkate",
+      "Buy Down Fee": "Ada ya Kununua Chini",
+      "Buy Down Fee Adjustment": "Nunua Marekebisho ya Ada ya Chini",
       "Calculate Interest": "Hesabu Riba",
       "Capitalized Income": "Mapato ya Mtaji",
       "Capitalized Income Adjustment": "Marekebisho ya Mapato ya Mtaji",
@@ -3280,12 +3311,16 @@
       "Mandatory": "Lazima",
       "Voluntary": "Kwa hiari",
       "Write a note": "Andika dokezo",
-      "“Maker-Checker” principle requires every tasks": "Kanuni ya \"Mtengenezaji-Kikagua\" inahitaji kila kazi kukamilishwa na watu wawili ili kupunguza uwezekano wa makosa na matumizi mabaya. Mtu mmoja anaanzisha mchakato na wa pili anakamilisha."
+      "“Maker-Checker” principle requires every tasks": "Kanuni ya \"Mtengenezaji-Kikagua\" inahitaji kila kazi kukamilishwa na watu wawili ili kupunguza uwezekano wa makosa na matumizi mabaya. Mtu mmoja anaanzisha mchakato na wa pili anakamilisha.",
+      "Buy Down Fees": "Ada za Ununuzi"
     },
     "titles": {
       "Dashboard": "Dashibodi",
       "Home": "Nyumbani",
       "Login": "Ingia"
+    },
+    "messages": {
+      "No Data Found": "Hakuna Data Imepatikana"
     }
   },
   "languages": {
@@ -3498,6 +3533,7 @@
     "Yes": "Ndiyo",
     "loan product will be active and available to clients": "Tarehe ambayo bidhaa ya mkopo itaanza kutumika na inapatikana kwa wateja. Ikiwa tupu, bidhaa ya mkopo itaanza kutumika mara tu itakapoundwa.",
     "loan product will become inactive and unavailable to clients": "Tarehe ambayo bidhaa ya mkopo itaacha kutumika na haitapatikana kwa wateja. Ikiwa tupu, bidhaa ya kupakia haitafanya kazi kamwe.",
-    "Refund transactions where interest refund will automatically be calculated": "Shughuli za kurejesha pesa ambapo urejeshaji wa riba utahesabiwa kiotomatiki"
+    "Refund transactions where interest refund will automatically be calculated": "Shughuli za kurejesha pesa ambapo urejeshaji wa riba utahesabiwa kiotomatiki",
+    "Create Interest Refund": "Unda Marejesho ya Riba"
   }
 }

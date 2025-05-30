@@ -40,9 +40,9 @@
 
   <div class="layout-column flex-gt-sm-30 login-container">
     <!-- Language Selector to the extreme right -->
-    <div class="layout-row-reverse flex-auto">
-      <mifosx-language-selector class="p-r-10 p-t-10"></mifosx-language-selector>
-      <mifosx-theme-toggle class="p-r-10 p-t-10"></mifosx-theme-toggle>
+    <div class="layout-row-reverse">
+      <mifosx-language-selector class="p-t-10 p-r-10 width-40"></mifosx-language-selector>
+      <mifosx-theme-toggle class="p-t-10"></mifosx-theme-toggle>
       <mifosx-server-selector
         class="p-t-10"
         *ngIf="!environment.production && environment.allowServerSwitch"
@@ -66,11 +66,11 @@
     -->
     <mifosx-login-form *ngIf="!resetPassword && !twoFactorAuthenticationRequired"></mifosx-login-form>
 
-    <div class="layout-row m-t-20">
+    <div class="layout-row">
       <mifosx-reset-password *ngIf="resetPassword"></mifosx-reset-password>
       <mifosx-two-factor-authentication *ngIf="twoFactorAuthenticationRequired"></mifosx-two-factor-authentication>
     </div>
-    <div class="layout-row m-t-20">
+    <div class="layout-row">
       <!-- Contact Information/Resources (hidden on smaller screens) -->
       <mat-list class="information-list align-items-center custom-horizontal-list hide-lt-lg">
         <mat-list-item

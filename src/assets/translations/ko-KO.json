@@ -5,6 +5,8 @@
   "errors": {
     "Capitalized Income amount adjusted already adjusted": "자본화된 소득 금액은 이미 조정되었습니다.",
     "Capitalized Income Adjustment amount must be lower or equal to": "자본화된 소득 조정 금액은 다음보다 낮거나 같아야 합니다.",
+    "Buy Down Fee amount already adjusted": "이미 조정된 바이 다운 수수료 금액",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "바이 다운 수수료 조정 금액은 다음보다 낮거나 같아야 합니다.",
     "Email not valid": "이메일이 유효하지 않습니다",
     "Filling Details": "세부정보 작성을 시작하려면 클릭하세요. * 표시 필드가 필요합니다. 자세한 내용을 보려면 다음을 클릭하세요.",
     "Password is required": "비밀번호가 필요합니다",
@@ -367,6 +369,7 @@
       "Create Group": "그룹 만들기",
       "Create Holiday": "공휴일 만들기",
       "Create Hook": "후크 생성",
+      "Create Interest Refund": "이자 환불 생성",
       "Create Journal Entries": "분개 항목 만들기",
       "Create Loan Product": "대출상품 생성",
       "Create Office": "사무실 만들기",
@@ -540,6 +543,8 @@
       "CENTER": "센터",
       "Capitalized Income": "자본화된 소득",
       "Capitalized Income Adjustment": "자본화된 소득 조정",
+      "Buy Down Fee": "바이 다운 수수료",
+      "Buy Down Fee Adjustment": "바이 다운 수수료 조정",
       "Client": "고객",
       "cash_mgmt": "현금_관리",
       "collection_sheet": "collection_sheet",
@@ -815,6 +820,7 @@
       "Add/Edit Currency": "통화 추가/수정",
       "Address": "주소",
       "Adjustment Capitalized Income Transaction": "조정 자본화 소득 거래",
+      "Adjustment Buy Down Fee Transaction": "조정 바이다운 수수료 거래",
       "Advanced Accounting Rules": "고급 회계 규칙",
       "All Charges": "모든 요금",
       "All Dividends": "모든 배당금",
@@ -1160,7 +1166,14 @@
       "Grace On Principal": "그레이스 온 교장",
       "Insert Installment": "할부 삽입",
       "Interest Rate": "이자율",
-      "Principal Amount": "원금"
+      "Principal Amount": "원금",
+      "Buy Down Fees": "매입 수수료",
+      "Fee Amount": "수수료 금액",
+      "Amortized Amount": "상각 금액",
+      "Not Yet Amortized Amount": "Not Yet Amortized Amount",
+      "Adjusted Amount": "조정된 금액",
+      "Charged Off Amount": "상각 금액",
+      "Date": "날짜"
     },
     "inputs": {
       "accounting": {
@@ -1218,6 +1231,7 @@
       "Address Type": "주소 유형",
       "Adjust advance payments toward future installments": "향후 할부에 대한 선불금 조정",
       "Adjust interest rates for remainder of loan": "남은 대출금에 대한 이자율 조정",
+      "Adjustment Amount": "조정 금액",
       "Advance payments adjustment type": "선지급 조정 유형",
       "Advanced Payment Allocation Transactions": "선지급 할당 거래",
       "Advanced Payment Allocation Transaction Type": "고급 지불 할당 거래 유형",
@@ -1241,6 +1255,7 @@
       "Alt": "Alt",
       "Amortization": "상각",
       "Amortization Type": "상각 유형",
+      "Amortized Amount": "상각 금액",
       "Amount": "양",
       "Amount Collected": "수집금액",
       "Amount Paid": "금액 지급",
@@ -1343,6 +1358,7 @@
       "ChargeOff Fraud Expense": "사기 비용 상각",
       "Charges": "요금",
       "Checked Date": "확인 날짜",
+      "Client Ip": "고객 IP",
       "Checked To Date": "확인된 날짜",
       "Checker": "체커",
       "Checker From Date": "검사기 시작 날짜",
@@ -1426,6 +1442,7 @@
       "Created At": "생성 날짜",
       "Created By": "작성자",
       "Created On": "에 만든",
+      "Creation Date": "생성 날짜",
       "Credit": "신용 거래",
       "Credit Account": "신용 계좌",
       "Credit Account Name": "신용 계좌 이름",
@@ -1878,6 +1895,7 @@
       "Mandatory": "필수적인",
       "Mandatory Guarantee(%)": "의무보증(%)",
       "Manual Entries Allowed": "수동 입력이 허용됨",
+      "Manual Journal Entry": "수동 저널 입력",
       "Mapper Key": "매퍼 키",
       "Mapper Value": "매퍼 값",
       "Mapping id": "매핑 ID",
@@ -2376,6 +2394,7 @@
       "Unassignment Date": "할당 취소 날짜",
       "Unique": "고유한",
       "Unit Type": "단위 유형",
+      "Unrecognized Amount": "인식되지 않은 금액",
       "Updated By": "업데이트한 사람",
       "Updated on": "업데이트 날짜",
       "Url": "URL",
@@ -2472,7 +2491,17 @@
       "Enable income capitalization": "소득 자본화 활성화",
       "Income capitalization calculation type": "소득 자본화 계산 유형",
       "Income capitalization strategy": "소득 자본화 전략",
-      "Income capitalization type": "소득 자본화 유형"
+      "Income capitalization type": "소득 자본화 유형",
+      "DEFERRED INCOME RECOGNITION": "이연수익 인식",
+      "Enable Buy down fee": "매수 수수료 활성화",
+      "Merchant Buy down fee": "상인 구매 선불 수수료",
+      "Buy down fee calculation type": "매수 수수료 계산 유형",
+      "Buy down fee strategy": "매수 수수료 전략",
+      "Buy down fee income type": "매수 수수료 수익 유형",
+      "Buy down fees": "매수 수수료",
+      "Income from Buy down fees": "매입 수수료 수입",
+      "Buy down fee Expense": "매입 수수료 비용",
+      "Skip Interest Refund Transaction Posting": "이자 환불 거래 게시 건너뛰기"
     },
     "links": {
       "Community": "지역 사회",
@@ -2508,6 +2537,8 @@
       "Block Deposit": "블록입금",
       "Block Withdrawal": "출금 차단",
       "Breadcrumbs": "빵 부스러기",
+      "Buy Down Fee": "구매 수수료",
+      "Buy Down Fee Adjustment": "매수 수수료 조정",
       "Calculate Interest": "이자 계산",
       "Capitalized Income": "자본화 소득",
       "Capitalized Income Adjustment": "자본화 소득 조정",
@@ -3280,12 +3311,16 @@
       "Mandatory": "필수적인",
       "Voluntary": "자발적인",
       "Write a note": "메모 쓰기",
-      "“Maker-Checker” principle requires every tasks": "\"Maker-Checker\" 원칙은 오류와 오용 가능성을 줄이기 위해 모든 작업을 두 사람이 완료하도록 요구합니다. 한 사람이 프로세스를 시작하고 두 번째 사람이 프로세스를 완료합니다."
+      "“Maker-Checker” principle requires every tasks": "\"Maker-Checker\" 원칙은 오류와 오용 가능성을 줄이기 위해 모든 작업을 두 사람이 완료하도록 요구합니다. 한 사람이 프로세스를 시작하고 두 번째 사람이 프로세스를 완료합니다.",
+      "Buy Down Fees": "매입 수수료"
     },
     "titles": {
       "Dashboard": "계기반",
       "Home": "집",
       "Login": "로그인"
+    },
+    "messages": {
+      "No Data Found": "데이터를 찾을 수 없음"
     }
   },
   "languages": {
@@ -3498,6 +3533,7 @@
     "Yes": "예",
     "loan product will be active and available to clients": "대출 상품이 활성화되어 고객에게 제공되는 날짜입니다. 비어 있으면 대출 상품이 생성되자마자 활성화됩니다.",
     "loan product will become inactive and unavailable to clients": "대출 상품이 비활성화되어 고객이 사용할 수 없게 되는 날짜입니다. 비어 있으면 로드 제품이 비활성화되지 않습니다.",
-    "Refund transactions where interest refund will automatically be calculated": "이자 환불이 자동으로 계산되는 환불 거래"
+    "Refund transactions where interest refund will automatically be calculated": "이자 환불이 자동으로 계산되는 환불 거래",
+    "Create Interest Refund": "이자 환불 생성"
   }
 }

@@ -2,7 +2,7 @@
   <mat-card>
     <form [formGroup]="activateFixedDepositsAccountForm" (ngSubmit)="submit()">
       <mat-card-content>
-        <mat-form-field class="flex-fill" (click)="activatedOnDatePicker.open()">
+        <mat-form-field class="flex-100" (click)="activatedOnDatePicker.open()">
           <mat-label>{{ 'labels.inputs.Activated On Date' | translate }}</mat-label>
           <input
             matInput

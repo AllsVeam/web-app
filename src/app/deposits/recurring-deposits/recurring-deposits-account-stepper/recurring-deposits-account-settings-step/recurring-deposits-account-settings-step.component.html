@@ -32,15 +32,15 @@
     </mat-form-field>
 
     <h4 class="mat-h4 flex-98">{{ 'labels.heading.Recurring Deposit Details' | translate }}</h4>
-
-    <mat-form-field class="flex-48">
-      <mat-label>{{ 'labels.inputs.Recurring Deposit Amount' | translate }}</mat-label>
-      <input type="number" matInput formControlName="mandatoryRecommendedDepositAmount" required />
-      <mat-error>
-        {{ 'labels.inputs.Recurring Deposit Amount' | translate }} {{ 'labels.commons.is' | translate }}
-        <strong>{{ 'labels.commons.required' | translate }}</strong>
-      </mat-error>
-    </mat-form-field>
+    <mifosx-input-amount
+      [currency]="currency"
+      [isRequired]="true"
+      *ngIf="currency"
+      class="flex-48"
+      [inputFormControl]="recurringDepositAccountSettingsForm.controls.mandatoryRecommendedDepositAmount"
+      [inputLabel]="'Recurring Deposit Amount'"
+    >
+    </mifosx-input-amount>
 
     <h4 class="mat-h4 flex-98">{{ 'labels.heading.Deposit Period' | translate }}</h4>
 

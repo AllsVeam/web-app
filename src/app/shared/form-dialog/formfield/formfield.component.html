@@ -10,6 +10,12 @@
         [formControlName]="formfield.controlName"
         [required]="formfield.required"
       />
+      <mat-error *ngIf="form.controls[formfield.controlName].hasError('max')">
+        <strong>{{ 'labels.commons.Maximum Value must be' | translate }} {{ formfield.max }}</strong>
+      </mat-error>
+      <mat-error *ngIf="form.controls[formfield.controlName].hasError('min')">
+        <strong>{{ 'labels.commons.Minimum Value must be' | translate }} {{ formfield.min }}</strong>
+      </mat-error>
 
       <mat-select
         *ngIf="formfield.controlType === 'select'"
@@ -50,14 +56,12 @@
     <mat-label>{{ formfield.label }}</mat-label>
     <input
       matInput
-      [ngxMatDatetimePicker]="datetimePicker"
+      type="datetime-local"
       [min]="formfield.minDate"
       [max]="formfield.maxDate"
       [formControlName]="formfield.controlName"
       [required]="formfield.required"
     />
-    <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
-    <ngx-mat-datetime-picker #datetimePicker [enableMeridian]="true"></ngx-mat-datetime-picker>
     <mat-error *ngIf="form.controls[formfield.controlName].hasError('required')">
       {{ formfield.label }} {{ 'labels.commons.is' | translate }}
       <strong>{{ 'labels.commons.required' | translate }}</strong>
