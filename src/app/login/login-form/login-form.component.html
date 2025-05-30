@@ -53,3 +53,15 @@
     {{ 'labels.links.Forgot Password?' | translate }}
   </button>
 </form>
+
+<div class="container">
+  <div *ngIf="!isLoggedIn">
+    <button mat-raised-button color="primary" class="login-button-z" (click)="login2()">Login with Zitadel</button>
+  </div>
+  <div *ngIf="isLoggedIn">
+    <p>Welcome! You are logged in.</p>
+    <button (click)="logout()">Logout</button>
+    <button (click)="loadProtectedData()">Load Protected Data</button>
+    <pre>{{ protectedData | json }}</pre>
+  </div>
+</div>

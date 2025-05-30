@@ -8,6 +8,9 @@ import { finalize } from 'rxjs/operators';
 /** Custom Services */
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 
+/** Ruta de seguridad Zitadel*/
+import { AuthService } from '../../auth.service';
+
 /**
  * Login form component.
  */
@@ -24,13 +27,16 @@ export class LoginFormComponent implements OnInit {
   /** True if loading. */
   loading = false;
 
+  isLoggedIn = false;
+
   /**
    * @param {FormBuilder} formBuilder Form Builder.
    * @param {AuthenticationService} authenticationService Authentication Service.
    */
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    public authService: AuthService
   ) {}
 
   /**
@@ -40,6 +46,14 @@ export class LoginFormComponent implements OnInit {
    */
   ngOnInit() {
     this.createLoginForm();
+  }
+
+  login2() {
+    this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   /**

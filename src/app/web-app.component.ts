@@ -32,6 +32,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { I18nService } from './core/i18n/i18n.service';
 import { ThemingService } from './shared/theme-toggle/theming.service';
 
+import { AuthService } from './auth.service';
+import { ApiService } from './api.service';
+
 /** Initialize Logger */
 const log = new Logger('MifosX');
 
@@ -85,6 +88,8 @@ export class WebAppComponent implements OnInit {
   buttonConfig: KeyboardShortcutsConfiguration;
 
   i18nService: I18nService;
+  isLoggedIn = false;
+  protectedData: any;
 
   /**
    * @param {Router} router Router for navigation.
@@ -113,7 +118,9 @@ export class WebAppComponent implements OnInit {
     private themingService: ThemingService,
     private dateUtils: Dates,
     private idle: IdleTimeoutService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private apiService: ApiService,
   ) {}
 
   @HostBinding('class') public cssClass: string;
@@ -129,7 +136,46 @@ export class WebAppComponent implements OnInit {
    *
    * 4) Alerts
    */
+  checkLogin() {
+    const token = this.authService.getAccessToken();
+    console.log('Access Token:', token);
+    this.isLoggedIn = !!token;
+  }
+
+  login() {
+    this.authService.login();
+    console.log("iniciado");
+  }
+
+  logout() {
+    this.authService.logout();
+    this.isLoggedIn = false;
+  }
+
+  loadProtectedData() {
+    this.apiService.getProtectedResource().subscribe(
+      (data) => {
+        console.log('Protected data:', data);
+        this.protectedData = data;
+      },
+      (error) => {
+        console.error('Error loading protected data:', error);
+      }
+    );
+  }
+
   ngOnInit() {
+
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    if (code) {
+      const codeVerifier = localStorage.getItem('code_verifier');
+      this.authService.exchangeCodeForTokens(code, codeVerifier);
+    }
+
+    this.checkLogin();
+
     this.themingService.theme.subscribe((value: string) => {
       this.cssClass = value;
     });
@@ -227,10 +273,10 @@ export class WebAppComponent implements OnInit {
       });
     }
   }
-
+  /*
   logout() {
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
-  }
+  }*/
 
   help() {
     window.open('https://mifosforge.jira.com/wiki/spaces/docs/pages/52035622/User+Manual', '_blank');
