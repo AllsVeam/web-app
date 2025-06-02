@@ -31,7 +31,9 @@
 .login-button-z {
   padding: 12px 24px;
   font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .login-button-z:hover {

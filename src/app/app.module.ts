@@ -36,7 +36,6 @@ import { TasksModule } from './tasks/tasks.module';
 import { ConfigurationWizardModule } from './configuration-wizard/configuration-wizard.module';
 import { PortalModule } from '@angular/cdk/portal';
 
-
 /** Main Routing Module */
 import { AppRoutingModule } from './app-routing.module';
 import { DatePipe, LocationStrategy } from '@angular/common';

@@ -120,7 +120,7 @@ export class WebAppComponent implements OnInit {
     private idle: IdleTimeoutService,
     private dialog: MatDialog,
     private authService: AuthService,
-    private apiService: ApiService,
+    private apiService: ApiService
   ) {}
 
   @HostBinding('class') public cssClass: string;
@@ -144,7 +144,7 @@ export class WebAppComponent implements OnInit {
 
   login() {
     this.authService.login();
-    console.log("iniciado");
+    console.log('iniciado');
   }
 
   logout() {
@@ -165,7 +165,6 @@ export class WebAppComponent implements OnInit {
   }
 
   ngOnInit() {
-
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
 

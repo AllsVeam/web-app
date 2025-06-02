@@ -4,7 +4,10 @@ import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   getProtectedResource() {
     const headers = new HttpHeaders({
