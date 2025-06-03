@@ -97,8 +97,31 @@ export class AuthService {
       });
   }
 
+  dtoToken() {
+    console.log('DTO token test');
+    console.log(localStorage.getItem('access_token'));
+
+    fetch('http://localhost:18090/api/DTO-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        access_token: localStorage.getItem('access_token'),
+        expires_in: 300,
+        refresh_expires_in: 1800,
+        refresh_token: 'asdasdasdad3',
+        token_type: 'Bearer',
+        'not-before-policy': 0,
+        session_state: 'c6ad29fa-b41b-4bf1-8056-b175e974a759',
+        scope: 'ALL_FUNCTIONS profile email'
+      })
+    }).then((response) => {
+      console.log(response);
+    });
+  }
+
   userdetails() {
-    console.log('User details');
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
       console.error('No access token found');
@@ -153,6 +176,8 @@ export class AuthService {
 
         this.authenticationService.saveZitadelCredentials(credentials);
 
+        console.log('Llamada DTOToken');
+        this.dtoToken();
         window.location.href = '/#/home';
       })
       .catch((error) => {
