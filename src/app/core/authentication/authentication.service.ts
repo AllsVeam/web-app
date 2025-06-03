@@ -318,6 +318,10 @@ export class AuthenticationService {
     }
   }
 
+  public saveZitadelCredentials(credentials: Credentials): void {
+    this.setCredentials(credentials);
+  }
+
   /**
    * Following functions are for two factor authentication and require
    * first level authorization headers to be setup for the requests.

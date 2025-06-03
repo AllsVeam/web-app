@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
+/** Custom Services */
+import { AuthenticationService } from '../app/core/authentication/authentication.service';
+import { Credentials } from './core/authentication/credentials.model';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
@@ -11,6 +15,7 @@ export class AuthService {
   private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
 
   constructor(
+    private authenticationService: AuthenticationService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router
@@ -36,10 +41,10 @@ export class AuthService {
 
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('mifosXCredentials');
+    sessionStorage.removeItem('mifosXCredentials');
 
-    //const logoutUrl = `https://plugin-auth-ofrdfj.us1.zitadel.cloud/oidc/v1/end_session?id_token_hint=${idToken}`;
     const logoutUrl = `https://plugin-auth-ofrdfj.us1.zitadel.cloud/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`;
-
     window.location.href = logoutUrl;
   }
 
@@ -85,11 +90,7 @@ export class AuthService {
         localStorage.setItem('access_token', tokens.access_token);
         localStorage.setItem('id_token', tokens.id_token);
         localStorage.setItem('refresh_token', tokens.refresh_token);
-
-        // Llamar a la función para obtener los datos del usuario
         this.userdetails();
-
-        window.location.href = '/#/home';
       })
       .catch((error) => {
         console.error('Error al intercambiar el código por tokens:', error);
@@ -118,7 +119,41 @@ export class AuthService {
         return res.json();
       })
       .then((userInfo) => {
-        console.log('User Info desde backend:', userInfo);
+        const credentials: Credentials = {
+          authenticated: true,
+          officeId: 0,
+          officeName: 'Home local',
+          permissions: [],
+          roles: undefined,
+          userId: 0,
+          username: userInfo.name,
+          shouldRenewPassword: true
+        };
+
+        /*
+
+        const Credentials = {
+          accessToken?: userInfo.string,
+          authenticated: userInfo.boolean,
+          base64EncodedAuthenticationKey?: string,
+          isTwoFactorAuthenticationRequired?: boolean,
+          officeId: userInfo.number,
+          officeName: userInfo.string,
+          staffId?: userInfo.number,
+          staffDisplayName?: userInfo.string,
+          organizationalRole?: userInfo.any,
+          permissions: userInfo.string[],
+          roles: userInfo.any,
+          userId: userInfo.number,
+          username: userInfo.string,
+          shouldRenewPassword: userInfo.boolean,
+          rememberMe?: userInfo.boolean,
+        }
+          */
+
+        this.authenticationService.saveZitadelCredentials(credentials);
+
+        window.location.href = '/#/home';
       })
       .catch((error) => {
         console.error('Error al consumir el backend:', error);
