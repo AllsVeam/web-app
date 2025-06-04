@@ -8,6 +8,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { WebAppComponent } from './web-app.component'; // asegúrate de importar correctamente
 import { LoginComponent } from './login/login.component'; // si tienes uno
 import { HomeComponent } from './home/home.component';
+import { authGuard } from './auth.guard';
 
 /**
  * Fallback to this route when no prior route is matched.
@@ -15,11 +16,13 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {
     path: 'login2',
-    component: WebAppComponent
+    component: WebAppComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'login',

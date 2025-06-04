@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 /** Environment Configuration */
 
@@ -46,6 +46,9 @@ import {
   MissingTranslationHandlerParams
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { TokenInterceptor } from './token.interceptor';
+import { AuthService } from './auth.service';
 
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {
@@ -113,7 +116,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebAppComponent,
     NotFoundComponent
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [WebAppComponent]
 })
 export class AppModule {}

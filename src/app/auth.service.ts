@@ -14,6 +14,8 @@ export class AuthService {
   //private authUrl = 'https://prueba-fnkj2p.us1.zitadel.cloud/oauth/v2/authorize';
   private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
 
+  private refreshTimeoutId: any = null;
+
   constructor(
     private authenticationService: AuthenticationService,
     private http: HttpClient,
@@ -25,13 +27,25 @@ export class AuthService {
     const codeVerifier = this.generateRandomString();
     const codeChallenge = await this.generateCodeChallenge(codeVerifier);
     localStorage.setItem('code_verifier', codeVerifier);
-    const url = `${this.authUrl}?client_id=${encodeURIComponent(this.clientId)}&redirect_uri=${encodeURIComponent(this.redirectUri)}&response_type=code&scope=openid profile email&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    const url =
+      `${this.authUrl}` +
+      `?client_id=${encodeURIComponent(this.clientId)}` +
+      `&redirect_uri=${encodeURIComponent(this.redirectUri)}` +
+      `&response_type=code` +
+      `&scope=openid profile email offline_access` +
+      `&code_challenge=${codeChallenge}` +
+      `&code_challenge_method=S256`;
     window.location.href = url;
   }
 
   logout() {
     const idToken = localStorage.getItem('id_token');
     const postLogoutRedirectUri = 'http://localhost:4200/#/login';
+
+    if (this.refreshTimeoutId) {
+      clearTimeout(this.refreshTimeoutId);
+      this.refreshTimeoutId = null;
+    }
 
     if (!idToken) {
       console.warn('No hay id_token. Redirigiendo a login.');
@@ -43,6 +57,8 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('mifosXCredentials');
     sessionStorage.removeItem('mifosXCredentials');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('code_verifier');
 
     const logoutUrl = `https://plugin-auth-ofrdfj.us1.zitadel.cloud/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`;
     window.location.href = logoutUrl;
@@ -84,17 +100,81 @@ export class AuthService {
       },
       body: JSON.stringify(payload)
     })
-      .then((res) => res.json())
-      .then((tokens) => {
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error al intercambiar código: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
+      .then((tokens: { access_token: string; id_token: string; refresh_token: string; expires_in: number }) => {
         console.log('Tokens:', tokens);
         localStorage.setItem('access_token', tokens.access_token);
         localStorage.setItem('id_token', tokens.id_token);
         localStorage.setItem('refresh_token', tokens.refresh_token);
+        this.scheduleRefresh(tokens.expires_in);
         this.userdetails();
       })
       .catch((error) => {
         console.error('Error al intercambiar el código por tokens:', error);
       });
+  }
+
+  refreshToken(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const rt = localStorage.getItem('refresh_token');
+      if (!rt) {
+        console.warn('No existe refresh_token en localStorage. Debes hacer login nuevamente.');
+        this.logout();
+        return reject('Sin refresh_token');
+      }
+      const payload = new URLSearchParams();
+      payload.set('grant_type', 'refresh_token');
+      payload.set('refresh_token', rt);
+      payload.set('client_id', this.clientId);
+
+      console.log('[AuthService] → Iniciando refreshToken()');
+
+      fetch(this.tokenUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: payload.toString()
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`Error al refrescar token: ${res.status} ${res.statusText}`);
+          }
+          return res.json();
+        })
+        .then(
+          (tokens: {
+            access_token: string;
+            id_token: string;
+            refresh_token: string;
+            expires_in: number;
+            refresh_expires_in: number;
+          }) => {
+            console.log('[AuthService] ← Nuevos tokens recibidos en refresh:', tokens);
+            console.log('Nuevo set de tokens obtenido por refresh:', tokens);
+
+            localStorage.setItem('access_token', tokens.access_token);
+            localStorage.setItem('id_token', tokens.id_token);
+            localStorage.setItem('refresh_token', tokens.refresh_token);
+            localStorage.setItem('expires_in', tokens.expires_in.toString());
+            localStorage.setItem('refresh_expires_in', tokens.refresh_expires_in.toString());
+
+            this.scheduleRefresh(tokens.expires_in);
+
+            resolve();
+          }
+        )
+        .catch((err) => {
+          console.error('refreshToken falló, forzando logout:', err);
+          this.logout();
+          reject(err);
+        });
+    });
   }
 
   dtoToken() {
@@ -108,9 +188,9 @@ export class AuthService {
       },
       body: JSON.stringify({
         access_token: localStorage.getItem('access_token'),
-        expires_in: 300,
-        refresh_expires_in: 1800,
-        refresh_token: 'asdasdasdad3',
+        expires_in: Number(localStorage.getItem('expires_in')),
+        refresh_expires_in: Number(localStorage.getItem('refresh_expires_in')),
+        refresh_token: localStorage.getItem('refresh_token'),
         token_type: 'Bearer',
         'not-before-policy': 0,
         session_state: 'c6ad29fa-b41b-4bf1-8056-b175e974a759',
@@ -183,5 +263,45 @@ export class AuthService {
       .catch((error) => {
         console.error('Error al consumir el backend:', error);
       });
+  }
+
+  private scheduleRefresh(expiresIn: number) {
+    const refreshInMs = (expiresIn - 60) * 1000;
+    if (refreshInMs <= 0) {
+      console.warn('expiresIn muy pequeño o negativo, refrescando de inmediato');
+      this.refreshToken();
+      return;
+    }
+
+    if (this.refreshTimeoutId) {
+      clearTimeout(this.refreshTimeoutId);
+    }
+
+    this.refreshTimeoutId = setTimeout(() => {
+      this.refreshToken();
+    }, refreshInMs);
+  }
+
+  private decodeJwtPayload(token: string): { [key: string]: any } | null {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      const payloadBase64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = atob(payloadBase64);
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
+  }
+
+  public isAccessTokenExpired(): boolean {
+    const token = localStorage.getItem('access_token');
+    if (!token) return true;
+
+    const payload = this.decodeJwtPayload(token);
+    if (!payload || typeof payload.exp !== 'number') return true;
+
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    return payload.exp <= nowInSeconds;
   }
 }
