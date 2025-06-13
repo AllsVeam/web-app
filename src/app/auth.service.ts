@@ -120,66 +120,6 @@ export class AuthService {
         console.error('Error al intercambiar el código por tokens:', error);
       });
   }
-
-  /*
-  refreshToken(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const rt = localStorage.getItem('refresh_token');
-      if (!rt) {
-        console.warn('No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        this.logout();
-        return reject('Sin refresh_token');
-      }
-      const payload = new URLSearchParams();
-      payload.set('grant_type', 'refresh_token');
-      payload.set('refresh_token', rt);
-      payload.set('client_id', this.clientId);
-
-      console.log('[AuthService] → Iniciando refreshToken()');
-
-      fetch(this.tokenUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: payload.toString()
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`Error al refrescar token: ${res.status} ${res.statusText}`);
-          }
-          return res.json();
-        })
-        .then(
-          (tokens: {
-            access_token: string;
-            id_token: string;
-            refresh_token: string;
-            expires_in: number;
-            refresh_expires_in: number;
-          }) => {
-            console.log('[AuthService] ← Nuevos tokens recibidos en refresh:', tokens);
-            console.log('Nuevo set de tokens obtenido por refresh:', tokens);
-
-            localStorage.setItem('access_token', tokens.access_token);
-            localStorage.setItem('id_token', tokens.id_token);
-            localStorage.setItem('refresh_token', tokens.refresh_token);
-            localStorage.setItem('expires_in', tokens.expires_in.toString());
-            localStorage.setItem('refresh_expires_in', tokens.refresh_expires_in.toString());
-
-            this.scheduleRefresh(tokens.expires_in);
-
-            resolve();
-          }
-        )
-        .catch((err) => {
-          console.error('refreshToken falló, forzando logout:', err);
-          this.logout();
-          reject(err);
-        });
-    });
-  }
-*/
   refreshToken(): Promise<void> {
     return new Promise((resolve, reject) => {
       const rt = localStorage.getItem('refresh_token');
@@ -265,8 +205,23 @@ export class AuthService {
         session_state: 'c6ad29fa-b41b-4bf1-8056-b175e974a759',
         scope: 'ALL_FUNCTIONS profile email'
       })
-    }).then((response) => {
-      console.log(response);
+
+    }).then(response => response.json())
+    .then(data => {
+      console.log(data);
+  
+      if (
+        data.status === 500 &&
+        (data.msg.includes("sin rol asignado") || data.msg.includes("Token nulo o inválido"))
+      ) {
+        console.warn('Token inválido o sin rol, cerrando sesión...');
+        this.logout();  // Asegúrate de que `this` apunta al componente correcto
+      }
+    })
+    .catch(error => {
+      console.error('Error al procesar respuesta del token:', error);
+      // Opcional: puedes hacer logout también en errores de red
+      this.logout();
     });
   }
 
@@ -302,27 +257,6 @@ export class AuthService {
           shouldRenewPassword: true
         };
 
-        /*
-
-        const Credentials = {
-          accessToken?: userInfo.string,
-          authenticated: userInfo.boolean,
-          base64EncodedAuthenticationKey?: string,
-          isTwoFactorAuthenticationRequired?: boolean,
-          officeId: userInfo.number,
-          officeName: userInfo.string,
-          staffId?: userInfo.number,
-          staffDisplayName?: userInfo.string,
-          organizationalRole?: userInfo.any,
-          permissions: userInfo.string[],
-          roles: userInfo.any,
-          userId: userInfo.number,
-          username: userInfo.string,
-          shouldRenewPassword: userInfo.boolean,
-          rememberMe?: userInfo.boolean,
-        }
-          */
-
         this.authenticationService.saveZitadelCredentials(credentials);
 
         console.log('Llamada DTOToken');
@@ -338,8 +272,8 @@ export class AuthService {
     //console.log('Programando refresh en', expiresIn, 'segundos');
 
     //const refreshInMs = (expiresIn - 60) * 1000;
-    const refreshInMs = (expiresIn - 43100) * 1000;
-    console.log('Programando refresh en', expiresIn - 43139, 'segundos');
+    const refreshInMs = (expiresIn - 40090) * 1000;
+    console.log('Programando refresh en', expiresIn - 40090, 'segundos');
 
     if (refreshInMs <= 0) {
       console.log('expiresIn muy pequeño o negativo, refrescando de inmediato');
