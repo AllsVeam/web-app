@@ -17,7 +17,7 @@
             <input matInput [required]="userForm.controls.sendPasswordToEmail.value" formControlName="email" />
             <mat-error *ngIf="userForm.controls.email.hasError('email')">
               {{ 'labels.inputs.Email' | translate }} {{ 'labels.commons.is' | translate }}
-              <strong>{{"labels.commons.invalid' | translate}}</strong>
+              <strong>{{ 'labels.commons.invalid' | translate }}</strong>
             </mat-error>
             <mat-error *ngIf="userForm.controls.email.hasError('required')">
               {{ 'labels.inputs.Email' | translate }} {{ 'labels.commons.is' | translate }}
@@ -26,29 +26,78 @@
           </mat-form-field>
 
           <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.First Name' | translate }}</mat-label>
-            <input matInput required formControlName="firstname" />
-            <mat-error *ngIf="userForm.controls.firstname.hasError('pattern')">
-              {{ 'labels.inputs.First Name' | translate }}
-              <strong>{{ 'labels.commons.cannot begin with a special character or number' | translate }}</strong>
-            </mat-error>
-            <mat-error *ngIf="userForm.controls.firstname.hasError('required')">
-              {{ 'labels.inputs.First Name' | translate }} {{ 'labels.commons.is' | translate }}
+            <mat-label>{{ 'labels.inputs.Password' | translate }}</mat-label>
+            <input matInput type="password" required formControlName="password" />
+            <mat-error *ngIf="userForm.controls.password.hasError('required')">
+              {{ 'labels.inputs.Password' | translate }} {{ 'labels.commons.is' | translate }}
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
           </mat-form-field>
 
           <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.Last Name' | translate }}</mat-label>
-            <input matInput required formControlName="lastname" />
-            <mat-error *ngIf="userForm.controls.lastname.hasError('pattern')">
-              {{ 'labels.inputs.Last Name' | translate }}
+            <mat-label>{{ 'labels.inputs.Given Name' | translate }}</mat-label>
+            <input matInput required formControlName="givenName" />
+            <mat-error *ngIf="userForm.controls.givenName.hasError('pattern')">
+              {{ 'labels.inputs.Given Name' | translate }}
               <strong>{{ 'labels.commons.cannot begin with a special character or number' | translate }}</strong>
             </mat-error>
-            <mat-error *ngIf="userForm.controls.lastname.hasError('required')">
-              {{ 'labels.inputs.Last Name' | translate }} {{ 'labels.commons.is' | translate }}
+            <mat-error *ngIf="userForm.controls.givenName.hasError('required')">
+              {{ 'labels.inputs.Given Name' | translate }} {{ 'labels.commons.is' | translate }}
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Family Name' | translate }}</mat-label>
+            <input matInput required formControlName="familyName" />
+            <mat-error *ngIf="userForm.controls.familyName.hasError('pattern')">
+              {{ 'labels.inputs.Family Name' | translate }}
+              <strong>{{ 'labels.commons.cannot begin with a special character or number' | translate }}</strong>
+            </mat-error>
+            <mat-error *ngIf="userForm.controls.familyName.hasError('required')">
+              {{ 'labels.inputs.Family Name' | translate }} {{ 'labels.commons.is' | translate }}
+              <strong>{{ 'labels.commons.required' | translate }}</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Nick Name' | translate }}</mat-label>
+            <input matInput formControlName="nickName" />
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Display Name' | translate }}</mat-label>
+            <input matInput formControlName="displayName" />
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Preferred Language' | translate }}</mat-label>
+            <mat-select formControlName="preferredLanguage">
+              <mat-option value="en">English</mat-option>
+              <mat-option value="es">Español</mat-option>
+              <mat-option value="de">Deutsch</mat-option>
+              <mat-option value="fr">Français</mat-option>
+              <mat-option value="it">Italiano</mat-option>
+              <mat-option value="pt">Português</mat-option>
+              <mat-option value="ru">Русский</mat-option>
+              <mat-option value="zh">中文</mat-option>
+              <mat-option value="ja">日本語</mat-option>
+              <mat-option value="ko">한국어</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="GENDER_MALE">{{ 'labels.inputs.Male' | translate }}</mat-option>
+              <mat-option value="GENDER_FEMALE">{{ 'labels.inputs.Female' | translate }}</mat-option>
+              <mat-option value="GENDER_OTHER">{{ 'labels.inputs.Other' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="flex-48">
+            <mat-label>{{ 'labels.inputs.Phone' | translate }}</mat-label>
+            <input matInput formControlName="phone" />
           </mat-form-field>
 
           <div class="password-never-expires-wrapper flex-48">

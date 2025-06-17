@@ -36,7 +36,8 @@ export class UsersService {
    * @returns {Observable<any>}
    */
   createUser(user: any): Observable<any> {
-    return this.http.post('/users', user);
+    console.log('Creating user:', user);
+    return this.http.post('http://localhost:18090/user/crear', user);
   }
 
   /**

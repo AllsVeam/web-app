@@ -77,10 +77,28 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   createUserForm() {
     this.userForm = this.formBuilder.group(
       {
+        organizationId: [''],
+        userId: [''],
         username: [
           '',
           Validators.required
         ],
+        givenName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('(^[A-z]).*')]
+        ],
+        familyName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('(^[A-z]).*')]
+        ],
+        nickName: [''],
+        displayName: [''],
+        preferredLanguage: [''],
+        gender: [''],
         email: [
           '',
           [
@@ -88,20 +106,13 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
             Validators.email
           ]
         ],
-        firstname: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern('(^[A-z]).*')]
-        ],
-        lastname: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern('(^[A-z]).*')]
-        ],
-        sendPasswordToEmail: [true],
+        phone: [''],
         passwordNeverExpires: [false],
+        sendPasswordToEmail: [true],
+        password: [
+          '',
+          Validators.required
+        ],
         officeId: [
           '',
           Validators.required
@@ -159,10 +170,17 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    * if successful redirects to view created user.
    */
   submit() {
-    const user = this.userForm.value;
-    if (this.userForm.value.staffId == null || this.userForm.value.staffId === '') {
-      delete user.staffId;
-    }
+    const fullForm = this.userForm.value;
+
+    const user = { ...fullForm };
+
+    // Eliminar campos no requeridos explícitamente
+    delete user.officeId;
+    delete user.staffId;
+    delete user.roles;
+
+    // No eliminamos campos vacíos
+
     this.usersService.createUser(user).subscribe((response: any) => {
       if (this.configurationWizardService.showUsersForm === true) {
         this.configurationWizardService.showUsersForm = false;
