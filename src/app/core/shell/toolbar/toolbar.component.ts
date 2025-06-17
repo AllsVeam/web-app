@@ -30,7 +30,7 @@ import { ConfigurationWizardService } from '../../../configuration-wizard/config
 import { ConfigurationWizardComponent } from '../../../configuration-wizard/configuration-wizard.component';
 
 /** Ruta de seguridad Zitadel*/
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../../zitadel/auth.service';
 
 /**
  * Toolbar component.

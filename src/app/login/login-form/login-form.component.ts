@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 
 /** Ruta de seguridad Zitadel*/
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../zitadel/auth.service';
 
 /**
  * Login form component.
@@ -50,6 +50,10 @@ export class LoginFormComponent implements OnInit {
 
   login2() {
     this.authService.login();
+  }
+
+  getUsers() {
+    this.authService.getUsers();
   }
 
   logout() {

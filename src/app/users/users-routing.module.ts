@@ -11,10 +11,15 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
+/** Custom Components of Zitadel */
+import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
+
 /** Custom Resolvers */
 import { UsersResolver } from './users.resolver';
 import { UsersTemplateResolver } from './users-template.resolver';
 import { UserResolver } from './user.resolver';
+import { UsersZitadelResolver } from '../zitadel/users/usersZitadel.resolver';
+import { UserZitadelResolver } from 'app/zitadel/users/userZitadel.resolver';
 
 /** Users Routes */
 const routes: Routes = [
@@ -27,7 +32,8 @@ const routes: Routes = [
           path: '',
           component: UsersComponent,
           resolve: {
-            users: UsersResolver
+            //users: UsersResolver,
+            usersZitadel: UsersZitadelResolver
           }
         },
         {
@@ -59,6 +65,29 @@ const routes: Routes = [
               }
             }
           ]
+        },
+        // Zitadel
+        {
+          path: 'zitadel/:id',
+          data: { title: 'View User', routeParamBreadcrumb: 'id' },
+          children: [
+            {
+              path: '',
+              component: ViewUserZitadelComponent,
+              resolve: {
+                user: UserZitadelResolver
+              }
+            },
+            {
+              path: 'edit',
+              component: EditUserComponent,
+              data: { title: 'Edit User', breadcrumb: 'Edit', routeResolveBreadcrumb: false },
+              resolve: {
+                user: UserZitadelResolver,
+                usersTemplate: UsersTemplateResolver
+              }
+            }
+          ]
         }
       ]
     }
@@ -77,7 +106,9 @@ const routes: Routes = [
   providers: [
     UsersResolver,
     UsersTemplateResolver,
-    UserResolver
+    UserResolver,
+    UsersZitadelResolver,
+    UserZitadelResolver
   ]
 })
 export class UsersRoutingModule {}

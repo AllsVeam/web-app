@@ -32,7 +32,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { I18nService } from './core/i18n/i18n.service';
 import { ThemingService } from './shared/theme-toggle/theming.service';
 
-import { AuthService } from './auth.service';
+import { AuthService } from './zitadel/auth.service';
 import { ApiService } from './api.service';
 
 /** Initialize Logger */

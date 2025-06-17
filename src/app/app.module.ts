@@ -48,7 +48,7 @@ import {
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { TokenInterceptor } from './token.interceptor';
-import { AuthService } from './auth.service';
+import { AuthService } from './zitadel/auth.service';
 
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {

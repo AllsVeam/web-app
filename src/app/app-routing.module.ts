@@ -8,7 +8,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { WebAppComponent } from './web-app.component'; // asegúrate de importar correctamente
 import { LoginComponent } from './login/login.component'; // si tienes uno
 import { HomeComponent } from './home/home.component';
-import { authGuard } from './auth.guard';
+import { authGuard } from './zitadel/auth.guard';
 
 /**
  * Fallback to this route when no prior route is matched.

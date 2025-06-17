@@ -50,13 +50,17 @@ export class NotificationsTrayComponent implements OnInit, OnDestroy {
    * @param {NotificationsService} notificationsService Notifications Service
    */
   constructor(public notificationsService: NotificationsService) {
-    forkJoin([
-      this.notificationsService.getNotifications(true, 9),
-      this.notificationsService.getNotifications(false, 9)]).subscribe((response: any[]) => {
-      this.readNotifications = response[0].pageItems;
-      this.unreadNotifications = response[1].pageItems;
-      this.setNotifications();
-    });
+    setTimeout(() => {
+      if (localStorage.getItem('mifosXZitadel') === 'true') {
+        forkJoin([
+          this.notificationsService.getNotifications(true, 9),
+          this.notificationsService.getNotifications(false, 9)]).subscribe((response: any[]) => {
+          this.readNotifications = response[0].pageItems;
+          this.unreadNotifications = response[1].pageItems;
+          this.setNotifications();
+        });
+      }
+    }, 3000);
   }
 
   ngOnInit() {

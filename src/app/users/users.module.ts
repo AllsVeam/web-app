@@ -11,6 +11,9 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
+/** Custom Components of Zitadel */
+import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
+
 /**
  * Users Module
  *
@@ -25,7 +28,10 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     UsersComponent,
     CreateUserComponent,
     ViewUserComponent,
-    EditUserComponent
+    EditUserComponent,
+
+    // Users Zitadel
+    ViewUserZitadelComponent
   ]
 })
 export class UsersModule {}

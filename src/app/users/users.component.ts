@@ -12,6 +12,9 @@ import { of } from 'rxjs';
 import { PopoverService } from '../configuration-wizard/popover/popover.service';
 import { ConfigurationWizardService } from '../configuration-wizard/configuration-wizard.service';
 
+/** Custom Service Zitadel */
+import { UsersServiceZitadel } from '../zitadel/users/usersZitadel.service';
+
 /**
  * Users component.
  */
@@ -23,6 +26,10 @@ import { ConfigurationWizardService } from '../configuration-wizard/configuratio
 export class UsersComponent implements OnInit, AfterViewInit {
   /** Users data. */
   usersData: any;
+
+  /** Users Zitadel data. */
+  usersZitadelData: any;
+
   /** Columns to be displayed in users table. */
   displayedColumns: string[] = [
     'firstname',
@@ -33,10 +40,17 @@ export class UsersComponent implements OnInit, AfterViewInit {
   /** Data source for users table. */
   dataSource: MatTableDataSource<any>;
 
+  /** Data source for users table. */
+  dataSourceZitadel: MatTableDataSource<any>;
+
   /** Paginator for users table. */
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   /** Sorter for users table. */
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  /** Zitadel */
+  @ViewChild('paginatorZitadel', { static: true }) paginatorZitadel: MatPaginator;
+  @ViewChild('tableZitadel', { read: MatSort, static: true }) sortZitadel: MatSort;
 
   /* Reference of create user button */
   @ViewChild('buttonCreateUser') buttonCreateUser: ElementRef<any>;
@@ -60,8 +74,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
     private configurationWizardService: ConfigurationWizardService,
     private popoverService: PopoverService
   ) {
-    this.route.data.subscribe((data: { users: any }) => {
+    this.route.data.subscribe((data: { users: any; usersZitadel: any }) => {
       this.usersData = data.users;
+
+      // Users zitadel
+      this.usersZitadelData = data.usersZitadel;
     });
   }
 
@@ -71,6 +88,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
    */
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceZitadel.filter = filterValue.trim().toLowerCase();
   }
 
   /**
@@ -87,6 +105,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(this.usersData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // Users zitadel
+    this.dataSourceZitadel = new MatTableDataSource(this.usersZitadelData);
+    this.dataSourceZitadel.paginator = this.paginatorZitadel;
+    this.dataSourceZitadel.sort = this.sortZitadel;
   }
 
   /**
