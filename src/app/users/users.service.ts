@@ -45,15 +45,19 @@ export class UsersService {
    * @returns {Observable<any>} User.
    */
   editUser(userId: string, user: any): Observable<any> {
-    return this.http.put(`/users/${userId}`, user);
+    console.log('Enviando PUT a:', userId);
+    console.log('Payload:', user);
+    return this.http.put(`http://localhost:18090/user/${userId}`, user);
   }
 
   /**
    * @param {string} userId user ID of user.
    * @returns {Observable<any>} User.
    */
+
   getUser(userId: string): Observable<any> {
-    return this.http.get(`/users/${userId}`);
+    console.log(userId);
+    return this.http.get('http://localhost:18090/user/324369882260990346');
   }
 
   /**

@@ -40,9 +40,16 @@ export class EditUserComponent implements OnInit {
     private router: Router
   ) {
     this.route.data.subscribe((data: { user: any; usersTemplate: any }) => {
-      this.userData = data.user;
+      const fullUserData = data.user;
+
+      // ✅ Aquí accedes correctamente al usuario dentro del array
+      this.userData = fullUserData.object?.result?.[0];
+
       this.officesData = data.usersTemplate.allowedOffices;
       this.rolesData = data.usersTemplate.availableRoles;
+
+      this.createEditUserForm();
+      this.officeChanged(this.userData.officeId); // si aplica
     });
   }
 
@@ -55,41 +62,60 @@ export class EditUserComponent implements OnInit {
    * Creates the edit user form.
    */
   createEditUserForm() {
-    const staffId = this.userData.staff ? this.userData.staff.id : null;
+    const profile = this.userData?.human?.profile || {};
+    const email = this.userData?.human?.email?.email || '';
+    const phone = this.userData?.human?.phone?.phone || '';
+    const gender = profile.gender || 'GENDER_MALE';
+    const preferredLanguage = profile.preferredLanguage || 'es';
+
     this.editUserForm = this.formBuilder.group({
       username: [
-        this.userData.username,
+        this.userData.userName,
         Validators.required
       ],
       email: [
-        this.userData.email,
+        email,
         [
           Validators.required,
           Validators.email
         ]
       ],
       firstname: [
-        this.userData.firstname,
+        profile.firstName || '',
         [
           Validators.required,
           Validators.pattern('(^[A-z]).*')]
       ],
       lastname: [
-        this.userData.lastname,
+        profile.lastName || '',
         [
           Validators.required,
           Validators.pattern('(^[A-z]).*')]
       ],
-      passwordNeverExpires: [this.userData.passwordNeverExpires],
-      officeId: [
-        this.userData.officeId,
+      phone: [
+        phone,
         Validators.required
       ],
-      staffId: [staffId],
-      roles: [
-        this.userData.selectedRoles.map((role: any) => role.id),
+      gender: [
+        gender,
         Validators.required
-      ]
+      ],
+      preferredLanguage: [
+        preferredLanguage,
+        Validators.required
+      ],
+      passwordNeverExpires: [false], // o como lo manejes tú
+      officeId: [
+        this.userData.officeId || '',
+        Validators.required
+      ],
+      staffId: [null],
+      roles: [
+        this.userData.selectedRoles?.map((role: any) => role.id) || [],
+        Validators.required
+      ],
+      currentPassword: [''],
+      newPassword: ['']
     });
   }
 
@@ -108,9 +134,59 @@ export class EditUserComponent implements OnInit {
    * Submits the user form and edits the user,
    * if successful redirects to the updated user.
    */
+  /*
   submit() {
     const editedUser = this.editUserForm.value;
     this.usersService.editUser(this.userData.id, editedUser).subscribe((response: any) => {
+      this.router.navigate(
+        [
+          '../../',
+          response.resourceId
+        ],
+        { relativeTo: this.route }
+      );
+    });
+  }*/
+
+  submit() {
+    const form = this.editUserForm.value;
+    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
+
+    const payload: any = {
+      userId: this.userData.id,
+      token: token,
+      email: {
+        email: form.email,
+        isVerified: true
+      },
+      phone: {
+        phone: form.phone,
+        isVerified: true
+      },
+      profile: {
+        username: form.username,
+        givenName: form.firstname,
+        familyName: form.lastname,
+        displayName: `${form.firstname} ${form.lastname}`,
+        nickName: form.firstname,
+        preferredLanguage: form.preferredLanguage,
+        gender: form.gender
+      }
+    };
+
+    // ✅ Incluir solo si ambos campos están llenos
+    if (form.currentPassword && form.newPassword) {
+      payload.password = {
+        currentPassword: form.currentPassword,
+        newPassword: {
+          password: form.newPassword,
+          changeRequired: false
+        }
+      };
+    }
+
+    // Envía al backend
+    this.usersService.editUser(this.userData.id, payload).subscribe((response: any) => {
       this.router.navigate(
         [
           '../../',
