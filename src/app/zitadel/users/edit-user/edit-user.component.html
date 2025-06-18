@@ -80,7 +80,7 @@
               {{ 'labels.inputs.Password never expires' | translate }}
             </mat-checkbox>
           </div>
-
+          <!-- 
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Office' | translate }}</mat-label>
             <mat-select required formControlName="officeId" (selectionChange)="officeChanged($event.value)">
@@ -115,6 +115,7 @@
               <strong>{{ 'labels.commons.must be selected' | translate }}</strong>
             </mat-error>
           </mat-form-field>
+           -->
         </div>
       </mat-card-content>
 
@@ -132,7 +133,12 @@
         <button type="button" mat-raised-button [routerLink]="['../']">
           {{ 'labels.buttons.Cancel' | translate }}
         </button>
+        <!--
         <button mat-raised-button color="primary" [disabled]="!editUserForm.valid">
+          {{ 'labels.buttons.Submit' | translate }}
+        </button>
+        -->
+        <button mat-raised-button color="primary">
           {{ 'labels.buttons.Submit' | translate }}
         </button>
       </mat-card-actions>

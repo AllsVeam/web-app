@@ -9,10 +9,11 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
+//import { EditUserComponent } from './edit-user/edit-user.component';
 
 /** Custom Components of Zitadel */
 import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
+import { EditUserComponent } from 'app/zitadel/users/edit-user/edit-user.component';
 
 /**
  * Users Module

@@ -18,7 +18,15 @@ export class UsersServiceZitadel {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+
+  /**
+     * @returns {Observable<any>} Users template data
+     */
+  getUsersTemplate(): Observable<any> {
+    return this.http.get('/users/template');
+  }
 
   /**
    * @returns {Observable<any>} Users data
@@ -28,7 +36,7 @@ export class UsersServiceZitadel {
       switchMap((res) => res.json()),
       map((response) => {
         const out: any[] = [];
-        const users = response.data?.result;
+        const users = response.object?.result;
         if (Array.isArray(users)) {
           users.forEach((user) => {
             if (user.human) {
@@ -42,6 +50,7 @@ export class UsersServiceZitadel {
             }
           });
         }
+        console.log('Users:', out);
         return out;
       })
     );
@@ -52,9 +61,8 @@ export class UsersServiceZitadel {
    * @returns {Observable<any>} User.
    */
   getUser(userId: string): Observable<any> {
-    //return this.http.get(`/users/1`);
-    const url = `${this.api}user/user?userId=${userId}`;
-
+    const url = `${this.api}user/${userId}`;
+ 
     return from(
       fetch(url, {
         method: 'GET',
@@ -66,25 +74,14 @@ export class UsersServiceZitadel {
     ).pipe(
       switchMap((res) => res.json()),
       map((response) => {
-        const out: any[] = [];
-        const u = response.object?.user;
-        if (!u) {
-          throw new Error('User no encontrado');
-        }
-        return {
-          id: u.userId,
-          username: u.username,
-          officeId: u.user_uuid ?? null,
-          officeName: 'Head Office',
-          firstname: u.human?.profile?.givenName,
-          lastname: u.human?.profile?.familyName,
-          email: u.human?.email?.email,
-          passwordNeverExpires: false,
-          availableRoles: u.availableRoles ?? [],
-          selectedRoles: u.selectedRoles ?? [],
-          isSelfServiceUser: u.state
-        };
+        return response;
       })
     );
+  }
+
+  editUser(userId: string, user: any): Observable<any> {
+    console.log('Enviando PUT a:', userId);
+    console.log('Payload:', user);
+    return this.http.put(`http://localhost:18090/user/update-user`, user);
   }
 }

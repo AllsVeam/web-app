@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 /** Custom Services */
 import { UsersService } from './users.service';
-
+import { UsersServiceZitadel } from '../zitadel/users/usersZitadel.service';
 /**
  * Users template data resolver.
  */
@@ -15,13 +15,13 @@ export class UsersTemplateResolver {
   /**
    * @param {UsersService} usersService Users service.
    */
-  constructor(private usersService: UsersService) {}
+  constructor(private usersServiceZitadel: UsersServiceZitadel) {}
 
   /**
    * Returns the users template data.
    * @returns {Observable<any>}
    */
   resolve(): Observable<any> {
-    return this.usersService.getUsersTemplate();
+    return this.usersServiceZitadel.getUsersTemplate();
   }
 }

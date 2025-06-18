@@ -41,8 +41,22 @@ export class ViewUserZitadelComponent {
     private authService: AuthService
   ) {
     this.route.data.subscribe((data: { user: any }) => {
-      this.userData = data.user;
-      console.log(data);
+      const u = data.user.object?.result?.[0];
+
+      const user = {
+        id: u.id,
+        username: u.userName,
+        firstname: u.human?.profile?.firstName,
+        lastname: u.human?.profile?.lastName,
+        officeName: 'Head Office',
+        officeId: u.user_uuid ?? null,
+        availableRoles: u.availableRoles ?? 'Admin',
+        selectedRoles: u.selectedRoles ?? 'Admin',
+        isSelfServiceUser: u.state
+      };
+
+      this.userData = user;
+      console.log(this.userData.id);
     });
   }
 

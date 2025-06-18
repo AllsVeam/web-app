@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 
 /** Custom Services */
-import { UsersService } from '../users.service';
+import { UsersServiceZitadel } from '../usersZitadel.service';
 
 /**
  * Edit User Component.
@@ -29,13 +29,13 @@ export class EditUserComponent implements OnInit {
   /**
    * Retrieves the offices data from `resolve`.
    * @param {FormBuilder} formBuilder Form Builder.
-   * @param {UsersService} UsersService Users Service.
+   * @param {UsersServiceZitadel} UsersServiceZitadel Users Service.
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
    */
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private usersService: UsersService,
+    private UsersServiceZitadel: UsersServiceZitadel,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -49,13 +49,13 @@ export class EditUserComponent implements OnInit {
       this.rolesData = data.usersTemplate.availableRoles;
 
       this.createEditUserForm();
-      this.officeChanged(this.userData.officeId); // si aplica
+      //this.officeChanged(this.userData.officeId); // si aplica
     });
   }
 
   ngOnInit() {
     this.createEditUserForm();
-    this.officeChanged(this.userData.officeId);
+    //this.officeChanged(this.userData.officeId);
   }
 
   /**
@@ -125,9 +125,9 @@ export class EditUserComponent implements OnInit {
    */
   officeChanged(officeId: number) {
     this.staffData = [];
-    this.usersService.getStaff(officeId).subscribe((staff: any) => {
+    /*this.UsersServiceZitadel.getStaff(officeId).subscribe((staff: any) => {
       this.staffData = staff;
-    });
+    });   */
   }
 
   /**
@@ -137,7 +137,7 @@ export class EditUserComponent implements OnInit {
   /*
   submit() {
     const editedUser = this.editUserForm.value;
-    this.usersService.editUser(this.userData.id, editedUser).subscribe((response: any) => {
+    this.UsersServiceZitadel.editUser(this.userData.id, editedUser).subscribe((response: any) => {
       this.router.navigate(
         [
           '../../',
@@ -186,7 +186,7 @@ export class EditUserComponent implements OnInit {
     }
 
     // Envía al backend
-    this.usersService.editUser(this.userData.id, payload).subscribe((response: any) => {
+    this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe((response: any) => {
       this.router.navigate(
         [
           '../../',
