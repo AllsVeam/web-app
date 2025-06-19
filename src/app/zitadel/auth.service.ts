@@ -454,7 +454,7 @@ export class AuthService {
 
   // Delete
   public deletUser(userId: string) {
-    fetch(`${this.api}user/reactivate?userId=${userId}`, {
+    fetch(`${this.api}user/?userId=${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -464,11 +464,15 @@ export class AuthService {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        alert(data.msg);
+        if (data.status === 200) {
+          this.router.navigate(['/appusers']);
+        } else {
+          alert(data.msg);
+        }
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error eliminando usuario:', error);
+        //console.error('Error eliminando usuario:', error);
       });
   }
 
@@ -485,8 +489,7 @@ export class AuthService {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        alert(data.msg);
+        window.location.reload();
       })
       .catch((error) => {
         alert(error.msg);
@@ -505,8 +508,7 @@ export class AuthService {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        alert(data.msg);
+        window.location.reload();
       })
       .catch((error) => {
         alert(error.msg);

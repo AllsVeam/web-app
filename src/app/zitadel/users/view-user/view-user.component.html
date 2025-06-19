@@ -13,14 +13,17 @@
   </button>
   <div [ngSwitch]="userData.isSelfServiceUser">
     <button *ngSwitchCase="'USER_STATE_ACTIVE'" mat-raised-button color="warn" (click)="desactiveUser(userData.id)">
-      <fa-icon icon="trash" class="m-r-10"></fa-icon>
+      <fa-icon icon="ban" class="m-r-10"></fa-icon>
       Desactivar
     </button>
-    <button *ngSwitchCase="'USER_STATE_INACTIVE'" mat-raised-button color="warn" (click)="activeUser(userData.id)">
-      <fa-icon icon="trash" class="m-r-10"></fa-icon>
+    <button *ngSwitchCase="'USER_STATE_INACTIVE'" mat-raised-button color="primary" (click)="activeUser(userData.id)">
+      <fa-icon icon="check" class="m-r-10"></fa-icon>
       Activar
     </button>
-    <button *ngSwitchDefault disabled>{{ userData.isSelfServiceUser }}</button>
+    <button *ngSwitchDefault mat-raised-button color="primary" disabled>
+      <fa-icon icon="ban" class="m-r-10"></fa-icon>
+      Initial
+    </button>
   </div>
 </div>
 
@@ -80,7 +83,7 @@
       </div>
 
       <div class="layout-row layout-align-center gap-2percent column-on-mobile">
-        <button type="button" mat-raised-button color="primary" [routerLink]="['../']">
+        <button type="button" mat-raised-button color="primary" [routerLink]="['../../']">
           {{ 'labels.buttons.Back' | translate }}
         </button>
       </div>

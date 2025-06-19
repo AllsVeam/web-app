@@ -18,12 +18,11 @@ export class UsersServiceZitadel {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   /**
-     * @returns {Observable<any>} Users template data
-     */
+   * @returns {Observable<any>} Users template data
+   */
   getUsersTemplate(): Observable<any> {
     return this.http.get('/users/template');
   }
@@ -62,7 +61,7 @@ export class UsersServiceZitadel {
    */
   getUser(userId: string): Observable<any> {
     const url = `${this.api}user/${userId}`;
- 
+
     return from(
       fetch(url, {
         method: 'GET',
