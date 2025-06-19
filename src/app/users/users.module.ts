@@ -7,13 +7,14 @@ import { UsersRoutingModule } from './users-routing.module';
 
 /** Custom Components */
 import { UsersComponent } from './users.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+//import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 //import { EditUserComponent } from './edit-user/edit-user.component';
 
 /** Custom Components of Zitadel */
 import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
 import { EditUserComponent } from 'app/zitadel/users/edit-user/edit-user.component';
+import { CreateUserComponent } from 'app/zitadel/users/create-user/create-user.component';
 
 /**
  * Users Module
@@ -27,12 +28,14 @@ import { EditUserComponent } from 'app/zitadel/users/edit-user/edit-user.compone
   ],
   declarations: [
     UsersComponent,
-    CreateUserComponent,
+    //CreateUserComponent,
     ViewUserComponent,
-    EditUserComponent,
+    //EditUserComponent,
 
     // Users Zitadel
-    ViewUserZitadelComponent
+    ViewUserZitadelComponent,
+    EditUserComponent,
+    CreateUserComponent
   ]
 })
 export class UsersModule {}

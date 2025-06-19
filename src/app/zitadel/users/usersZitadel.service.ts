@@ -21,6 +21,15 @@ export class UsersServiceZitadel {
   constructor(private http: HttpClient) {}
 
   /**
+   * @param {any} user User to be created.
+   * @returns {Observable<any>}
+   */
+  createUser(user: any): Observable<any> {
+    console.log('Creating user:', user);
+    return this.http.post('http://localhost:18090/user/crear', user);
+  }
+
+  /**
    * @returns {Observable<any>} Users template data
    */
   getUsersTemplate(): Observable<any> {

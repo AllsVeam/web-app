@@ -7,18 +7,21 @@ import { Route } from '../core/route/route.service';
 
 /** Custom Components */
 import { UsersComponent } from './users.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+//import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 //import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditUserComponent } from '../zitadel/users/edit-user/edit-user.component';
 
 /** Custom Components of Zitadel */
 import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
+import { CreateUserComponent } from 'app/zitadel/users/create-user/create-user.component';
 
 /** Custom Resolvers */
 import { UsersResolver } from './users.resolver';
 import { UsersTemplateResolver } from './users-template.resolver';
 import { UserResolver } from './user.resolver';
+
+/** Custom Resolvers Zitadel */
 import { UsersZitadelResolver } from '../zitadel/users/usersZitadel.resolver';
 import { UserZitadelResolver } from 'app/zitadel/users/userZitadel.resolver';
 
@@ -42,7 +45,7 @@ const routes: Routes = [
           component: CreateUserComponent,
           data: { title: 'Create User', breadcrumb: 'Create User' },
           resolve: {
-            usersTemplate: UsersTemplateResolver
+            //usersTemplate: UsersTemplateResolver
           }
         },
         {
