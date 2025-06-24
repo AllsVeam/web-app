@@ -151,6 +151,7 @@ export class EditUserComponent implements OnInit {
   submit() {
     const form = this.editUserForm.value;
     const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
+    const fullPhone = `${form.countryCode}${form.phoneNumber}`;
 
     const payload: any = {
       userId: this.userData.id,
@@ -160,7 +161,7 @@ export class EditUserComponent implements OnInit {
         isVerified: true
       },
       phone: {
-        phone: form.phone,
+        phone: fullPhone,
         isVerified: true
       },
       profile: {

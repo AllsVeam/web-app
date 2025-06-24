@@ -33,6 +33,14 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   /** Staff data. */
   staffData: any;
 
+  countryCodes = [
+    { code: '+52', name: 'México' },
+    { code: '+1', name: 'Estados Unidos' },
+    { code: '+34', name: 'España' },
+    { code: '+57', name: 'Colombia' },
+    { code: '+54', name: 'Argentina' },
+  ];
+
   /* Reference of create user form */
   @ViewChild('userFormRef') userFormRef: ElementRef<any>;
   /* Template for popover on create user form */
@@ -107,7 +115,8 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
             Validators.email
           ]
         ],
-        phone: [''],
+        countryCode: ['+1', Validators.required],  
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
         passwordNeverExpires: [false],
         sendPasswordToEmail: [true],
         password: [
@@ -173,31 +182,48 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    */
   submit() {
     const fullForm = this.userForm.value;
-
-    const user = { ...fullForm };
-
-    // Eliminar campos no requeridos explícitamente
+  
+    // Concatenar el teléfono con el código del país
+    const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
+  
+    // Construir el payload con el formato esperado
+    const user = {
+      ...fullForm,
+      phone: fullPhone
+    };
+  
+    // Limpiar campos innecesarios
     delete user.officeId;
     delete user.staffId;
     delete user.roles;
-
-    // No eliminamos campos vacíos
-
+    delete user.countryCode;
+    delete user.phoneNumber;
+  
     this.usersService.createUser(user).subscribe((response: any) => {
-      if (this.configurationWizardService.showUsersForm === true) {
-        this.configurationWizardService.showUsersForm = false;
-        this.openDialog();
-      } else {
-        this.router.navigate(
-          [
-            '../',
-            response.resourceId
-          ],
-          { relativeTo: this.route }
+      const userId = response.object?.userId;
+      const selectedRoleIds = this.userForm.get('roles')?.value;
+  
+      if (userId && selectedRoleIds?.length > 0) {
+        this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
+          () => {
+            if (this.configurationWizardService.showUsersForm === true) {
+              this.configurationWizardService.showUsersForm = false;
+              this.openDialog();
+            } else {
+              this.router.navigate(['../', userId], { relativeTo: this.route });
+            }
+          },
+          (error) => {
+            console.error('Error al asignar roles:', error);
+          }
         );
+      } else {
+        console.warn('No se encontraron roles seleccionados o userId inválido.');
       }
     });
   }
+  
+  
 
   /**
    * Popover function

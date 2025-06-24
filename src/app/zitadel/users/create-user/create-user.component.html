@@ -96,10 +96,22 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
-            <input matInput formControlName="phone" />
-          </mat-form-field>
+          <div class="flex items-center gap-2">
+            <mat-form-field class="flex-20">
+              <mat-label>Código</mat-label>
+              <mat-select formControlName="countryCode" required>
+                <mat-option *ngFor="let country of countryCodes" [value]="country.code">
+                  {{ country.name }} ({{ country.code }})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <mat-form-field class="flex-75">
+              <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
+              <input matInput formControlName="phoneNumber" required maxlength="15" />
+            </mat-form-field>
+          </div>
+          
 
           <div class="password-never-expires-wrapper flex-48">
             <mat-checkbox labelPosition="before" formControlName="passwordNeverExpires">
