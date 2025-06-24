@@ -47,8 +47,9 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { TokenInterceptor } from './token.interceptor';
+import { TokenInterceptor } from './zitadel/token.interceptor';
 import { AuthService } from './zitadel/auth.service';
+import { CallbackComponent } from './zitadel/callback/callback.component';
 
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {
@@ -114,7 +115,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   declarations: [
     WebAppComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    CallbackComponent
   ],
   providers: [
     DatePipe,

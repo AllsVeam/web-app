@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+/** Zitadel AuthService */
+import { AuthService } from 'app/zitadel/auth.service';
+
 /** Custom Services */
 import { SystemService } from '../../system.service';
 
@@ -31,7 +34,8 @@ export class EditRoleComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private systemService: SystemService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.route.data.subscribe((data: { role: any }) => {
       this.roleData = data.role;
@@ -67,6 +71,7 @@ export class EditRoleComponent implements OnInit {
    */
   submit() {
     this.systemService.updateRole(this.roleForm.value, this.roleData.id).subscribe(() => {
+      this.authService.updateRole(this.roleData.id, this.roleForm.get('name')?.value, this.roleForm.value.description);
       this.router.navigate(['../../'], { relativeTo: this.route });
     });
   }

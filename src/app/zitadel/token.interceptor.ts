@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from './zitadel/auth.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
     const token = this.authService.getAccessToken();
     let authReq = req;
 
-    if (token) {
+    if (token === '1') {
       authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private async handle401Error(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
     try {
-      await this.authService.refreshToken();
+      //await this.authService.refreshToken();
       const newToken = this.authService.getAccessToken();
       if (newToken) {
         const retriedReq = request.clone({

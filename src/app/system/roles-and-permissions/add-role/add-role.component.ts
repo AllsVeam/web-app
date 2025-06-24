@@ -1,3 +1,4 @@
+import { AuthService } from 'app/zitadel/auth.service';
 /** Angular Imports */
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -28,7 +29,8 @@ export class AddRoleComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private systemService: SystemService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   /**
@@ -60,6 +62,7 @@ export class AddRoleComponent implements OnInit {
    */
   submit() {
     this.systemService.createRole(this.roleForm.value).subscribe((response: any) => {
+      this.authService.createRole(response.resourceId, this.roleForm.value.name, this.roleForm.value.description);
       this.router.navigate(['../'], { relativeTo: this.route });
     });
   }

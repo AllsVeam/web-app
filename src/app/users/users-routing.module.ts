@@ -45,7 +45,7 @@ const routes: Routes = [
           component: CreateUserComponent,
           data: { title: 'Create User', breadcrumb: 'Create User' },
           resolve: {
-            //usersTemplate: UsersTemplateResolver
+            usersTemplate: UsersTemplateResolver
           }
         },
         {
@@ -64,8 +64,8 @@ const routes: Routes = [
               component: EditUserComponent,
               data: { title: 'Edit User', breadcrumb: 'Edit', routeResolveBreadcrumb: false },
               resolve: {
-                user: UserResolver
-                //usersTemplate: UsersTemplateResolver
+                user: UserResolver,
+                usersTemplate: UsersTemplateResolver
               }
             }
           ]
@@ -87,8 +87,8 @@ const routes: Routes = [
               component: EditUserComponent,
               data: { title: 'Edit User', breadcrumb: 'Edit', routeResolveBreadcrumb: false },
               resolve: {
-                user: UserZitadelResolver
-                //usersTemplate: UsersTemplateResolver
+                user: UserZitadelResolver,
+                usersTemplate: UsersTemplateResolver
               }
             }
           ]

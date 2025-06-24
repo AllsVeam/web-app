@@ -9,11 +9,13 @@ import { WebAppComponent } from './web-app.component'; // asegúrate de importar
 import { LoginComponent } from './login/login.component'; // si tienes uno
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './zitadel/auth.guard';
+import { CallbackComponent } from './zitadel/callback/callback.component';
 
 /**
  * Fallback to this route when no prior route is matched.
  */
 const routes: Routes = [
+  /*
   {
     path: 'login2',
     component: WebAppComponent,
@@ -27,6 +29,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },*/
+  {
+    path: 'callback',
+    component: CallbackComponent
   },
   {
     path: '**',
@@ -42,6 +48,8 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
-  providers: []
+  providers: [
+    CallbackComponent
+  ]
 })
 export class AppRoutingModule {}

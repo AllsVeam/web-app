@@ -148,7 +148,7 @@ export class WebAppComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    //this.authService.logout();
     this.isLoggedIn = false;
   }
 
@@ -169,9 +169,15 @@ export class WebAppComponent implements OnInit {
     const code = params.get('code');
 
     if (code) {
+      this.router.navigate(['/callback'], { queryParams: { code } });
+
+      /*
       const codeVerifier = localStorage.getItem('code_verifier');
-      this.authService.exchangeCodeForTokens(code, codeVerifier);
+      this.authService.exchangeCodeForTokens(code, codeVerifier);*/
+      return false;
     }
+
+    console.log('Se escapa algo ????');
 
     this.checkLogin();
 

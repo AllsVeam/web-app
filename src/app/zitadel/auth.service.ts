@@ -43,6 +43,7 @@ export class AuthService {
   }
 
   logout() {
+    //return;
     const idToken = localStorage.getItem('id_token');
     const postLogoutRedirectUri = 'http://localhost:4200/#/login';
 
@@ -58,7 +59,7 @@ export class AuthService {
     }
 
     sessionStorage.removeItem('mifosXCredentials');
-    sessionStorage.removeItem('mifosXOAuthTokenDetails');
+    sessionStorage.removeItem('mifosXZitadelTokenDetails');
     localStorage.removeItem('id_token');
     localStorage.removeItem('code_verifier');
     localStorage.removeItem('mifosXZitadel');
@@ -68,7 +69,7 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    const rawToken = sessionStorage.getItem('mifosXOAuthTokenDetails');
+    const rawToken = sessionStorage.getItem('mifosXZitadelTokenDetails');
 
     if (rawToken) {
       const parsedToken: OAuth2Token = JSON.parse(rawToken);
@@ -138,7 +139,8 @@ export class AuthService {
           localStorage.setItem('mifosXZitadel', 'true');
 
           //this.scheduleRefresh(tokens.expires_in);
-          this.authenticationService.saveZitadeloAuthTokenDetailsStorageKey(token);
+          //this.authenticationService.saveZitadeloAuthTokenDetailsStorageKey(token);
+          sessionStorage.setItem('mifosXZitadelTokenDetails', JSON.stringify(token));
           this.userdetails();
         }
       )
@@ -171,10 +173,18 @@ export class AuthService {
       .then((userInfo) => {
         const credentials: Credentials = {
           authenticated: true,
+          base64EncodedAuthenticationKey: 'bWlmb3M6cGFzc3dvcmQ',
           officeId: 0,
           officeName: 'Home local',
-          permissions: [],
-          roles: undefined,
+          permissions: ['ALL_FUNCTIONS'],
+          roles: [
+            {
+              id: 1,
+              name: 'Super user',
+              description: 'This role provides all application permissions.',
+              disabled: false
+            }
+          ],
           userId: 0,
           username: userInfo.name,
           shouldRenewPassword: true
@@ -213,7 +223,7 @@ export class AuthService {
   }
 
   dtoToken() {
-    const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXOAuthTokenDetails'));
+    const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
     fetch('http://localhost:18090/api/DTO-token', {
       method: 'POST',
       headers: {
@@ -234,14 +244,15 @@ export class AuthService {
     });
   }
 
+  /*
   refreshToken(): Promise<void> {
     return new Promise((resolve, reject) => {
       const rt = localStorage.getItem('refresh_token');
 
       if (!rt) {
         console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        this.logout();
-        return reject('Sin refresh_token');
+        //this.logout();
+        //return reject('Sin refresh_token');
       }
 
       const payload = new URLSearchParams();
@@ -292,73 +303,13 @@ export class AuthService {
 
           // Esperar 2 segundos antes de hacer logout para que se vea en consola
           setTimeout(() => {
-            this.logout();
+            //this.logout();
           }, 300000);
 
           reject(err);
         });
     });
   }
-
-  /*
-  refreshToken(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const rt = localStorage.getItem('refresh_token');
-      if (!rt) {
-        console.warn('No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        this.logout();
-        return reject('Sin refresh_token');
-      }
-      const payload = new URLSearchParams();
-      payload.set('grant_type', 'refresh_token');
-      payload.set('refresh_token', rt);
-      payload.set('client_id', this.clientId);
-
-      console.log('[AuthService] → Iniciando refreshToken()');
-
-      fetch(this.tokenUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: payload.toString()
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`Error al refrescar token: ${res.status} ${res.statusText}`);
-          }
-          return res.json();
-        })
-        .then(
-          (tokens: {
-            access_token: string;
-            id_token: string;
-            refresh_token: string;
-            expires_in: number;
-            refresh_expires_in: number;
-          }) => {
-            console.log('[AuthService] ← Nuevos tokens recibidos en refresh:', tokens);
-            console.log('Nuevo set de tokens obtenido por refresh:', tokens);
-
-            localStorage.setItem('access_token', tokens.access_token);
-            localStorage.setItem('id_token', tokens.id_token);
-            localStorage.setItem('refresh_token', tokens.refresh_token);
-            localStorage.setItem('expires_in', tokens.expires_in.toString());
-            localStorage.setItem('refresh_expires_in', tokens.refresh_expires_in.toString());
-
-            this.scheduleRefresh(tokens.expires_in);
-
-            resolve();
-          }
-        )
-        .catch((err) => {
-          console.error('refreshToken falló, forzando logout:', err);
-          this.logout();
-          reject(err);
-        });
-    });
-  }
-*/
 
   private scheduleRefresh(expiresIn: number) {
     //console.log('Programando refresh en', expiresIn, 'segundos');
@@ -423,6 +374,7 @@ export class AuthService {
       console.log(`[AuthService] La sesión está ${stillValid ? 'activa' : 'expirada'}.`);
     }, 20000); // cada 20 segundos
   }
+*/
 
   public notification() {
     try {
@@ -438,7 +390,7 @@ export class AuthService {
         //console.log(res);
         if (res.status === 401 || res.status === 403) {
           console.warn('Token expirado o inválido');
-          this.logout();
+          //this.logout();
         }
         /*
           else {
@@ -449,8 +401,6 @@ export class AuthService {
       console.log('❌ Error en la solicitud:', error);
     }
   }
-
-  // crear
 
   // Delete
   public deletUser(userId: string) {
@@ -475,8 +425,6 @@ export class AuthService {
         //console.error('Error eliminando usuario:', error);
       });
   }
-
-  // update
 
   // Activar
   public activeUser(userId: string) {
@@ -540,5 +488,64 @@ export class AuthService {
         }
       })
       .catch((error) => console.error(`Error al obtener los usuarios: ${error}`));
+  }
+
+  /*** CRUD to Role */
+
+  public getRole() {
+    return false;
+  }
+
+  public createRole(roleKey: string, displayName: string, group: string) {
+    fetch(`${this.api}roles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ roleKey, displayName, group })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Registro exitoso
+      })
+      .catch((error) => {
+        alert(error.msg);
+        console.error('Error creando Rol:', error);
+      });
+  }
+
+  public updateRole(roleKey: string, displayName: string, group: string) {
+    fetch(`${this.api}roles/${roleKey}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ displayName, group })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Registro exitoso
+      })
+      .catch((error) => {
+        alert(error.msg);
+        console.error('Error Actualizando Rol:', error);
+      });
+  }
+
+  public deleteRole(roleKey: string) {
+    fetch(`${this.api}roles/${roleKey}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Rol Eliminado correctamente
+      })
+      .catch((error) => {
+        alert(error.msg);
+        console.error(error.msg);
+      });
   }
 }

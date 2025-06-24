@@ -12,6 +12,8 @@ import { DeleteDialogComponent } from '../../../shared/delete-dialog/delete-dial
 import { DisableDialogComponent } from '../../../shared/disable-dialog/disable-dialog.component';
 import { EnableDialogComponent } from '../../../shared/enable-dialog/enable-dialog.component';
 
+/** Zitadel AuthService  */
+import { AuthService } from 'app/zitadel/auth.service';
 /**
  * View Role and Permissions Component
  */
@@ -67,7 +69,8 @@ export class ViewRoleComponent implements OnInit {
     private router: Router,
     private formBuilder: UntypedFormBuilder,
     private translateService: TranslateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthService
   ) {
     this.route.data.subscribe((data: { roledetails: any }) => {
       this.rolePermissionService = data.roledetails;
@@ -266,6 +269,7 @@ export class ViewRoleComponent implements OnInit {
     deleteRoleDialogRef.afterClosed().subscribe((response: any) => {
       if (response.delete) {
         this.systemService.deleteRole(this.roleId).subscribe(() => {
+          this.authService.deleteRole(this.roleId);
           this.router.navigate(['/system/roles-and-permissions']);
         });
       } else {
