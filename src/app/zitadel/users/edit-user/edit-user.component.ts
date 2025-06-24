@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-
+import { ConfigurationWizardService } from 'app/configuration-wizard/configuration-wizard.service';
 /** Custom Services */
 import { UsersServiceZitadel } from '../usersZitadel.service';
 
@@ -31,18 +31,20 @@ export class EditUserComponent implements OnInit {
    * @param {FormBuilder} formBuilder Form Builder.
    * @param {UsersServiceZitadel} UsersServiceZitadel Users Service.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
    * @param {Router} router Router for navigation.
    */
   constructor(
     private formBuilder: UntypedFormBuilder,
     private UsersServiceZitadel: UsersServiceZitadel,
+    private usersService: UsersServiceZitadel,
+    private configurationWizardService: ConfigurationWizardService,
     private route: ActivatedRoute,
     private router: Router
   ) {
     this.route.data.subscribe((data: { user: any; usersTemplate: any }) => {
       const fullUserData = data.user;
 
-      // ✅ Aquí accedes correctamente al usuario dentro del array
       this.userData = fullUserData.object?.result?.[0];
 
       this.officesData = data.usersTemplate.allowedOffices;
@@ -53,6 +55,14 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  countryCodes = [
+    { code: '+1', name: 'USA' },
+    { code: '+52', name: 'México' },
+    { code: '+54', name: 'Argentina' },
+    { code: '+57', name: 'Colombia' },
+    { code: '+34', name: 'España' },
+  ];
+  
   ngOnInit() {
     this.createEditUserForm();
     //this.officeChanged(this.userData.officeId);
@@ -65,8 +75,19 @@ export class EditUserComponent implements OnInit {
     const profile = this.userData?.human?.profile || {};
     const email = this.userData?.human?.email?.email || '';
     const phone = this.userData?.human?.phone?.phone || '';
+    const defaultCode = '+52';
+    let countryCode = defaultCode;
+    let phoneNumber = phone;
     const gender = profile.gender || 'GENDER_MALE';
     const preferredLanguage = profile.preferredLanguage || 'es';
+
+    for (const c of this.countryCodes) {
+      if (phone.startsWith(c.code)) {
+        countryCode = c.code;
+        phoneNumber = phone.replace(c.code, '');
+        break;
+      }
+    }
 
     this.editUserForm = this.formBuilder.group({
       username: [
@@ -92,9 +113,11 @@ export class EditUserComponent implements OnInit {
           Validators.required,
           Validators.pattern('(^[A-z]).*')]
       ],
-      phone: [
-        phone,
-        Validators.required
+      countryCode: [
+        countryCode, Validators.required
+      ],
+      phoneNumber: [
+        phoneNumber, Validators.required
       ],
       gender: [
         gender,
@@ -130,71 +153,62 @@ export class EditUserComponent implements OnInit {
     });   */
   }
 
+
   /**
    * Submits the user form and edits the user,
    * if successful redirects to the updated user.
-   */
-  /*
-  submit() {
-    const editedUser = this.editUserForm.value;
-    this.UsersServiceZitadel.editUser(this.userData.id, editedUser).subscribe((response: any) => {
-      this.router.navigate(
-        [
-          '../../',
-          response.resourceId
-        ],
-        { relativeTo: this.route }
-      );
-    });
-  }*/
+   */    
+    submit() {
+      const form = this.editUserForm.value;
+      const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
+      const fullPhone = `${form.countryCode}${form.phoneNumber}`;
 
-  submit() {
-    const form = this.editUserForm.value;
-    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
-    const fullPhone = `${form.countryCode}${form.phoneNumber}`;
-
-    const payload: any = {
-      userId: this.userData.id,
-      token: token,
-      email: {
-        email: form.email,
-        isVerified: true
-      },
-      phone: {
-        phone: fullPhone,
-        isVerified: true
-      },
-      profile: {
-        username: form.username,
-        givenName: form.firstname,
-        familyName: form.lastname,
-        displayName: `${form.firstname} ${form.lastname}`,
-        nickName: form.firstname,
-        preferredLanguage: form.preferredLanguage,
-        gender: form.gender
-      }
-    };
-
-    // ✅ Incluir solo si ambos campos están llenos
-    if (form.currentPassword && form.newPassword) {
-      payload.password = {
-        currentPassword: form.currentPassword,
-        newPassword: {
-          password: form.newPassword,
-          changeRequired: false
+  
+      const payload: any = {
+        userId: this.userData.id,
+        token: token,
+        email: {
+          email: form.email,
+          isVerified: true
+        },
+        phone: {
+          phone: fullPhone,
+          isVerified: true
+        },
+        profile: {
+          username: form.username,
+          givenName: form.firstname,
+          familyName: form.lastname,
+          displayName: `${form.firstname} ${form.lastname}`,
+          nickName: form.firstname,
+          preferredLanguage: form.preferredLanguage,
+          gender: form.gender
         }
       };
-    }
+  
+      if (form.currentPassword && form.newPassword) {
+        payload.password = {
+          currentPassword: form.currentPassword,
+          newPassword: {
+            password: form.newPassword,
+            changeRequired: false
+          }
+        };
+      }
+  
+      this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe((response: any) => {
+        this.router.navigate(
+          [
+            '../../',
+            response.resourceId
+          ],
+          { relativeTo: this.route }
+        );
+      });
 
-    // Envía al backend
-    this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe((response: any) => {
-      this.router.navigate(
-        [
-          '../../',
-          response.resourceId
-        ],
-        { relativeTo: this.route }
-      );
-    });
-  }
+      
+    }
+ 
+    
+  
 }

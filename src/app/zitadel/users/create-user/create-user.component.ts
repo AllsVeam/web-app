@@ -38,7 +38,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     { code: '+1', name: 'Estados Unidos' },
     { code: '+34', name: 'España' },
     { code: '+57', name: 'Colombia' },
-    { code: '+54', name: 'Argentina' },
+    { code: '+54', name: 'Argentina' }
   ];
 
   /* Reference of create user form */
@@ -115,8 +115,16 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
             Validators.email
           ]
         ],
-        countryCode: ['+1', Validators.required],  
-        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
+        countryCode: [
+          '+1',
+          Validators.required
+        ],
+        phoneNumber: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^[0-9]{7,15}$/)]
+        ],
         passwordNeverExpires: [false],
         sendPasswordToEmail: [true],
         password: [
@@ -182,27 +190,27 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    */
   submit() {
     const fullForm = this.userForm.value;
-  
+
     // Concatenar el teléfono con el código del país
     const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
-  
+
     // Construir el payload con el formato esperado
     const user = {
       ...fullForm,
       phone: fullPhone
     };
-  
+
     // Limpiar campos innecesarios
     delete user.officeId;
     delete user.staffId;
     delete user.roles;
     delete user.countryCode;
     delete user.phoneNumber;
-  
+
     this.usersService.createUser(user).subscribe((response: any) => {
       const userId = response.object?.userId;
       const selectedRoleIds = this.userForm.get('roles')?.value;
-  
+
       if (userId && selectedRoleIds?.length > 0) {
         this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
           () => {
@@ -210,7 +218,13 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
               this.configurationWizardService.showUsersForm = false;
               this.openDialog();
             } else {
-              this.router.navigate(['../', userId], { relativeTo: this.route });
+              this.router.navigate(
+                [
+                  '../',
+                  userId
+                ],
+                { relativeTo: this.route }
+              );
             }
           },
           (error) => {
@@ -222,8 +236,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
-  
 
   /**
    * Popover function

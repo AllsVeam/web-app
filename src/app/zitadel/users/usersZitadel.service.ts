@@ -29,15 +29,14 @@ export class UsersServiceZitadel {
     return this.http.post('http://localhost:18090/user/crear', user);
   }
 
-
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
     const payload = {
       userId: userId,
-      roleKeys: roleKeys.map(String) 
+      roleKeys: roleKeys.map(String)
     };
     return this.http.post('http://localhost:18090/user/assign-roles', payload);
   }
-  
+
   /**
    * @returns {Observable<any>} Users template data
    */
