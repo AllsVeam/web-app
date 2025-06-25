@@ -127,18 +127,11 @@ export class EditUserComponent implements OnInit {
         preferredLanguage,
         Validators.required
       ],
-      passwordNeverExpires: [false], // o como lo manejes tú
-      officeId: [
-        this.userData.officeId || '',
-        Validators.required
-      ],
       staffId: [null],
       roles: [
         this.userData.selectedRoles?.map((role: any) => role.id) || [],
         Validators.required
-      ],
-      currentPassword: [''],
-      newPassword: ['']
+      ]
     });
   }
 
@@ -185,26 +178,19 @@ export class EditUserComponent implements OnInit {
           gender: form.gender
         }
       };
+
   
-      if (form.currentPassword && form.newPassword) {
-        payload.password = {
-          currentPassword: form.currentPassword,
-          newPassword: {
-            password: form.newPassword,
-            changeRequired: false
-          }
-        };
-      }
-  
-      this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe((response: any) => {
-        this.router.navigate(
-          [
-            '../../',
-            response.resourceId
-          ],
-          { relativeTo: this.route }
-        );
-      });
+      this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe({
+  next: (response: any) => {
+    console.log('Usuario editado:', response);
+    this.router.navigate(['/appusers']);
+  },
+  error: (err) => {
+    this.router.navigate(['/appusers']);
+  }
+});
+
+      
 
       
     }
