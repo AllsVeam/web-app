@@ -169,17 +169,12 @@ export class WebAppComponent implements OnInit {
     const code = params.get('code');
 
     if (code) {
-      this.router.navigate(['/callback'], { queryParams: { code } });
-
-      /*
+      //this.router.navigate(['/callback'], { queryParams: { code } });
       const codeVerifier = localStorage.getItem('code_verifier');
-      this.authService.exchangeCodeForTokens(code, codeVerifier);*/
-      return false;
+      this.authService.exchangeCodeForTokens(code, codeVerifier);
     }
 
-    console.log('Se escapa algo ????');
-
-    this.checkLogin();
+    //this.checkLogin();
 
     this.themingService.theme.subscribe((value: string) => {
       this.cssClass = value;

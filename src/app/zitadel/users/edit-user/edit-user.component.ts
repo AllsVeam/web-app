@@ -60,9 +60,9 @@ export class EditUserComponent implements OnInit {
     { code: '+52', name: 'México' },
     { code: '+54', name: 'Argentina' },
     { code: '+57', name: 'Colombia' },
-    { code: '+34', name: 'España' },
+    { code: '+34', name: 'España' }
   ];
-  
+
   ngOnInit() {
     this.createEditUserForm();
     //this.officeChanged(this.userData.officeId);
@@ -114,10 +114,12 @@ export class EditUserComponent implements OnInit {
           Validators.pattern('(^[A-z]).*')]
       ],
       countryCode: [
-        countryCode, Validators.required
+        countryCode,
+        Validators.required
       ],
       phoneNumber: [
-        phoneNumber, Validators.required
+        phoneNumber,
+        Validators.required
       ],
       gender: [
         gender,
@@ -146,55 +148,45 @@ export class EditUserComponent implements OnInit {
     });   */
   }
 
-
   /**
    * Submits the user form and edits the user,
    * if successful redirects to the updated user.
-   */    
-    submit() {
-      const form = this.editUserForm.value;
-      const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
-      const fullPhone = `${form.countryCode}${form.phoneNumber}`;
+   */
+  submit() {
+    const form = this.editUserForm.value;
+    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
+    const fullPhone = `${form.countryCode}${form.phoneNumber}`;
 
-  
-      const payload: any = {
-        userId: this.userData.id,
-        token: token,
-        email: {
-          email: form.email,
-          isVerified: true
-        },
-        phone: {
-          phone: fullPhone,
-          isVerified: true
-        },
-        profile: {
-          username: form.username,
-          givenName: form.firstname,
-          familyName: form.lastname,
-          displayName: `${form.firstname} ${form.lastname}`,
-          nickName: form.firstname,
-          preferredLanguage: form.preferredLanguage,
-          gender: form.gender
-        }
-      };
+    const payload: any = {
+      userId: this.userData.id,
+      token: token,
+      email: {
+        email: form.email,
+        isVerified: true
+      },
+      phone: {
+        phone: fullPhone,
+        isVerified: true
+      },
+      profile: {
+        username: form.username,
+        givenName: form.firstname,
+        familyName: form.lastname,
+        displayName: `${form.firstname} ${form.lastname}`,
+        nickName: form.firstname,
+        preferredLanguage: form.preferredLanguage,
+        gender: form.gender
+      }
+    };
 
-  
-      this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe({
-  next: (response: any) => {
-    console.log('Usuario editado:', response);
-    this.router.navigate(['/appusers']);
-  },
-  error: (err) => {
-    this.router.navigate(['/appusers']);
+    this.UsersServiceZitadel.editUser(this.userData.id, payload).subscribe({
+      next: (response: any) => {
+        console.log('Usuario editado:', response);
+        this.router.navigate(['/appusers']);
+      },
+      error: (err) => {
+        this.router.navigate(['/appusers']);
+      }
+    });
   }
-});
-
-      
-
-      
-    }
- 
-    
-  
 }

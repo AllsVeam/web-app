@@ -4,7 +4,6 @@
     <form [formGroup]="userForm" (ngSubmit)="submit()">
       <mat-card-content>
         <div class="layout-row-wrap layout-lt-md-column gap-2percent">
-    
           <!-- Username -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Username' | translate }}</mat-label>
@@ -14,7 +13,7 @@
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-    
+
           <!-- Email -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Email' | translate }}</mat-label>
@@ -28,19 +27,19 @@
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-    
+
           <!-- First Name -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.First Name' | translate }}</mat-label>
             <input matInput formControlName="firstName" required />
           </mat-form-field>
-    
+
           <!-- Last Name -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Last Name' | translate }}</mat-label>
             <input matInput formControlName="lastName" required />
           </mat-form-field>
-    
+
           <!-- Preferred Language -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Preferred Language' | translate }}</mat-label>
@@ -57,7 +56,7 @@
               <mat-option value="ko">한국어</mat-option>
             </mat-select>
           </mat-form-field>
-    
+
           <!-- Gender -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
@@ -67,7 +66,7 @@
               <mat-option value="GENDER_OTHER">{{ 'labels.inputs.Other' | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
-    
+
           <!-- Country code and phone -->
           <div class="flex items-center gap-2">
             <mat-form-field class="flex-48">
@@ -78,13 +77,13 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-    
+
             <mat-form-field class="flex-45">
               <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
               <input matInput formControlName="phoneNumber" required maxlength="15" />
             </mat-form-field>
           </div>
-    
+
           <!-- Password -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Password' | translate }}</mat-label>
@@ -101,19 +100,22 @@
               {{ 'labels.commons.Password should not be more than' | translate }}
               <strong>{{ 'labels.commons.50 characters long' | translate }}</strong>
             </mat-error>
-            <mat-error *ngIf="
-              userForm.get('password')?.hasError('pattern') &&
-              !userForm.get('password')?.hasError('minlength') &&
-              !userForm.get('password')?.hasError('maxlength')
-            ">
+            <mat-error
+              *ngIf="
+                userForm.get('password')?.hasError('pattern') &&
+                !userForm.get('password')?.hasError('minlength') &&
+                !userForm.get('password')?.hasError('maxlength')
+              "
+            >
               {{ 'labels.commons.Password should include a' | translate }}
               <strong>{{ 'labels.commons.numeral' | translate }}</strong>
               {{ 'labels.commons.and at' | translate }}
-              <strong>{{ 'labels.commons.least one uppercase' | translate }}</strong>,
+              <strong>{{ 'labels.commons.least one uppercase' | translate }}</strong
+              >,
               <strong>{{ 'labels.commons.lowercase and special character' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-    
+
           <!-- Repeat password -->
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Repeat Password' | translate }}</mat-label>
@@ -123,17 +125,20 @@
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-    
+
           <!-- Passwords do not match -->
-          <p class="flex-98 reset-password-error" *ngIf="
-            userForm.errors?.passwordsDoNotMatch &&
-            !userForm.get('password')?.hasError('required') &&
-            !userForm.get('repeatPassword')?.hasError('required')
-          ">
+          <p
+            class="flex-98 reset-password-error"
+            *ngIf="
+              userForm.errors?.passwordsDoNotMatch &&
+              !userForm.get('password')?.hasError('required') &&
+              !userForm.get('repeatPassword')?.hasError('required')
+            "
+          >
             {{ 'labels.inputs.Passwords' | translate }}
             <strong>{{ 'labels.commons.do not match' | translate }}</strong>
           </p>
-    
+
           <!-- Roles -->
           <mat-form-field class="flex-20">
             <mat-label>{{ 'labels.inputs.Roles' | translate }}</mat-label>
@@ -147,10 +152,9 @@
               <strong>{{ 'labels.commons.must be selected' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-    
         </div>
       </mat-card-content>
-    
+
       <mat-card-actions class="layout-row align-center gap-5px responsive-column">
         <button type="button" mat-raised-button [routerLink]="['../']">
           {{ 'labels.buttons.Cancel' | translate }}
@@ -160,7 +164,6 @@
         </button>
       </mat-card-actions>
     </form>
-    
   </mat-card>
 </div>
 
@@ -170,7 +173,7 @@
     {{ 'labels.text.Filling Details' | translate }}:
     <a href="https://mifosforge.jira.com/wiki/spaces/docs/pages/67141740/Users" target="_blank">{{
       'labels.inputs.Users' | translate
-      }}</a>
+    }}</a>
   </p>
   <div class="layout-row align-end gap-2px responsive-column">
     <button mat-raised-button color="warn" (click)="popover.close(); configurationWizardService.closeConfigWizard()">

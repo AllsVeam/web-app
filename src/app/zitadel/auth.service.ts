@@ -171,46 +171,8 @@ export class AuthService {
         return res.json();
       })
       .then((userInfo) => {
-        const credentials: Credentials = {
-          authenticated: true,
-          base64EncodedAuthenticationKey: 'bWlmb3M6cGFzc3dvcmQ',
-          officeId: 0,
-          officeName: 'Home local',
-          permissions: ['ALL_FUNCTIONS'],
-          roles: [
-            {
-              id: 1,
-              name: 'Super user',
-              description: 'This role provides all application permissions.',
-              disabled: false
-            }
-          ],
-          userId: 0,
-          username: userInfo.name,
-          shouldRenewPassword: true
-        };
-
-        /*
-
-        const Credentials = {
-          accessToken?: userInfo.string,
-          authenticated: userInfo.boolean,
-          base64EncodedAuthenticationKey?: string,
-          isTwoFactorAuthenticationRequired?: boolean,
-          officeId: userInfo.number,
-          officeName: userInfo.string,
-          staffId?: userInfo.number,
-          staffDisplayName?: userInfo.string,
-          organizationalRole?: userInfo.any,
-          permissions: userInfo.string[],
-          roles: userInfo.any,
-          userId: userInfo.number,
-          username: userInfo.string,
-          shouldRenewPassword: userInfo.boolean,
-          rememberMe?: userInfo.boolean,
-        }
-          */
-
+        const user = userInfo.object;
+        const credentials: Credentials = user;
         this.authenticationService.saveZitadelCredentials(credentials);
 
         console.log('Llamada DTOToken');
@@ -243,138 +205,6 @@ export class AuthService {
       console.log(response);
     });
   }
-
-  /*
-  refreshToken(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const rt = localStorage.getItem('refresh_token');
-
-      if (!rt) {
-        console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        //this.logout();
-        //return reject('Sin refresh_token');
-      }
-
-      const payload = new URLSearchParams();
-      payload.set('grant_type', 'refresh_token');
-      payload.set('refresh_token', rt);
-      payload.set('client_id', this.clientId);
-
-      console.log('[AuthService] 🔄 Iniciando refreshToken()');
-
-      fetch(this.tokenUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: payload.toString()
-      })
-        .then((res) => {
-          if (!res.ok) {
-            console.error(`[AuthService] ❌ Error HTTP en refresh: ${res.status} ${res.statusText}`);
-            return res.text().then((text) => {
-              console.error('[AuthService] ❌ Cuerpo de error:', text);
-              throw new Error(text);
-            });
-          }
-          return res.json();
-        })
-        .then((tokens) => {
-          console.log('[AuthService] ✅ Respuesta del token refresh:', tokens);
-
-          if (!tokens || !tokens.access_token || !tokens.expires_in) {
-            throw new Error('La respuesta del servidor no tiene los campos esperados.');
-          }
-
-          localStorage.setItem('access_token', tokens.access_token);
-          localStorage.setItem('id_token', tokens.id_token ?? '');
-          localStorage.setItem('refresh_token', tokens.refresh_token ?? '');
-          localStorage.setItem('expires_in', tokens.expires_in.toString());
-          localStorage.setItem('refresh_expires_in', tokens.refresh_expires_in?.toString() ?? '');
-          localStorage.setItem('token_start_time', Date.now().toString());
-
-          this.scheduleRefresh(tokens.expires_in);
-          resolve();
-        })
-        .catch((err) => {
-          console.warn('[AuthService] ❌ refreshToken falló, forzando logout en 2 segundos');
-          console.warn('→ Error:', err);
-          console.warn('→ refresh_token usado:', rt);
-
-          // Esperar 2 segundos antes de hacer logout para que se vea en consola
-          setTimeout(() => {
-            //this.logout();
-          }, 300000);
-
-          reject(err);
-        });
-    });
-  }
-
-  private scheduleRefresh(expiresIn: number) {
-    //console.log('Programando refresh en', expiresIn, 'segundos');
-
-    //const refreshInMs = (expiresIn - 60) * 1000;
-    const refreshInMs = (expiresIn - 43100) * 1000;
-    console.log('Programando refresh en', expiresIn - 43139, 'segundos');
-
-    if (refreshInMs <= 0) {
-      console.log('expiresIn muy pequeño o negativo, refrescando de inmediato');
-      this.refreshToken();
-      return;
-    }
-
-    if (this.refreshTimeoutId) {
-      clearTimeout(this.refreshTimeoutId);
-    }
-
-    this.refreshTimeoutId = setTimeout(() => {
-      this.refreshToken();
-    }, refreshInMs);
-  }
-
-  private decodeJwtPayload(token: string): { [key: string]: any } | null {
-    try {
-      const parts = token.split('.');
-      if (parts.length !== 3) return null;
-      const payloadBase64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = atob(payloadBase64);
-      return JSON.parse(jsonPayload);
-    } catch {
-      return null;
-    }
-  }
-
-  public isAccessTokenExpired(): boolean {
-    const token = localStorage.getItem('access_token');
-    if (!token) return true;
-
-    const payload = this.decodeJwtPayload(token);
-    if (!payload || typeof payload.exp !== 'number') return true;
-
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    return payload.exp <= nowInSeconds;
-  }
-
-  public isSessionValid(): boolean {
-    const start = Number(localStorage.getItem('token_start_time'));
-    const expiresIn = Number(localStorage.getItem('expires_in')) * 1000;
-
-    if (!start || !expiresIn) {
-      return false;
-    }
-
-    const now = Date.now();
-    return now < start + expiresIn;
-  }
-
-  public startSessionValidator(): void {
-    setInterval(() => {
-      const stillValid = this.isSessionValid();
-      console.log(`[AuthService] La sesión está ${stillValid ? 'activa' : 'expirada'}.`);
-    }, 20000); // cada 20 segundos
-  }
-*/
 
   public notification() {
     try {
@@ -491,11 +321,6 @@ export class AuthService {
   }
 
   /*** CRUD to Role */
-
-  public getRole() {
-    return false;
-  }
-
   public createRole(roleKey: string, displayName: string, group: string) {
     fetch(`${this.api}roles`, {
       method: 'POST',

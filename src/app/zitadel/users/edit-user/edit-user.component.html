@@ -1,10 +1,8 @@
 <div class="container">
   <mat-card>
     <form [formGroup]="editUserForm" (ngSubmit)="submit()">
-
       <mat-card-content>
         <div class="layout-row-wrap gap-2px responsive-column">
-
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Username' | translate }}</mat-label>
             <input matInput required formControlName="username" />
@@ -54,18 +52,18 @@
           </mat-form-field>
 
           <mat-form-field class="flex-20">
-              <mat-label>Código</mat-label>
-              <mat-select formControlName="countryCode" required>
-                <mat-option *ngFor="let country of countryCodes" [value]="country.code">
-                  {{ country.name }} ({{ country.code }})
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <mat-label>Código</mat-label>
+            <mat-select formControlName="countryCode" required>
+              <mat-option *ngFor="let country of countryCodes" [value]="country.code">
+                {{ country.name }} ({{ country.code }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-            <mat-form-field class="flex-75">
-              <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
-              <input matInput formControlName="phoneNumber" required maxlength="15" />
-            </mat-form-field>
+          <mat-form-field class="flex-75">
+            <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
+            <input matInput formControlName="phoneNumber" required maxlength="15" />
+          </mat-form-field>
 
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
@@ -115,7 +113,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-    
+
           <mat-card-actions class="layout-row align-center gap-5px responsive-column">
             <button type="button" mat-raised-button [routerLink]="['../']">
               {{ 'labels.buttons.Cancel' | translate }}
@@ -129,9 +127,8 @@
               {{ 'labels.buttons.Submit' | translate }}
             </button>
           </mat-card-actions>
-
         </div>
       </mat-card-content>
-      </form>
-      </mat-card>
-    </div>
+    </form>
+  </mat-card>
+</div>
