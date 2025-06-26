@@ -35,7 +35,7 @@ import { ProfileModule } from './profile/profile.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ConfigurationWizardModule } from './configuration-wizard/configuration-wizard.module';
 import { PortalModule } from '@angular/cdk/portal';
-
+import { SharedModule } from 'app/zitadel/shared/shared.module';
 /** Main Routing Module */
 import { AppRoutingModule } from './app-routing.module';
 import { DatePipe, LocationStrategy } from '@angular/common';
@@ -70,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   imports: [
+    SharedModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

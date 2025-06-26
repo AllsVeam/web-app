@@ -12,7 +12,8 @@ import { AuthService } from 'app/zitadel/auth.service';
 
 /** Custom Components */
 import { DeleteDialogComponent } from 'app/shared/delete-dialog/delete-dialog.component';
-import { ChangePasswordDialogComponent } from 'app/shared/change-password-dialog/change-password-dialog.component';
+import { ChangePasswordDialogComponent } from 'app/zitadel/shared/change-password-dialog/change-password-dialog.component';
+import { strings } from '@angular-devkit/schematics';
 
 /**
  * View user component.
@@ -82,9 +83,10 @@ export class ViewUserZitadelComponent {
   /**
    * Change Password of the Users.
    */
-  changeUserPassword() {
+  changeUserPassword(userId: string) {
     const changeUserPasswordDialogRef = this.dialog.open(ChangePasswordDialogComponent, {
-      width: '440px'
+      width: '440px',
+      data:{id: userId}
     });
     changeUserPasswordDialogRef.afterClosed().subscribe((response: any) => {
       if (response.password && response.repeatPassword) {
