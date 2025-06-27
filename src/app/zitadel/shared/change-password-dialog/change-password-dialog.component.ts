@@ -83,7 +83,7 @@ export class ChangePasswordDialogComponent implements OnInit {
       userId: this.data.id,
       token: token,
       currentPassword: this.changePasswordForm.value.currentPassword,
-      password: {
+      newPassword: {
         password: this.changePasswordForm.value.password,
         changeRequired: false
       }
@@ -98,6 +98,7 @@ export class ChangePasswordDialogComponent implements OnInit {
       },
       error: (err) => {
         console.log(err)
+        alert(err+"No es posible actualizar contraseña")
       }
     });
   }
