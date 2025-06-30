@@ -14,6 +14,8 @@ import { PasswordsUtility } from 'app/core/utils/passwords-utility';
 import { confirmPasswordValidator } from 'app/login/reset-password/confirm-password.validator';
 import { ConfigurationWizardService } from 'app/configuration-wizard/configuration-wizard.service';
 import { ContinueSetupDialogComponent } from 'app/configuration-wizard/continue-setup-dialog/continue-setup-dialog.component';
+import { UsersService } from 'app/users/users.service';
+import { constant } from 'lodash';
 
 /**
  * Create user component.
@@ -168,6 +170,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private usersService: UsersServiceZitadel,
+    private usersService2: UsersService,
     private route: ActivatedRoute,
     private router: Router,
     private popoverService: PopoverService,
@@ -177,6 +180,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   ) {
     this.route.data.subscribe((data: { usersTemplate: any }) => {
       this.officesData = data.usersTemplate.allowedOffices;
+
       this.rolesData = data.usersTemplate.availableRoles;
     });
   }
@@ -249,8 +253,11 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
           '',
           Validators.required
         ],
-        officeId: [''],
-        staffId: ['']
+        officeId: [
+          '',
+          Validators.required
+        ],
+        staffId: [''],
       },
       { validators: confirmPasswordValidator }
     );
@@ -281,10 +288,9 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   setStaffData() {
     this.userForm.get('officeId').valueChanges.subscribe((officeId: string) => {
       this.staffData = [];
-      /*
-      this.usersService.getStaff(officeId).subscribe((staff: any) => {
+      this.usersService2.getStaff(officeId).subscribe((staff: any) => {
         this.staffData = staff;
-      });*/
+      });
     });
   }
 
@@ -318,57 +324,90 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    * if successful redirects to view created user.
    */
   submit() {
-    const fullForm = this.userForm.value;
+  const fullForm = this.userForm.value;
 
-    const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
-    const password = `${fullForm.repeatPassword}`;
-    const givenName = `${fullForm.firstName}`;
-    const familyName = `${fullForm.lastName}`;
-    const nickName = `${fullForm.username}`;
+  const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
+  const password = `${fullForm.repeatPassword}`;
+  const givenName = `${fullForm.firstName}`;
+  const familyName = `${fullForm.lastName}`;
+  const nickName = `${fullForm.username}`;
 
-    const user = {
-      ...fullForm,
-      phone: fullPhone,
-      password: password,
-      givenName: givenName,
-      familyName: familyName,
-      nickName: nickName,
-      displayName: `${fullForm.firstName} ${fullForm.lastName}`
-    };
+  const user = {
+    ...fullForm,
+    phone: fullPhone,
+    password: password,
+    givenName: givenName,
+    familyName: familyName,
+    nickName: nickName,
+    displayName: `${fullForm.firstName} ${fullForm.lastName}`
+  };
 
-    delete user.officeId;
-    delete user.staffId;
-    delete user.roles;
-    delete user.countryCode;
-    delete user.phoneNumber;
-    delete user.repeatPassword;
-    delete user.firstName;
-    delete user.lastName;
+  const dataOffi = {
+    officeId: fullForm.officeId,
+    staffId: fullForm.staffId
+  };
 
-    console.log('User data to create:', user);
-    this.usersService.createUser(user).subscribe((response: any) => {
-      const userId = response.object?.userId;
-      const selectedRoleIds = this.userForm.get('roles')?.value;
+  const selectedRoleIds = this.userForm.get('roles')?.value;
 
-      if (userId && selectedRoleIds?.length > 0) {
-        this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
-          () => {
-            if (this.configurationWizardService.showUsersForm === true) {
-              this.configurationWizardService.showUsersForm = false;
-              this.openDialog();
-            } else {
-              this.router.navigate(['/appusers']);
-            }
-          },
-          (error) => {
-            console.error('Error al asignar roles:', error);
+  delete user.officeId;
+  delete user.staffId;
+  delete user.roles;
+  delete user.countryCode;
+  delete user.phoneNumber;
+  delete user.repeatPassword;
+  delete user.firstName;
+  delete user.lastName;
+
+  console.log('User data to create:', user);
+
+  this.usersService.createUser(user).subscribe((response: any) => {
+    const userId = response.object?.userId;
+
+    if (userId) {
+      const bodyBD = {
+        id: userId,
+        officeId: dataOffi.officeId,
+        staffId: dataOffi.staffId,
+        username: user.nickName,
+        firstname: user.givenName,
+        lastname: user.familyName,
+        roleIds: selectedRoleIds || []
+      };
+
+      console.log('Sending to CrearBD:', bodyBD);
+
+      this.usersService.createUserBd(bodyBD).subscribe(
+        (resBD: any) => {
+          console.log('Usuario creado en BD:', resBD);
+
+          if (selectedRoleIds?.length > 0) {
+            this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
+              () => {
+                if (this.configurationWizardService.showUsersForm === true) {
+                  this.configurationWizardService.showUsersForm = false;
+                  this.openDialog();
+                } else {
+                  this.router.navigate(['/appusers']);
+                }
+              },
+              (error) => {
+                console.error('Error al asignar roles:', error);
+              }
+            );
+          } else {
+            console.warn('No se encontraron roles seleccionados.');
           }
-        );
-      } else {
-        console.warn('No se encontraron roles seleccionados o userId inválido.');
-      }
-    });
-  }
+        },
+        (error) => {
+          console.error('Error al crear en BD (CrearBD):', error);
+        }
+      );
+    } else {
+      console.error('No se pudo obtener userId');
+    }
+  });
+}
+
 
   /**
    * Popover function

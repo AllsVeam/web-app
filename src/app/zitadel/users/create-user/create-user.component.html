@@ -1,5 +1,4 @@
 <div class="container">
-  <h1>Hola mundo</h1>
   <mat-card>
     <form [formGroup]="userForm" (ngSubmit)="submit()">
       <mat-card-content>
@@ -78,11 +77,33 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field class="flex-45">
+            <mat-form-field class="flex-48">
               <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
-              <input matInput formControlName="phoneNumber" required maxlength="15" />
+              <input matInput formControlName="phoneNumber" required maxlength="12" minlength="4" />
             </mat-form-field>
           </div>
+
+          <mat-form-field class="flex-20">
+            <mat-label>{{ 'labels.inputs.Office' | translate }}</mat-label>
+            <mat-select required formControlName="officeId">
+              <mat-option *ngFor="let office of officesData" [value]="office.id">
+                {{ office.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.controls.officeId.hasError('required')">
+              {{ 'labels.inputs.Office' | translate }} {{ 'labels.commons.is' | translate }}
+              <strong>{{ 'labels.commons.required' | translate }}</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-20">
+            <mat-label>{{ 'labels.inputs.Staff' | translate }}</mat-label>
+            <mat-select formControlName="staffId">
+              <mat-option *ngFor="let staff of staffData" [value]="staff.id">
+                {{ staff.displayName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <!-- Password -->
           <mat-form-field class="flex-48">
@@ -154,6 +175,8 @@
           </mat-form-field>
         </div>
       </mat-card-content>
+
+      
 
       <mat-card-actions class="layout-row align-center gap-5px responsive-column">
         <button type="button" mat-raised-button [routerLink]="['../']">

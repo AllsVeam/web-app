@@ -1,6 +1,6 @@
 <div class="container">
   <mat-card>
-    <form [formGroup]="editUserForm" (ngSubmit)="submit()">
+    <form *ngIf="editUserForm" [formGroup]="editUserForm" (ngSubmit)="submit()">
       <mat-card-content>
         <div class="layout-row-wrap gap-2px responsive-column">
           <mat-form-field class="flex-48">
@@ -62,7 +62,7 @@
 
           <mat-form-field class="flex-75">
             <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
-            <input matInput formControlName="phoneNumber" required maxlength="15" />
+            <input matInput formControlName="phoneNumber" required maxlength="12" minlength="4" />
           </mat-form-field>
 
           <mat-form-field class="flex-48">
@@ -81,7 +81,6 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- 
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Office' | translate }}</mat-label>
             <mat-select required formControlName="officeId" (selectionChange)="officeChanged($event.value)">
@@ -89,10 +88,6 @@
                 {{ office.name }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="editUserForm.controls.officeId.hasError('required')">
-              {{ 'labels.inputs.Office' | translate }} {{ 'labels.commons.is' | translate }}
-              <strong>{{ 'labels.commons.required' | translate }}</strong>
-            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="flex-48">
@@ -103,26 +98,22 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-           -->
 
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Roles' | translate }}</mat-label>
-            <mat-select formControlName="roles" multiple required>
-              <mat-option *ngFor="let role of rolesData" [value]="role.id">
-                {{ role.name }}
+            <mat-select formControlName="roles" multiple>
+              <mat-option *ngFor="let rol of rolesData" [value]="rol.id">
+                {{ rol.name }}
               </mat-option>
             </mat-select>
+
+
           </mat-form-field>
 
           <mat-card-actions class="layout-row align-center gap-5px responsive-column">
             <button type="button" mat-raised-button [routerLink]="['../']">
               {{ 'labels.buttons.Cancel' | translate }}
             </button>
-            <!--
-            <button mat-raised-button color="primary" [disabled]="!editUserForm.valid">
-              {{ 'labels.buttons.Submit' | translate }}
-            </button>
-            -->
             <button mat-raised-button color="primary">
               {{ 'labels.buttons.Submit' | translate }}
             </button>

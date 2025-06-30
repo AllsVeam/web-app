@@ -29,12 +29,20 @@ export class UsersServiceZitadel {
     return this.http.post('http://localhost:18090/user/crear', user);
   }
 
+  getDatosExtraUsuario(userId: string): Observable<any> {
+  return this.http.get(`http://localhost:18090/user/dataUserBD/${userId}`);
+}
+
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
     const payload = {
       userId: userId,
       roleKeys: roleKeys.map(String)
     };
     return this.http.post('http://localhost:18090/user/assign-roles', payload);
+  }
+
+  createUserBd(user: any): Observable<any> {
+    return this.http.post('http://localhost:18090/user/CrearBD', user);
   }
 
   /**
@@ -95,9 +103,19 @@ export class UsersServiceZitadel {
     );
   }
 
-  editUser(userId: string, user: any): Observable<any> {
-    console.log('Enviando PUT a:', userId);
-    console.log('Payload:', user);
+  editUser(user: any): Observable<any> {
     return this.http.put(`http://localhost:18090/user/update-user`, user);
+  }
+
+  editRoles(roles: any): Observable<any> {
+    return this.http.put(`http://localhost:18090/user/update-roles`, roles);
+  }
+
+  editOffice(office: any): Observable<any> {
+    return this.http.put(`http://localhost:18090/user/update-office`, office);
+  }
+
+  getRoles(){
+    return this.http.get(`http://localhost:18090/roles`);
   }
 }
