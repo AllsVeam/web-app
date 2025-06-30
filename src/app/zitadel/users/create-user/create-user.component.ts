@@ -257,7 +257,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
           '',
           Validators.required
         ],
-        staffId: [''],
+        staffId: ['']
       },
       { validators: confirmPasswordValidator }
     );
@@ -324,90 +324,89 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    * if successful redirects to view created user.
    */
   submit() {
-  const fullForm = this.userForm.value;
+    const fullForm = this.userForm.value;
 
-  const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
-  const password = `${fullForm.repeatPassword}`;
-  const givenName = `${fullForm.firstName}`;
-  const familyName = `${fullForm.lastName}`;
-  const nickName = `${fullForm.username}`;
+    const fullPhone = `${fullForm.countryCode}${fullForm.phoneNumber}`;
+    const password = `${fullForm.repeatPassword}`;
+    const givenName = `${fullForm.firstName}`;
+    const familyName = `${fullForm.lastName}`;
+    const nickName = `${fullForm.username}`;
 
-  const user = {
-    ...fullForm,
-    phone: fullPhone,
-    password: password,
-    givenName: givenName,
-    familyName: familyName,
-    nickName: nickName,
-    displayName: `${fullForm.firstName} ${fullForm.lastName}`
-  };
+    const user = {
+      ...fullForm,
+      phone: fullPhone,
+      password: password,
+      givenName: givenName,
+      familyName: familyName,
+      nickName: nickName,
+      displayName: `${fullForm.firstName} ${fullForm.lastName}`
+    };
 
-  const dataOffi = {
-    officeId: fullForm.officeId,
-    staffId: fullForm.staffId
-  };
+    const dataOffi = {
+      officeId: fullForm.officeId,
+      staffId: fullForm.staffId
+    };
 
-  const selectedRoleIds = this.userForm.get('roles')?.value;
+    const selectedRoleIds = this.userForm.get('roles')?.value;
 
-  delete user.officeId;
-  delete user.staffId;
-  delete user.roles;
-  delete user.countryCode;
-  delete user.phoneNumber;
-  delete user.repeatPassword;
-  delete user.firstName;
-  delete user.lastName;
+    delete user.officeId;
+    delete user.staffId;
+    delete user.roles;
+    delete user.countryCode;
+    delete user.phoneNumber;
+    delete user.repeatPassword;
+    delete user.firstName;
+    delete user.lastName;
 
-  console.log('User data to create:', user);
+    console.log('User data to create:', user);
 
-  this.usersService.createUser(user).subscribe((response: any) => {
-    const userId = response.object?.userId;
+    this.usersService.createUser(user).subscribe((response: any) => {
+      const userId = response.object?.userId;
 
-    if (userId) {
-      const bodyBD = {
-        id: userId,
-        officeId: dataOffi.officeId,
-        staffId: dataOffi.staffId,
-        username: user.nickName,
-        firstname: user.givenName,
-        lastname: user.familyName,
-        roleIds: selectedRoleIds || []
-      };
+      if (userId) {
+        const bodyBD = {
+          id: userId,
+          officeId: dataOffi.officeId,
+          staffId: dataOffi.staffId,
+          username: user.nickName,
+          firstname: user.givenName,
+          lastname: user.familyName,
+          roleIds: selectedRoleIds || []
+        };
 
-      console.log('Sending to CrearBD:', bodyBD);
+        console.log('Sending to CrearBD:', bodyBD);
 
-      this.usersService.createUserBd(bodyBD).subscribe(
-        (resBD: any) => {
-          console.log('Usuario creado en BD:', resBD);
+        this.usersService.createUserBd(bodyBD).subscribe(
+          (resBD: any) => {
+            console.log('Usuario creado en BD:', resBD);
 
-          if (selectedRoleIds?.length > 0) {
-            this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
-              () => {
-                if (this.configurationWizardService.showUsersForm === true) {
-                  this.configurationWizardService.showUsersForm = false;
-                  this.openDialog();
-                } else {
-                  this.router.navigate(['/appusers']);
+            if (selectedRoleIds?.length > 0) {
+              this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
+                () => {
+                  if (this.configurationWizardService.showUsersForm === true) {
+                    this.configurationWizardService.showUsersForm = false;
+                    this.openDialog();
+                  } else {
+                    this.router.navigate(['/appusers']);
+                  }
+                },
+                (error) => {
+                  console.error('Error al asignar roles:', error);
                 }
-              },
-              (error) => {
-                console.error('Error al asignar roles:', error);
-              }
-            );
-          } else {
-            console.warn('No se encontraron roles seleccionados.');
+              );
+            } else {
+              console.warn('No se encontraron roles seleccionados.');
+            }
+          },
+          (error) => {
+            console.error('Error al crear en BD (CrearBD):', error);
           }
-        },
-        (error) => {
-          console.error('Error al crear en BD (CrearBD):', error);
-        }
-      );
-    } else {
-      console.error('No se pudo obtener userId');
-    }
-  });
-}
-
+        );
+      } else {
+        console.error('No se pudo obtener userId');
+      }
+    });
+  }
 
   /**
    * Popover function

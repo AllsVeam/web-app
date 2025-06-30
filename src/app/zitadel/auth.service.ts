@@ -12,10 +12,10 @@ import { forEach } from 'lodash';
 export class AuthService {
   private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
   private clientId = '321191693166683125';
-  private redirectUri = 'http://localhost:4200/callback';
+  private redirectUri = 'https://vms639pz-4200.usw3.devtunnels.ms/callback';
   //private authUrl = 'https://prueba-fnkj2p.us1.zitadel.cloud/oauth/v2/authorize';
   private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
-  private api = 'http://localhost:18090/';
+  private api = 'https://vms639pz-18090.usw3.devtunnels.ms/';
 
   //http://localhost:4200/callback?code=_R8-2Itqr3X-rHh28k8TacQS_68SI-ZpV1LsLOva_jrvoQ
   private refreshTimeoutId: any = null;
@@ -45,7 +45,7 @@ export class AuthService {
   logout() {
     //return;
     const idToken = localStorage.getItem('id_token');
-    const postLogoutRedirectUri = 'http://localhost:4200/#/login';
+    const postLogoutRedirectUri = 'https://vms639pz-4200.usw3.devtunnels.ms/#/login';
 
     if (this.refreshTimeoutId) {
       clearTimeout(this.refreshTimeoutId);
@@ -104,7 +104,7 @@ export class AuthService {
       code_verifier: codeVerifier || ''
     };
 
-    fetch('http://localhost:18090/token', {
+    fetch('https://vms639pz-18090.usw3.devtunnels.ms/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -157,7 +157,7 @@ export class AuthService {
       return;
     }
 
-    fetch('http://localhost:18090/userdetails', {
+    fetch('https://vms639pz-18090.usw3.devtunnels.ms/userdetails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -186,7 +186,7 @@ export class AuthService {
 
   dtoToken() {
     const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
-    fetch('http://localhost:18090/api/DTO-token', {
+    fetch('https://vms639pz-18090.usw3.devtunnels.ms/api/DTO-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

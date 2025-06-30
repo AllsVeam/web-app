@@ -30,8 +30,8 @@ export class UsersServiceZitadel {
   }
 
   getDatosExtraUsuario(userId: string): Observable<any> {
-  return this.http.get(`http://localhost:18090/user/dataUserBD/${userId}`);
-}
+    return this.http.get(`http://localhost:18090/user/dataUserBD/${userId}`);
+  }
 
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
     const payload = {
@@ -115,7 +115,7 @@ export class UsersServiceZitadel {
     return this.http.put(`http://localhost:18090/user/update-office`, office);
   }
 
-  getRoles(){
+  getRoles() {
     return this.http.get(`http://localhost:18090/roles`);
   }
 }

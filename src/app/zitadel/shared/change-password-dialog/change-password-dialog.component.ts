@@ -1,13 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  UntypedFormBuilder,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
-  FormGroup
-} from '@angular/forms';
-import { ActivatedRoute} from '@angular/router';
+import { UntypedFormBuilder, Validators, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'environments/environment';
 import { confirmPasswordValidator } from 'app/login/reset-password/confirm-password.validator';
 import { HttpClient } from '@angular/common/http';
@@ -36,19 +30,27 @@ export class ChangePasswordDialogComponent implements OnInit {
   }
 
   createChangePasswordForm(): void {
-    this.changePasswordForm = this.formBuilder.group({
-      currentPassword: ['', Validators.required],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(this.minPasswordLength),
-          Validators.maxLength(50),
-          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)
+    this.changePasswordForm = this.formBuilder.group(
+      {
+        currentPassword: [
+          '',
+          Validators.required
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(this.minPasswordLength),
+            Validators.maxLength(50),
+            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)]
+        ],
+        repeatPassword: [
+          '',
+          Validators.required
         ]
-      ],
-      repeatPassword: ['', Validators.required]
-    }, { validators: confirmPasswordValidator });
+      },
+      { validators: confirmPasswordValidator }
+    );
   }
 
   setupPasswordMatchValidation(): void {
@@ -58,8 +60,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
     this.changePasswordForm.get('repeatPassword')?.setValidators([
       Validators.required,
-      this.matchOtherControl('password')
-    ]);
+      this.matchOtherControl('password')]);
   }
 
   matchOtherControl(controlNameToMatch: string) {
@@ -76,7 +77,6 @@ export class ChangePasswordDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.changePasswordForm.invalid) return;
-
 
     const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
     const requestBody = {
@@ -97,8 +97,8 @@ export class ChangePasswordDialogComponent implements OnInit {
         this.dialogRef.close(true);
       },
       error: (err) => {
-        console.log(err)
-        alert(err+"No es posible actualizar contraseña")
+        console.log(err);
+        alert(err + 'No es posible actualizar contraseña');
       }
     });
   }

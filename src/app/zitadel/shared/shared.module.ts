@@ -20,10 +20,10 @@ import { ChangePasswordDialogComponent } from './change-password-dialog/change-p
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TranslateModule,           
-    MatDialogModule,           
-    MatButtonModule,          
-    MatFormFieldModule,        
+    TranslateModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatTooltipModule
@@ -31,6 +31,6 @@ import { ChangePasswordDialogComponent } from './change-password-dialog/change-p
   exports: [
     ChangePasswordDialogComponent
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule {}

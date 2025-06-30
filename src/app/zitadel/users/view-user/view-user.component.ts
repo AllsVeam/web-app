@@ -86,7 +86,7 @@ export class ViewUserZitadelComponent {
   changeUserPassword(userId: string) {
     const changeUserPasswordDialogRef = this.dialog.open(ChangePasswordDialogComponent, {
       width: '440px',
-      data:{id: userId}
+      data: { id: userId }
     });
     changeUserPasswordDialogRef.afterClosed().subscribe((response: any) => {
       if (response.password && response.repeatPassword) {
