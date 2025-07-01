@@ -72,10 +72,7 @@ export class ViewUserZitadelComponent {
     deleteUserDialogRef.afterClosed().subscribe((response: any) => {
       if (response.delete) {
         this.authService.deletUser(this.userData.id);
-        /*
-        this.usersService.deleteUser(this.userData.id).subscribe(() => {
-          this.router.navigate(['/appusers']);
-        });*/
+
       }
     });
   }

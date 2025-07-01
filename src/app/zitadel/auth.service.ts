@@ -12,12 +12,14 @@ import { forEach } from 'lodash';
 export class AuthService {
   private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
   private clientId = '321191693166683125';
-  private redirectUri = 'https://vms639pz-4200.usw3.devtunnels.ms/callback';
-  //private authUrl = 'https://prueba-fnkj2p.us1.zitadel.cloud/oauth/v2/authorize';
-  private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
-  private api = 'https://vms639pz-18090.usw3.devtunnels.ms/';
+  private api = 'http://localhost:18090/';
+  private frontulr = 'http://localhost:4200/'
 
-  //http://localhost:4200/callback?code=_R8-2Itqr3X-rHh28k8TacQS_68SI-ZpV1LsLOva_jrvoQ
+  private redirectUri = this.frontulr +'callback';
+
+
+  private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
+
   private refreshTimeoutId: any = null;
 
   constructor(
@@ -45,7 +47,7 @@ export class AuthService {
   logout() {
     //return;
     const idToken = localStorage.getItem('id_token');
-    const postLogoutRedirectUri = 'https://vms639pz-4200.usw3.devtunnels.ms/#/login';
+    const postLogoutRedirectUri = this.frontulr +'#/login';
 
     if (this.refreshTimeoutId) {
       clearTimeout(this.refreshTimeoutId);
@@ -104,7 +106,7 @@ export class AuthService {
       code_verifier: codeVerifier || ''
     };
 
-    fetch('https://vms639pz-18090.usw3.devtunnels.ms/token', {
+    fetch(this.api + 'token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -157,7 +159,7 @@ export class AuthService {
       return;
     }
 
-    fetch('https://vms639pz-18090.usw3.devtunnels.ms/userdetails', {
+    fetch(this.api + 'userdetails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -186,7 +188,7 @@ export class AuthService {
 
   dtoToken() {
     const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
-    fetch('https://vms639pz-18090.usw3.devtunnels.ms/api/DTO-token', {
+    fetch(this.api + 'api/DTO-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

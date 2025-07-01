@@ -24,6 +24,8 @@ export class ChangePasswordDialogComponent implements OnInit {
     private http: HttpClient
   ) {}
 
+  private api: string = 'http://localhost:18090/';
+  
   ngOnInit(): void {
     this.createChangePasswordForm();
     this.setupPasswordMatchValidation();
@@ -78,10 +80,8 @@ export class ChangePasswordDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.changePasswordForm.invalid) return;
 
-    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
     const requestBody = {
       userId: this.data.id,
-      token: token,
       currentPassword: this.changePasswordForm.value.currentPassword,
       newPassword: {
         password: this.changePasswordForm.value.password,
@@ -91,7 +91,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
     console.log('JSON a enviar:', requestBody);
 
-    this.http.put('http://localhost:18090/user/update-passUser', requestBody).subscribe({
+    this.http.put(this.api+'user/update-passUser', requestBody).subscribe({
       next: (res) => {
         console.log('Contraseña actualizada', res);
         this.dialogRef.close(true);

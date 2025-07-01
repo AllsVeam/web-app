@@ -150,11 +150,9 @@ export class EditUserComponent implements OnInit {
 
   submit() {
     const form = this.editUserForm.value;
-    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
 
     const payload: any = {
       userId: this.userData.id,
-      token: token,
       email: {
         email: form.email,
         isVerified: true

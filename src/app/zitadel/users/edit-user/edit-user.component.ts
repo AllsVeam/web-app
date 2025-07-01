@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { ConfigurationWizardService } from 'app/configuration-wizard/configuration-wizard.service';
 /** Custom Services */
 import { UsersServiceZitadel } from '../usersZitadel.service';
 import { UsersService } from 'app/users/users.service';
@@ -283,12 +282,10 @@ export class EditUserComponent implements OnInit {
    */
   submit() {
     const form = this.editUserForm.value;
-    const token = 'bGH1RVY7gwgFydzrRTgyWfDhcoxYs8oiG-aEWapojTUa83Qw_6TEoux346VcdoVzO3VprpA';
     const fullPhone = `${form.countryCode}${form.phoneNumber}`;
 
     const userPayload: any = {
       userId: this.userData.id,
-      token: token,
       email: {
         email: form.email,
         isVerified: true
