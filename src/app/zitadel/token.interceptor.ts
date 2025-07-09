@@ -12,13 +12,13 @@ export class TokenInterceptor implements HttpInterceptor {
     const token = this.authService.getAccessToken();
     let authReq = req;
 
-    if (token === '1') {
+    
       authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
         }
       });
-    }
+    
 
     return next.handle(authReq).pipe(
       catchError((err) => {
@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private async handle401Error(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
     try {
-      //await this.authService.refreshToken();
+      await this.authService.refreshToken();
       const newToken = this.authService.getAccessToken();
       if (newToken) {
         const retriedReq = request.clone({
@@ -43,9 +43,11 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(retriedReq).toPromise() as Promise<HttpEvent<any>>;
       } else {
         this.authService.logout();
+        console.log("no tiene nuevo access token del refresh"); 
         throw new Error('No se obtuvo nuevo access token tras refresh');
       }
     } catch (e) {
+      console.log("logout desde el interceptor");
       this.authService.logout();
       throw e;
     }

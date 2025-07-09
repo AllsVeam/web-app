@@ -13,7 +13,7 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UsersServiceZitadel {
-  private api = 'http://localhost:18090/';
+  private api = 'https://localhost:8443/fineract-provider/';
 
   /**
    * @param {HttpClient} http Http Client to send requests.

@@ -12,7 +12,7 @@ import { forEach } from 'lodash';
 export class AuthService {
   private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
   private clientId = '321191693166683125';
-  private api = 'http://localhost:18090/';
+  private api = 'https://localhost:8443/fineract-provider/';
   private frontulr = 'http://localhost:4200/'
 
   private redirectUri = this.frontulr +'callback';
@@ -139,10 +139,9 @@ export class AuthService {
 
           localStorage.setItem('id_token', tokens.id_token);
           localStorage.setItem('mifosXZitadel', 'true');
-
-          //this.scheduleRefresh(tokens.expires_in);
-          //this.authenticationService.saveZitadeloAuthTokenDetailsStorageKey(token);
           sessionStorage.setItem('mifosXZitadelTokenDetails', JSON.stringify(token));
+          localStorage.setItem('refresh_token', tokens.refresh_token);
+          this.scheduleRefresh(tokens.expires_in);
           this.userdetails();
         }
       )
@@ -374,5 +373,94 @@ export class AuthService {
         alert(error.msg);
         console.error(error.msg);
       });
+  }
+
+
+  refreshToken(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const rt = localStorage.getItem('refresh_token');
+
+      if (!rt) {
+        console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
+        console.log("logout desde el refreshToken1");
+        this.logout();
+        return reject('Sin refresh_token');
+      }
+
+      const payload = new URLSearchParams();
+      payload.set('grant_type', 'refresh_token');
+      payload.set('refresh_token', rt);
+      payload.set('client_id', this.clientId);
+
+      console.log('[AuthService] 🔄 Iniciando refreshToken()');
+
+      fetch(this.tokenUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: payload.toString()
+      })
+        .then((res) => {
+          if (!res.ok) {
+            console.error(`[AuthService] ❌ Error HTTP en refresh: ${res.status} ${res.statusText}`);
+            return res.text().then((text) => {
+              console.error('[AuthService] ❌ Cuerpo de error:', text);
+              throw new Error(text);
+            });
+          }
+          return res.json();
+        })
+        .then((tokens) => {
+          console.log('[AuthService] ✅ Respuesta del token refresh:', tokens);
+
+          if (!tokens || !tokens.access_token || !tokens.expires_in) {
+            throw new Error('La respuesta del servidor no tiene los campos esperados.');
+          }
+
+          localStorage.setItem('access_token', tokens.access_token);
+          localStorage.setItem('id_token', tokens.id_token ?? '');
+          localStorage.setItem('refresh_token', tokens.refresh_token ?? '');
+          localStorage.setItem('expires_in', tokens.expires_in.toString());
+          localStorage.setItem('refresh_expires_in', tokens.refresh_expires_in?.toString() ?? '');
+          localStorage.setItem('token_start_time', Date.now().toString());
+
+          this.scheduleRefresh(tokens.expires_in);
+          resolve();
+        })
+        .catch((err) => {
+          console.warn('[AuthService] ❌ refreshToken falló, forzando logout en 2 segundos');
+          console.warn('→ Error:', err);
+          console.warn('→ refresh_token usado:', rt);
+          setTimeout(() => {
+            console.log('[AuthService] 🔄 Forzando logout tras error en refreshToken');
+            this.logout();
+          }, 300000);
+
+          reject(err);
+        });
+    });
+  }
+
+  private scheduleRefresh(expiresIn: number) {
+    console.log('Programando refresh en', expiresIn-3539, 'segundos');
+
+    const refreshInMs = (expiresIn - 3539) * 1000;
+    //const refreshInMs = (expiresIn - 40090) * 1000;
+    console.log('Programando refresh en', expiresIn - 3539, 'segundos');
+
+    if (refreshInMs <= 0) {
+      console.log('expiresIn muy pequeño o negativo, refrescando de inmediato');
+      this.refreshToken();
+      return;
+    }
+
+    if (this.refreshTimeoutId) {
+      clearTimeout(this.refreshTimeoutId);
+    }
+
+    this.refreshTimeoutId = setTimeout(() => {
+      this.refreshToken();
+    }, refreshInMs);
   }
 }
