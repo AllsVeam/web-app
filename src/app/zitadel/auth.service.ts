@@ -7,6 +7,7 @@ import { AuthenticationService } from '../core/authentication/authentication.ser
 import { Credentials } from '../core/authentication/credentials.model';
 import { OAuth2Token } from '../core/authentication/o-auth2-token.model';
 import { forEach } from 'lodash';
+import { Console } from 'console';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -100,13 +101,14 @@ export class AuthService {
     return base64;
   }
 
+
   exchangeCodeForTokens(code: string, codeVerifier: string | null) {
     const payload = {
       code: code,
       code_verifier: codeVerifier || ''
     };
 
-    fetch(this.api + 'token', {
+    fetch(this.api + 'token2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -152,7 +154,6 @@ export class AuthService {
 
   userdetails() {
     const accessToken = this.getAccessToken();
-
     if (!accessToken) {
       console.error('No access token found');
       return;
@@ -185,12 +186,16 @@ export class AuthService {
       });
   }
 
+
+
   dtoToken() {
-    const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
-    fetch(this.api + 'api/DTO-token', {
+ 
+      const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
+    fetch(this.api + 'DTO-token', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.getAccessToken()}`
       },
       body: JSON.stringify({
         access_token: parsedToken.access_token,
@@ -205,6 +210,7 @@ export class AuthService {
     }).then((response) => {
       console.log(response);
     });
+    
   }
 
   public notification() {
@@ -262,8 +268,8 @@ export class AuthService {
     fetch(`${this.api}user/reactivate?userId=${userId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
-        //'Authorization': `Bearer ${this.getAccessToken()}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
       }
     })
       .then((res) => res.json())
@@ -281,8 +287,8 @@ export class AuthService {
     fetch(`${this.api}user/desactivate?userId=${userId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
-        //'Authorization': `Bearer ${this.getAccessToken()}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
       }
     })
       .then((res) => res.json())
@@ -300,7 +306,8 @@ export class AuthService {
     fetch(`${this.api}user/`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
       }
     })
       .then((res) => res.json())
@@ -326,7 +333,8 @@ export class AuthService {
     fetch(`${this.api}roles`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
       },
       body: JSON.stringify({ roleKey, displayName, group })
     })
@@ -341,16 +349,17 @@ export class AuthService {
   }
 
   public updateRole(roleKey: string, displayName: string, group: string) {
-    fetch(`${this.api}roles/${roleKey}`, {
+    fetch(`${this.api}roles`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
       },
-      body: JSON.stringify({ displayName, group })
+      body: JSON.stringify({ roleKey, displayName, group })
     })
       .then((res) => res.json())
       .then((data) => {
-        // Registro exitoso
+        
       })
       .catch((error) => {
         alert(error.msg);
@@ -359,15 +368,17 @@ export class AuthService {
   }
 
   public deleteRole(roleKey: string) {
-    fetch(`${this.api}roles/${roleKey}`, {
+    fetch(`${this.api}roles`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getAccessToken()}`
+      },
+      body: JSON.stringify({ roleKey})
     })
       .then((res) => res.json())
       .then((data) => {
-        // Rol Eliminado correctamente
+        
       })
       .catch((error) => {
         alert(error.msg);
@@ -383,7 +394,7 @@ export class AuthService {
       if (!rt) {
         console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
         console.log("logout desde el refreshToken1");
-        this.logout();
+        //this.logout();
         return reject('Sin refresh_token');
       }
 
@@ -434,7 +445,7 @@ export class AuthService {
           console.warn('→ refresh_token usado:', rt);
           setTimeout(() => {
             console.log('[AuthService] 🔄 Forzando logout tras error en refreshToken');
-            this.logout();
+            //this.logout();
           }, 300000);
 
           reject(err);

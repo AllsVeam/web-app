@@ -6,23 +6,29 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getAccessToken();
-    let authReq = req;
+    let headersConfig: { [key: string]: string } = {
+      'Fineract-Platform-TenantId': 'default',
+      'Content-Type': req.headers.get('Content-Type') || 'application/json'
+    };
 
-    
-      authReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    
+    // Definir endpoints públicos donde no se agrega Authorization
+    const publicEndpoints = [ '/auth/test', '/health'];
+    const isPublicEndpoint = publicEndpoints.some(url => req.url.includes(url));
+
+    if (token && !isPublicEndpoint) {
+      headersConfig['Authorization'] = `Bearer ${token}`;
+    }
+
+    const authReq = req.clone({ setHeaders: headersConfig });
 
     return next.handle(authReq).pipe(
       catchError((err) => {
-        if (err instanceof HttpErrorResponse && err.status === 401) {
+        if (err instanceof HttpErrorResponse && err.status === 401 && !isPublicEndpoint) {
           return from(this.handle401Error(authReq, next));
         }
         return throwError(() => err);
@@ -37,18 +43,19 @@ export class TokenInterceptor implements HttpInterceptor {
       if (newToken) {
         const retriedReq = request.clone({
           setHeaders: {
-            Authorization: `Bearer ${newToken}`
+            Authorization: `Bearer ${newToken}`,
+            'Fineract-Platform-TenantId': 'default',
+            'Content-Type': request.headers.get('Content-Type') || 'application/json'
           }
         });
         return next.handle(retriedReq).toPromise() as Promise<HttpEvent<any>>;
       } else {
-        this.authService.logout();
-        console.log("no tiene nuevo access token del refresh"); 
+        console.error("No se obtuvo nuevo access token tras refresh");
         throw new Error('No se obtuvo nuevo access token tras refresh');
       }
     } catch (e) {
-      console.log("logout desde el interceptor");
-      this.authService.logout();
+      console.error("Error en handle401Error, forzando logout");
+      // this.authService.logout(); // Descomentar si quieres forzar logout
       throw e;
     }
   }

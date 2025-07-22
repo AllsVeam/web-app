@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 /** rxjs Imports */
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 /**
  * UsersZitadel service.
@@ -18,7 +19,7 @@ export class UsersServiceZitadel {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private autservice: AuthService) {}
 
   /**
    * @param {any} user User to be created.
@@ -56,7 +57,13 @@ export class UsersServiceZitadel {
    * @returns {Observable<any>} Users data
    */
   getUsers(): Observable<any[]> {
-    return from(fetch(`${this.api}user/`)).pipe(
+      const token = this.autservice.getAccessToken();
+    return from(fetch(`${this.api}user/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })).pipe(
       switchMap((res) => res.json()),
       map((response) => {
         const out: any[] = [];
@@ -91,8 +98,8 @@ export class UsersServiceZitadel {
       fetch(url, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
-          // si necesitas Authorization, agrégalo
+          'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.autservice.getAccessToken()}`
         }
       })
     ).pipe(
