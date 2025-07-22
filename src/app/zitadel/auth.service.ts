@@ -241,65 +241,70 @@ export class AuthService {
 
   // Delete
   public deletUser(userId: string) {
-    fetch(`${this.api}user/?userId=${userId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.getAccessToken()}`
+  fetch(`${this.api}user/`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getAccessToken()}`
+    },
+    body: JSON.stringify({ userId })  // Aquí mandamos el body
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.status === 200) {
+        this.router.navigate(['/appusers']);
+      } else {
+        alert(data.msg);
       }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.status === 200) {
-          this.router.navigate(['/appusers']);
-        } else {
-          alert(data.msg);
-        }
-      })
-      .catch((error) => {
-        alert(error.msg);
-        //console.error('Error eliminando usuario:', error);
-      });
-  }
+    .catch((error) => {
+      alert(error.msg);
+    });
+}
+
 
   // Activar
   public activeUser(userId: string) {
-    fetch(`${this.api}user/reactivate?userId=${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
-      }
+  fetch(`${this.api}user/reactivate`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getAccessToken()}`
+    },
+    body: JSON.stringify({ userId }) 
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      window.location.reload();
     })
-      .then((res) => res.json())
-      .then((data) => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        alert(error.msg);
-        console.error('Error activando usuario:', error);
-      });
-  }
+    .catch((error) => {
+      alert(error.msg);
+      console.error('Error activando usuario:', error);
+    });
+}
+
 
   // Desactive
   public desactiveUser(userId: string) {
-    fetch(`${this.api}user/desactivate?userId=${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
-      }
+  fetch(`${this.api}user/desactivate`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getAccessToken()}`
+    },
+    body: JSON.stringify({ userId })  
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      window.location.reload();
     })
-      .then((res) => res.json())
-      .then((data) => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        alert(error.msg);
-        console.error('Error activando usuario:', error);
-      });
-  }
+    .catch((error) => {
+      alert(error.msg);
+      console.error('Error desactivando usuario:', error);
+    });
+}
+
 
   public getUsers() {
     let getUsers: any[] = [];

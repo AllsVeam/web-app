@@ -30,9 +30,11 @@ export class UsersServiceZitadel {
     return this.http.post(this.api+'user/crear', user);
   }
 
-  getDatosExtraUsuario(userId: string): Observable<any> {
-    return this.http.get(this.api+'user/dataUserBD/'+userId);
-  }
+getDatosExtraUsuario(userId: string): Observable<any> {
+  const body = { userId: userId };
+  return this.http.post(this.api + 'user/dataUserBD', body);
+}
+
 
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
     const payload = {
@@ -92,23 +94,22 @@ export class UsersServiceZitadel {
    * @returns {Observable<any>} User.
    */
   getUser(userId: string): Observable<any> {
-    const url = `${this.api}user/${userId}`;
-
+    const url = `${this.api}user`;
     return from(
       fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.autservice.getAccessToken()}`
-        }
+          'Authorization': `Bearer ${this.autservice.getAccessToken()}`
+        },
+        body: JSON.stringify({ userId })
       })
     ).pipe(
       switchMap((res) => res.json()),
-      map((response) => {
-        return response;
-      })
+      map((response) => response)
     );
   }
+  
 
   editUser(user: any): Observable<any> {
     return this.http.put(this.api+'user/update-user', user);
