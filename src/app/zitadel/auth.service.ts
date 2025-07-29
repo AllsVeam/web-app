@@ -13,8 +13,8 @@ import { Console } from 'console';
 export class AuthService {
   private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
   private clientId = '321191693166683125';
-  private api = 'https://localhost:8443/fineract-provider/';
-  private frontulr = 'http://localhost:4200/'
+  private api = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
+  private frontulr = 'https://3kmbjvc5-4200.usw3.devtunnels.ms/'
 
   private redirectUri = this.frontulr +'callback';
 
@@ -63,7 +63,12 @@ export class AuthService {
 
     sessionStorage.removeItem('mifosXCredentials');
     sessionStorage.removeItem('mifosXZitadelTokenDetails');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('expires_in');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('refresh_expires_in');
+    localStorage.removeItem('token_start_time');
     localStorage.removeItem('code_verifier');
     localStorage.removeItem('mifosXZitadel');
 

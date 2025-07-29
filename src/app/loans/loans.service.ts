@@ -570,7 +570,7 @@ export class LoansService {
     const httpParams = new HttpParams()
       .set('groupId', groupId)
       // Commenting parameter, because it doesn't exist:
-      // https://localhost:8443/fineract-provider/swagger-ui/index.html#/Loans/template_10
+      // https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/swagger-ui/index.html#/Loans/template_10
       //   .set('lendingStrategy', '300')
       .set('templateType', 'jlgbulk');
     return this.http.get('/loans/template', { params: httpParams });

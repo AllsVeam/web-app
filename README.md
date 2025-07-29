@@ -81,7 +81,7 @@ Choose ONE of the following methods to install the web app:
    ```
    ng serve
    ```
-7. Access the application at `http://localhost:4200/`
+7. Access the application at `https://3kmbjvc5-4200.usw3.devtunnels.ms/`
 
 #### Method 2: Docker Container Only
 
@@ -93,7 +93,7 @@ Choose ONE of the following methods to install the web app:
    ```
    docker run -d -p 4200:80 openmf/web-app:latest
    ```
-3. Access the application at `http://localhost:4200/`
+3. Access the application at `https://3kmbjvc5-4200.usw3.devtunnels.ms/`
 
 #### Method 3: Docker Compose (Frontend + Backend)
 
@@ -113,7 +113,7 @@ This sets up both the Mifos X Web App and Fineract backend:
    ```
    docker compose up -d
    ```
-3. Access the application at `http://localhost:4200/`
+3. Access the application at `https://3kmbjvc5-4200.usw3.devtunnels.ms/`
 
 ## Default Login Credentials
 
@@ -141,8 +141,8 @@ All these environment variables can be set when using Docker or Docker Compose:
 
 | Variable                             | Description                                                          | Default Value                                                                       |
 | ------------------------------------ | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| FINERACT_API_URLS                    | Fineract server list                                                 | https://sandbox.mifos.community,https://demo.mifos.community,https://localhost:8443 |
-| FINERACT_API_URL                     | Default Fineract server                                              | https://localhost:8443                                                              |
+| FINERACT_API_URLS                    | Fineract server list                                                 | https://sandbox.mifos.community,https://demo.mifos.community,https://3kmbjvc5-8443.usw3.devtunnels.ms |
+| FINERACT_API_URL                     | Default Fineract server                                              | https://3kmbjvc5-8443.usw3.devtunnels.ms                                                              |
 | FINERACT_PLATFORM_TENANT_IDENTIFIER  | Default tenant identifier (must align with Fineract `tenants` table) | default                                                                             |
 | FINERACT_PLATFORM_TENANTS_IDENTIFIER | Tenant identifier list (must align with Fineract `tenants` table)    | -                                                                                   |
 

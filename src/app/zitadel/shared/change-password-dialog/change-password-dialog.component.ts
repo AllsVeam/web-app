@@ -24,7 +24,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  private api: string = 'https://localhost:8443/fineract-provider/';
+  private api: string = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
   
   ngOnInit(): void {
     this.createChangePasswordForm();
