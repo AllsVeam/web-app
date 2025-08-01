@@ -186,8 +186,6 @@ export class EditUserComponent implements OnInit {
     { code: '+263', name: 'Zimbabue' }
   ];
 
-  ngOnInit() {}
-
   createEditUserForm() {
     const profile = this.userData?.human?.profile ?? {};
     const email = this.userData?.human?.email?.email || '';

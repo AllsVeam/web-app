@@ -6,18 +6,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../core/authentication/authentication.service';
 import { Credentials } from '../core/authentication/credentials.model';
 import { OAuth2Token } from '../core/authentication/o-auth2-token.model';
+import { environment } from '../../environments/environment';
 import { forEach } from 'lodash';
 import { Console } from 'console';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
-  private clientId = '321191693166683125';
-  private api = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
-  private frontulr = 'https://3kmbjvc5-4200.usw3.devtunnels.ms/'
+  private authUrl = environment.zitadel_BaseUrl;
+  private clientId = environment.zitadel_clientId;
+  private api = environment.zitadel_api;
+  private frontulr = environment.zitadel_frontUrl;
 
-  private redirectUri = this.frontulr +'callback';
-
+  private redirectUri = this.frontulr + 'callback';
 
   private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
 
@@ -48,7 +48,7 @@ export class AuthService {
   logout() {
     //return;
     const idToken = localStorage.getItem('id_token');
-    const postLogoutRedirectUri = this.frontulr +'#/login';
+    const postLogoutRedirectUri = this.frontulr + '#/login';
 
     if (this.refreshTimeoutId) {
       clearTimeout(this.refreshTimeoutId);
@@ -105,7 +105,6 @@ export class AuthService {
       .replace(/=+$/, '');
     return base64;
   }
-
 
   exchangeCodeForTokens(code: string, codeVerifier: string | null) {
     const payload = {
@@ -191,11 +190,8 @@ export class AuthService {
       });
   }
 
-
-
   dtoToken() {
- 
-      const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
+    const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
     fetch(this.api + 'DTO-token', {
       method: 'POST',
       headers: {
@@ -215,7 +211,6 @@ export class AuthService {
     }).then((response) => {
       console.log(response);
     });
-    
   }
 
   public notification() {
@@ -246,70 +241,67 @@ export class AuthService {
 
   // Delete
   public deletUser(userId: string) {
-  fetch(`${this.api}user/`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.getAccessToken()}`
-    },
-    body: JSON.stringify({ userId })  // Aquí mandamos el body
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      if (data.status === 200) {
-        this.router.navigate(['/appusers']);
-      } else {
-        alert(data.msg);
-      }
+    fetch(`${this.api}user/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.getAccessToken()}`
+      },
+      body: JSON.stringify({ userId }) // Aquí mandamos el body
     })
-    .catch((error) => {
-      alert(error.msg);
-    });
-}
-
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status === 200) {
+          this.router.navigate(['/appusers']);
+        } else {
+          alert(data.msg);
+        }
+      })
+      .catch((error) => {
+        alert(error.msg);
+      });
+  }
 
   // Activar
   public activeUser(userId: string) {
-  fetch(`${this.api}user/reactivate`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getAccessToken()}`
-    },
-    body: JSON.stringify({ userId }) 
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      window.location.reload();
+    fetch(`${this.api}user/reactivate`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.getAccessToken()}`
+      },
+      body: JSON.stringify({ userId })
     })
-    .catch((error) => {
-      alert(error.msg);
-      console.error('Error activando usuario:', error);
-    });
-}
-
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert(error.msg);
+        console.error('Error activando usuario:', error);
+      });
+  }
 
   // Desactive
   public desactiveUser(userId: string) {
-  fetch(`${this.api}user/desactivate`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getAccessToken()}`
-    },
-    body: JSON.stringify({ userId })  
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      window.location.reload();
+    fetch(`${this.api}user/desactivate`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.getAccessToken()}`
+      },
+      body: JSON.stringify({ userId })
     })
-    .catch((error) => {
-      alert(error.msg);
-      console.error('Error desactivando usuario:', error);
-    });
-}
-
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert(error.msg);
+        console.error('Error desactivando usuario:', error);
+      });
+  }
 
   public getUsers() {
     let getUsers: any[] = [];
@@ -317,7 +309,7 @@ export class AuthService {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
+        Authorization: `Bearer ${this.getAccessToken()}`
       }
     })
       .then((res) => res.json())
@@ -344,7 +336,7 @@ export class AuthService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
+        Authorization: `Bearer ${this.getAccessToken()}`
       },
       body: JSON.stringify({ roleKey, displayName, group })
     })
@@ -363,14 +355,12 @@ export class AuthService {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
+        Authorization: `Bearer ${this.getAccessToken()}`
       },
       body: JSON.stringify({ roleKey, displayName, group })
     })
       .then((res) => res.json())
-      .then((data) => {
-        
-      })
+      .then((data) => {})
       .catch((error) => {
         alert(error.msg);
         console.error('Error Actualizando Rol:', error);
@@ -382,20 +372,17 @@ export class AuthService {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.getAccessToken()}`
+        Authorization: `Bearer ${this.getAccessToken()}`
       },
-      body: JSON.stringify({ roleKey})
+      body: JSON.stringify({ roleKey })
     })
       .then((res) => res.json())
-      .then((data) => {
-        
-      })
+      .then((data) => {})
       .catch((error) => {
         alert(error.msg);
         console.error(error.msg);
       });
   }
-
 
   refreshToken(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -403,7 +390,7 @@ export class AuthService {
 
       if (!rt) {
         console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        console.log("logout desde el refreshToken1");
+        console.log('logout desde el refreshToken1');
         //this.logout();
         return reject('Sin refresh_token');
       }
@@ -464,7 +451,7 @@ export class AuthService {
   }
 
   private scheduleRefresh(expiresIn: number) {
-    console.log('Programando refresh en', expiresIn-3539, 'segundos');
+    console.log('Programando refresh en', expiresIn - 3539, 'segundos');
 
     const refreshInMs = (expiresIn - 3539) * 1000;
     //const refreshInMs = (expiresIn - 40090) * 1000;

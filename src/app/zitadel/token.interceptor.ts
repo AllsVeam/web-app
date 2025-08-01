@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -17,8 +16,11 @@ export class TokenInterceptor implements HttpInterceptor {
     };
 
     // Definir endpoints públicos donde no se agrega Authorization
-    const publicEndpoints = [ '/auth/test', '/health'];
-    const isPublicEndpoint = publicEndpoints.some(url => req.url.includes(url));
+    const publicEndpoints = [
+      '/auth/test',
+      '/health'
+    ];
+    const isPublicEndpoint = publicEndpoints.some((url) => req.url.includes(url));
 
     if (token && !isPublicEndpoint) {
       headersConfig['Authorization'] = `Bearer ${token}`;
@@ -50,11 +52,11 @@ export class TokenInterceptor implements HttpInterceptor {
         });
         return next.handle(retriedReq).toPromise() as Promise<HttpEvent<any>>;
       } else {
-        console.error("No se obtuvo nuevo access token tras refresh");
+        console.error('No se obtuvo nuevo access token tras refresh');
         throw new Error('No se obtuvo nuevo access token tras refresh');
       }
     } catch (e) {
-      console.error("Error en handle401Error, forzando logout");
+      console.error('Error en handle401Error, forzando logout');
       // this.authService.logout(); // Descomentar si quieres forzar logout
       throw e;
     }

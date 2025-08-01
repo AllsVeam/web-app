@@ -119,7 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotFoundComponent,
     CallbackComponent
   ],
-  providers: [
+  /*providers: [
     DatePipe,
     AuthService,
     {
@@ -127,7 +127,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       useClass: TokenInterceptor,
       multi: true
     }
-  ],
+    ],  */
+  providers: [DatePipe],
   bootstrap: [WebAppComponent]
 })
 export class AppModule {}

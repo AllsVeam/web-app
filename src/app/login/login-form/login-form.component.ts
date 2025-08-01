@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 
 /** Ruta de seguridad Zitadel*/
 import { AuthService } from '../../zitadel/auth.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * Login form component.
@@ -20,6 +21,8 @@ import { AuthService } from '../../zitadel/auth.service';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
+  public environment = environment;
+  MIFOS_OAUTH_SERVER_ENABLED = environment.MIFOS_OAUTH_SERVER_ENABLED;
   /** Login form group. */
   loginForm: FormGroup;
   /** Password input field type. */
@@ -46,6 +49,7 @@ export class LoginFormComponent implements OnInit {
    */
   ngOnInit() {
     this.createLoginForm();
+    this.passwordInputType = 'password';
   }
 
   login2() {

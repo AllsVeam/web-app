@@ -19,7 +19,7 @@ export const environment = {
   // For connecting to others servers running elsewhere update the base API URL
   baseApiUrls:
     loadedEnv['fineractApiUrls'] ||
-    'https://sandbox.mifos.community,https://demo.mifos.community,https://3kmbjvc5-8443.usw3.devtunnels.ms,' + window.location.origin,
+    'https://sandbox.mifos.community,https://demo.mifos.community,https://localhost:8443,' + window.location.origin,
   // For connecting to server running elsewhere set the base API URL
   baseApiUrl:
     loadedEnv['fineractApiUrl'] ||
@@ -63,7 +63,12 @@ export const environment = {
   vNextApiVersion: window['env']['vNextApiVersion'] || '/v1.0',
   interbankTransfers: window['env']['interbankTransfers'] || false,
 
-  minPasswordLength: loadedEnv['minPasswordLength'] || 12
+  minPasswordLength: loadedEnv['minPasswordLength'] || 12,
+  MIFOS_OAUTH_SERVER_ENABLED: true,
+  zitadel_BaseUrl: 'https://plugin-auth-ofrdfj.us1.zitadel.cloud',
+  zitadel_clientId: '321191693166683125',
+  zitadel_api: 'https://localhost:8443/fineract-provider/',
+  zitadel_frontUrl: 'http://localhost:4200/'
 };
 
 // Server URL

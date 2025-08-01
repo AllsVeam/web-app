@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * UsersZitadel service.
@@ -14,12 +15,15 @@ import { AuthService } from '../auth.service';
   providedIn: 'root'
 })
 export class UsersServiceZitadel {
-  private api = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
+  private api = environment.zitadel_api;
 
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient, private autservice: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private autservice: AuthService
+  ) {}
 
   /**
    * @param {any} user User to be created.
@@ -27,25 +31,24 @@ export class UsersServiceZitadel {
    */
   createUser(user: any): Observable<any> {
     console.log('Creating user:', user);
-    return this.http.post(this.api+'user/crear', user);
+    return this.http.post(this.api + 'user/crear', user);
   }
 
-getDatosExtraUsuario(userId: string): Observable<any> {
-  const body = { userId: userId };
-  return this.http.post(this.api + 'user/dataUserBD', body);
-}
-
+  getDatosExtraUsuario(userId: string): Observable<any> {
+    const body = { userId: userId };
+    return this.http.post(this.api + 'user/dataUserBD', body);
+  }
 
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
     const payload = {
       userId: userId,
       roleKeys: roleKeys.map(String)
     };
-    return this.http.post(this.api+'user/assign-roles', payload);
+    return this.http.post(this.api + 'user/assign-roles', payload);
   }
 
   createUserBd(user: any): Observable<any> {
-    return this.http.post(this.api+'user/CrearBD', user);
+    return this.http.post(this.api + 'user/CrearBD', user);
   }
 
   /**
@@ -59,13 +62,15 @@ getDatosExtraUsuario(userId: string): Observable<any> {
    * @returns {Observable<any>} Users data
    */
   getUsers(): Observable<any[]> {
-      const token = this.autservice.getAccessToken();
-    return from(fetch(`${this.api}user/`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    })).pipe(
+    const token = this.autservice.getAccessToken();
+    return from(
+      fetch(`${this.api}user/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+    ).pipe(
       switchMap((res) => res.json()),
       map((response) => {
         const out: any[] = [];
@@ -100,7 +105,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.autservice.getAccessToken()}`
+          Authorization: `Bearer ${this.autservice.getAccessToken()}`
         },
         body: JSON.stringify({ userId })
       })
@@ -109,21 +114,20 @@ getDatosExtraUsuario(userId: string): Observable<any> {
       map((response) => response)
     );
   }
-  
 
   editUser(user: any): Observable<any> {
-    return this.http.put(this.api+'user/update-user', user);
+    return this.http.put(this.api + 'user/update-user', user);
   }
 
   editRoles(roles: any): Observable<any> {
-    return this.http.put(this.api+'user/update-roles', roles);
+    return this.http.put(this.api + 'user/update-roles', roles);
   }
 
   editOffice(office: any): Observable<any> {
-    return this.http.put(this.api+'user/update-office', office);
+    return this.http.put(this.api + 'user/update-office', office);
   }
 
   getRoles() {
-    return this.http.get(this.api+'roles');
+    return this.http.get(this.api + 'roles');
   }
 }
