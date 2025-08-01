@@ -6,21 +6,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../core/authentication/authentication.service';
 import { Credentials } from '../core/authentication/credentials.model';
 import { OAuth2Token } from '../core/authentication/o-auth2-token.model';
+import { environment } from 'environments/environment'; 
 import { forEach } from 'lodash';
 import { Console } from 'console';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private authUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/authorize';
-  private clientId = '321191693166683125';
-  private api = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
-  private frontulr = 'https://3kmbjvc5-4200.usw3.devtunnels.ms/'
-
-  private redirectUri = this.frontulr +'callback';
-
-
-  private tokenUrl = 'https://plugin-auth-ofrdfj.us1.zitadel.cloud/oauth/v2/token';
-
+    private baseUrl = environment.zitadel_BaseUrl;
+  private authUrl = `${this.baseUrl}/oauth/v2/authorize`;
+  private tokenUrl = `${this.baseUrl}/oauth/v2/token`;
+  private clientId = environment.zitadel_clientId;
+  private api = environment.zitadel_api;
+  private frontUrl = environment.zitadel_frontUrl;
+  private redirectUri = `${this.frontUrl}callback`;
   private refreshTimeoutId: any = null;
 
   constructor(
@@ -48,7 +46,7 @@ export class AuthService {
   logout() {
     //return;
     const idToken = localStorage.getItem('id_token');
-    const postLogoutRedirectUri = this.frontulr +'#/login';
+    const postLogoutRedirectUri = this.frontUrl +'#/login';
 
     if (this.refreshTimeoutId) {
       clearTimeout(this.refreshTimeoutId);
@@ -72,7 +70,7 @@ export class AuthService {
     localStorage.removeItem('code_verifier');
     localStorage.removeItem('mifosXZitadel');
 
-    const logoutUrl = `https://plugin-auth-ofrdfj.us1.zitadel.cloud/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`;
+    const logoutUrl = `${this.baseUrl}/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`;
     window.location.href = logoutUrl;
   }
 
@@ -113,7 +111,7 @@ export class AuthService {
       code_verifier: codeVerifier || ''
     };
 
-    fetch(this.api + 'token2', {
+    fetch(this.api + 'tokenOIDC', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -252,7 +250,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.getAccessToken()}`
     },
-    body: JSON.stringify({ userId })  // Aquí mandamos el body
+    body: JSON.stringify({ userId })
   })
     .then((res) => res.json())
     .then((data) => {

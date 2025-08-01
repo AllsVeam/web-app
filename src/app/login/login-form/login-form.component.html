@@ -1,4 +1,4 @@
-<!--
+<div *ngIf="MIFOS_OAUTH_SERVER_ENABLED">
 <form class="layout-column" [formGroup]="loginForm" (ngSubmit)="login()" id="login-form">
   <mat-form-field class="login-input flex-align-center">
     <span matPrefix class="m-r-10">
@@ -54,9 +54,9 @@
     {{ 'labels.links.Forgot Password?' | translate }}
   </button>
 </form>
--->
+</div>
 
-<div class="container" style="margin-top: 8rem; margin-bottom: 8rem">
+<div *ngIf="!MIFOS_OAUTH_SERVER_ENABLED" class="container" style="margin-top: 8rem; margin-bottom: 8rem">
   <div *ngIf="!isLoggedIn">
     <button mat-raised-button color="primary" class="login-button-z" (click)="login2()">
       {{ 'labels.buttons.Login' | translate }}

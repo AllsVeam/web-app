@@ -50,30 +50,6 @@
               <strong>{{ 'labels.commons.required' | translate }}</strong>
             </mat-error>
           </mat-form-field>
-          <mat-form-field class="flex-48">
-            <mat-label>{{ 'Phone' | translate }}</mat-label>
-            <input matInput required formControlName="phone" />
-            <mat-error *ngIf="editUserForm.controls.phone.hasError('required')">
-              {{ 'Phone' | translate }} {{ 'labels.commons.is' | translate }}
-              <strong>{{ 'labels.commons.required' | translate }}</strong>
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
-            <mat-select formControlName="gender" required>
-              <mat-option value="GENDER_MALE">{{ 'Male' | translate }}</mat-option>
-              <mat-option value="GENDER_FEMALE">{{ 'Female' | translate }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.Language' | translate }}</mat-label>
-            <mat-select formControlName="preferredLanguage" required>
-              <mat-option value="es">Español</mat-option>
-              <mat-option value="en">English</mat-option>
-            </mat-select>
-          </mat-form-field>
 
           <div class="password-never-expires-wrapper flex-48">
             <mat-checkbox labelPosition="before" formControlName="passwordNeverExpires">
@@ -117,16 +93,6 @@
           </mat-form-field>
         </div>
       </mat-card-content>
-
-      <mat-form-field class="flex-48">
-        <mat-label>{{ 'Current Password' | translate }}</mat-label>
-        <input matInput type="password" formControlName="currentPassword" />
-      </mat-form-field>
-
-      <mat-form-field class="flex-48">
-        <mat-label>{{ 'New Password' | translate }}</mat-label>
-        <input matInput type="password" formControlName="newPassword" />
-      </mat-form-field>
 
       <mat-card-actions class="layout-row align-center gap-5px responsive-column">
         <button type="button" mat-raised-button [routerLink]="['../']">

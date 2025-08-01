@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { environment } from 'environments/environment';
 
 /**
  * UsersZitadel service.
@@ -14,7 +15,7 @@ import { AuthService } from '../auth.service';
   providedIn: 'root'
 })
 export class UsersServiceZitadel {
-  private api = 'https://3kmbjvc5-8443.usw3.devtunnels.ms/fineract-provider/';
+    private api = environment.zitadel_api;
 
   /**
    * @param {HttpClient} http Http Client to send requests.

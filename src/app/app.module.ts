@@ -47,9 +47,11 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { TokenInterceptor } from './zitadel/token.interceptor';
+import { AuthenticationInterceptor as TokenInterceptor } from './core/authentication/authentication.interceptor';
+import {TokenInterceptor as ZitadelTokenInterceptor} from './zitadel/token.interceptor';
 import { AuthService } from './zitadel/auth.service';
 import { CallbackComponent } from './zitadel/callback/callback.component';
+import { environment } from 'environments/environment';
 
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams): string {
@@ -120,14 +122,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     CallbackComponent
   ],
   providers: [
-    DatePipe,
-    AuthService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
+  DatePipe,
+  AuthService,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: environment.MIFOS_OAUTH_SERVER_ENABLED
+      ? TokenInterceptor
+      : ZitadelTokenInterceptor,
+    multi: true
+  }
+],
   bootstrap: [WebAppComponent]
 })
 export class AppModule {}

@@ -3,16 +3,20 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable, throwError, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+
+  public environment = environment;
+  FINERACT_PLATFORM_TENANT_IDENTIFIER = environment.fineractPlatformTenantId;
 
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getAccessToken();
     let headersConfig: { [key: string]: string } = {
-      'Fineract-Platform-TenantId': 'default',
+      'Fineract-Platform-TenantId': this.FINERACT_PLATFORM_TENANT_IDENTIFIER,
       'Content-Type': req.headers.get('Content-Type') || 'application/json'
     };
 
@@ -44,7 +48,7 @@ export class TokenInterceptor implements HttpInterceptor {
         const retriedReq = request.clone({
           setHeaders: {
             Authorization: `Bearer ${newToken}`,
-            'Fineract-Platform-TenantId': 'default',
+            'Fineract-Platform-TenantId': this.FINERACT_PLATFORM_TENANT_IDENTIFIER,
             'Content-Type': request.headers.get('Content-Type') || 'application/json'
           }
         });

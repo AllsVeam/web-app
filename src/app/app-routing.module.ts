@@ -5,8 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 // Not Found Component
 import { NotFoundComponent } from './not-found/not-found.component';
 
-import { WebAppComponent } from './web-app.component'; // asegúrate de importar correctamente
-import { LoginComponent } from './login/login.component'; // si tienes uno
+import { WebAppComponent } from './web-app.component';
+import { LoginComponent } from './login/login.component'; 
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './zitadel/auth.guard';
 import { CallbackComponent } from './zitadel/callback/callback.component';
