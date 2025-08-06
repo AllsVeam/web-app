@@ -23,7 +23,7 @@ import { strings } from '@angular-devkit/schematics';
   templateUrl: './view-user.component.html',
   styleUrls: ['./view-user.component.scss']
 })
-export class ViewUserZitadelComponent {
+export class ViewUserComponent {
   /** User Data. */
   userData: any;
 

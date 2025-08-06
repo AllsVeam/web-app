@@ -65,12 +65,14 @@ export const environment = {
 
   minPasswordLength: loadedEnv['minPasswordLength'] || 12,
 
+  
+
   MIFOS_OAUTH_SERVER_ENABLED: false,
 
-  zitadel_BaseUrl: '',
-  zitadel_clientId: '',
-  zitadel_api: '',
-  zitadel_frontUrl: ''
+  zitadel_BaseUrl: 'https://plugin-auth-ofrdfj.us1.zitadel.cloud',
+  zitadel_clientId: '321191693166683125',
+  zitadel_api: 'https://localhost:8443/fineract-provider/',
+  zitadel_frontUrl: 'http://localhost:4200/'
 };
 
 // Server URL

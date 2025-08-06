@@ -18,6 +18,11 @@ export class UsersZitadelResolver {
    */
   constructor(private usersServiceZitadel: UsersServiceZitadel) {}
 
+  /**
+   * Returns the users data.
+   * @returns {Observable<any>}
+   */
+
   resolve(): Observable<any> {
     return this.usersServiceZitadel.getUsers();
   }

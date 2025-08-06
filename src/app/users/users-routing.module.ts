@@ -10,11 +10,12 @@ import { UsersComponent } from './users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { EditUserComponent as EditUserZitadelComponent } from '../zitadel/users/edit-user/edit-user.component';
 
 /** Custom Components of Zitadel */
-import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
-import { CreateUserComponent as CreateUserZitadelComponent } from 'app/zitadel/users/create-user/create-user.component';
+import { UsersComponent as UserZitadelComponent } from '../zitadel/users/users.component';
+import { ViewUserComponent as ViewUserZitadelComponent } from '../zitadel/users/view-user/view-user.component';
+import { CreateUserComponent as CreateUserZitadelComponent } from '../zitadel/users/create-user/create-user.component';
+import { EditUserComponent as EditUserZitadelComponent } from '../zitadel/users/edit-user/edit-user.component';
 
 /** Custom Resolvers */
 import { UsersResolver } from './users.resolver';
@@ -23,9 +24,11 @@ import { UserResolver } from './user.resolver';
 
 /** Custom Resolvers Zitadel */
 import { UsersZitadelResolver } from '../zitadel/users/usersZitadel.resolver';
-import { UserZitadelResolver } from 'app/zitadel/users/userZitadel.resolver';
+import { UsersZitadelTemplateResolver } from '../zitadel/users/usersZitadel-template.resolver';
+import { UserZitadelResolver } from '../zitadel/users/userZitadel.resolver';
+
+/** Environment */
 import { environment } from 'environments/environment';
-import { UsersComponent as UserZitadelComponent } from '../zitadel/users/users.component';
 
 /** Users Routes */
 const mifosRoutes: Routes = [
@@ -75,7 +78,7 @@ const zitadelRoutes: Routes = [
     path: 'create',
     component: CreateUserZitadelComponent,
     data: { title: 'Create User', breadcrumb: 'Create User' },
-    resolve: { usersTemplate: UsersTemplateResolver }
+    //resolve: { user: UsersZitadelResolver }
   },
   {
     path: ':id',
@@ -92,7 +95,7 @@ const zitadelRoutes: Routes = [
         data: { title: 'Edit User', breadcrumb: 'Edit', routeResolveBreadcrumb: false },
         resolve: {
           user: UserZitadelResolver,
-          usersTemplate: UsersTemplateResolver
+          usersTemplate: UsersZitadelTemplateResolver
         }
       }
     ]

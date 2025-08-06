@@ -45,9 +45,7 @@ export class UsersService {
    * @returns {Observable<any>} User.
    */
   editUser(userId: string, user: any): Observable<any> {
-    console.log('Enviando PUT a:', userId);
-    console.log('Payload:', user);
-    return this.http.put(`/user/${userId}`, user);
+    return this.http.put(`/users/${userId}`, user);
   }
 
   /**

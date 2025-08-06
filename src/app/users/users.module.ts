@@ -12,10 +12,10 @@ import { ViewUserComponent } from './view-user/view-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
 /** Custom Components of Zitadel */
-import { ViewUserZitadelComponent } from 'app/zitadel/users/view-user/view-user.component';
-import { EditUserComponent as EditUserZitadelComponent } from 'app/zitadel/users/edit-user/edit-user.component';
-import { CreateUserComponent as CreateUserZitadelComponent } from 'app/zitadel/users/create-user/create-user.component';
-import { UsersComponent as UserZitadelComponent } from 'app/zitadel/users/users.component';
+import { ViewUserComponent as ViewUserZitadelComponent } from '../zitadel/users/view-user/view-user.component';
+import { EditUserComponent as EditUserZitadelComponent } from '../zitadel/users/edit-user/edit-user.component';
+import { CreateUserComponent as CreateUserZitadelComponent } from '../zitadel/users/create-user/create-user.component';
+import { UsersComponent as UserZitadelComponent } from '../zitadel/users/users.component';
 
 /**
  * Users Module

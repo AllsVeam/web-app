@@ -18,6 +18,11 @@ export class UserZitadelResolver {
    */
   constructor(private usersServiceZitadel: UsersServiceZitadel) {}
 
+  /**
+   * Returns the user data.
+   * @returns {Observable<any>}
+   */
+
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const userId = route.paramMap.get('id');
     return this.usersServiceZitadel.getUser(userId);

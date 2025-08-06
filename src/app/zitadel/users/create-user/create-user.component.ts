@@ -290,6 +290,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       this.staffData = [];
       this.usersService2.getStaff(officeId).subscribe((staff: any) => {
         this.staffData = staff;
+        console.log('Staff data:', this.staffData);
       });
     });
   }
