@@ -179,9 +179,11 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     private passwordsUtility: PasswordsUtility
   ) {
     this.route.data.subscribe((data: { usersTemplate: any }) => {
+      console.table(data);
       this.officesData = data.usersTemplate.allowedOffices;
-
       this.rolesData = data.usersTemplate.availableRoles;
+      console.log(this.officesData);
+      console.log(this.rolesData);
     });
   }
 

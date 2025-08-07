@@ -77,8 +77,9 @@ const zitadelRoutes: Routes = [
   {
     path: 'create',
     component: CreateUserZitadelComponent,
-    data: { title: 'Create User', breadcrumb: 'Create User' },
-    //resolve: { user: UsersZitadelResolver }
+    data: { title: 'Create User', breadcrumb: 'Create User'},
+    resolve: { usersTemplate: UsersTemplateResolver }
+
   },
   {
     path: ':id',

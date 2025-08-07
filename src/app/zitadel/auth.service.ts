@@ -111,7 +111,7 @@ export class AuthService {
       code_verifier: codeVerifier || ''
     };
 
-    fetch(this.api + 'tokenOIDC', {
+    fetch(this.api + 'auth/tokenOIDC', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -162,7 +162,7 @@ export class AuthService {
       return;
     }
 
-    fetch(this.api + 'userdetails', {
+    fetch(this.api + 'auth/userdetails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ export class AuthService {
   dtoToken() {
  
       const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
-    fetch(this.api + 'DTO-token', {
+    fetch(this.api + 'auth/DTO-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ export class AuthService {
 
   public notification() {
     try {
-      fetch(this.api + 'notifications', {
+      fetch(this.api + 'auth/notifications', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -244,7 +244,7 @@ export class AuthService {
 
   // Delete
   public deletUser(userId: string) {
-  fetch(`${this.api}user/`, {
+  fetch(`${this.api}auth/user/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -269,7 +269,7 @@ export class AuthService {
 
   // Activar
   public activeUser(userId: string) {
-  fetch(`${this.api}user/reactivate`, {
+  fetch(`${this.api}auth/user/reactivate`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -290,7 +290,7 @@ export class AuthService {
 
   // Desactive
   public desactiveUser(userId: string) {
-  fetch(`${this.api}user/desactivate`, {
+  fetch(`${this.api}auth/user/desactivate`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ export class AuthService {
 
   public getUsers() {
     let getUsers: any[] = [];
-    fetch(`${this.api}user/`, {
+    fetch(`${this.api}auth/user/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -338,7 +338,7 @@ export class AuthService {
 
   /*** CRUD to Role */
   public createRole(roleKey: string, displayName: string, group: string) {
-    fetch(`${this.api}roles`, {
+    fetch(`${this.api}auth/roles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -357,7 +357,7 @@ export class AuthService {
   }
 
   public updateRole(roleKey: string, displayName: string, group: string) {
-    fetch(`${this.api}roles`, {
+    fetch(`${this.api}auth/roles`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -376,7 +376,7 @@ export class AuthService {
   }
 
   public deleteRole(roleKey: string) {
-    fetch(`${this.api}roles`, {
+    fetch(`${this.api}auth/roles`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

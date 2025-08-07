@@ -28,12 +28,12 @@ export class UsersServiceZitadel {
    */
   createUser(user: any): Observable<any> {
     console.log('Creating user:', user);
-    return this.http.post(this.api+'user/crear', user);
+    return this.http.post(this.api+'auth/user/crear', user);
   }
 
 getDatosExtraUsuario(userId: string): Observable<any> {
   const body = { userId: userId };
-  return this.http.post(this.api + 'user/dataUserBD', body);
+  return this.http.post(this.api + 'auth/user/dataUserBD', body);
 }
 
 
@@ -42,11 +42,11 @@ getDatosExtraUsuario(userId: string): Observable<any> {
       userId: userId,
       roleKeys: roleKeys.map(String)
     };
-    return this.http.post(this.api+'user/assign-roles', payload);
+    return this.http.post(this.api+'auth/user/assign-roles', payload);
   }
 
   createUserBd(user: any): Observable<any> {
-    return this.http.post(this.api+'user/CrearBD', user);
+    return this.http.post(this.api+'auth/user/CrearBD', user);
   }
 
   /**
@@ -61,7 +61,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
    */
   getUsers(): Observable<any[]> {
       const token = this.autservice.getAccessToken();
-    return from(fetch(`${this.api}user/`, {
+    return from(fetch(`${this.api}auth/user/`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -95,7 +95,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
    * @returns {Observable<any>} User.
    */
   getUser(userId: string): Observable<any> {
-    const url = `${this.api}user`;
+    const url = `${this.api}auth/user`;
     return from(
       fetch(url, {
         method: 'POST',
@@ -113,18 +113,18 @@ getDatosExtraUsuario(userId: string): Observable<any> {
   
 
   editUser(user: any): Observable<any> {
-    return this.http.put(this.api+'user/update-user', user);
+    return this.http.put(this.api+'auth/user/update-user', user);
   }
 
   editRoles(roles: any): Observable<any> {
-    return this.http.put(this.api+'user/update-roles', roles);
+    return this.http.put(this.api+'auth/user/update-roles', roles);
   }
 
   editOffice(office: any): Observable<any> {
-    return this.http.put(this.api+'user/update-office', office);
+    return this.http.put(this.api+'auth/user/update-office', office);
   }
 
   getRoles() {
-    return this.http.get(this.api+'roles');
+    return this.http.get(this.api+'auth/roles');
   }
 }
