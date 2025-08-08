@@ -106,7 +106,7 @@ const zitadelRoutes: Routes = [
 /**
  * Escoge el set de rutas correcto según el environment
  */
-const selectedRoutes = environment.MIFOS_OAUTH_SERVER_ENABLED
+const selectedRoutes = environment.OIDC.oidcServerEnabled
   ? mifosRoutes
   : zitadelRoutes;
 

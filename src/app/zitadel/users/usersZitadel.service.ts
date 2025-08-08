@@ -15,7 +15,7 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class UsersServiceZitadel {
-    private api = environment.zitadel_api;
+    private api = environment.OIDC.oidcApiUrl;
 
   /**
    * @param {HttpClient} http Http Client to send requests.

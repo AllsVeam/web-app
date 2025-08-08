@@ -12,12 +12,12 @@ import { Console } from 'console';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private baseUrl = environment.zitadel_BaseUrl;
+  private baseUrl = environment.OIDC.oidcBaseUrl;
   private authUrl = `${this.baseUrl}/oauth/v2/authorize`;
   private tokenUrl = `${this.baseUrl}/oauth/v2/token`;
-  private clientId = environment.zitadel_clientId;
-  private api = environment.zitadel_api;
-  private frontUrl = environment.zitadel_frontUrl;
+  private clientId = environment.OIDC.oidcClientId;
+  private api = environment.OIDC.oidcApiUrl;
+  private frontUrl = environment.OIDC.oidcFrontUrl;
   private redirectUri = `${this.frontUrl}callback`;
   private refreshTimeoutId: any = null;
 

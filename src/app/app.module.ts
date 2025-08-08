@@ -126,7 +126,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   AuthService,
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: environment.MIFOS_OAUTH_SERVER_ENABLED
+    useClass: environment.OIDC.oidcServerEnabled
       ? TokenInterceptor
       : ZitadelTokenInterceptor,
     multi: true

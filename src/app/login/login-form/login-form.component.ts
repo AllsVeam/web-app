@@ -25,7 +25,7 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginFormComponent implements OnInit {
     public environment = environment;
-  MIFOS_OAUTH_SERVER_ENABLED = environment.MIFOS_OAUTH_SERVER_ENABLED;    
+  oidcServerEnabled = environment.OIDC.oidcServerEnabled;    
   /** Login form group. */
   loginForm: FormGroup;
   /** Password input field type. */
@@ -52,7 +52,7 @@ export class LoginFormComponent implements OnInit {
    */
   ngOnInit() {
     this.createLoginForm();
-    console.log(this.MIFOS_OAUTH_SERVER_ENABLED);
+    console.log(this.oidcServerEnabled);
   }
 
   login2() {

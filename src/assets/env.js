@@ -44,4 +44,11 @@
   // OAuth Client Id  
   window['env']['oauthAppId'] = '';
 
+  //OidC Plugin Environment variables
+  window['env']['oidcServerEnabled'] = '';
+  window['env']['oidcBaseUrl']       = '';
+  window['env']['oidcClientId']      = '';
+  window['env']['oidcApiUrl']        = '';
+  window['env']['oidcFrontUrl']      = '';
+
 })(this);

@@ -24,8 +24,8 @@ export class ChangePasswordDialogComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-    private api = environment.zitadel_api;
-
+    private api = environment.OIDC.oidcApiUrl;
+  
   ngOnInit(): void {
     this.createChangePasswordForm();
     this.setupPasswordMatchValidation();
