@@ -15,7 +15,7 @@ export class CallbackComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const code = params['code'];
-      console.log('Código recibido:', code);
+      //console.log('Código recibido:', code);
       if (code) {
         // Aquí haces la solicitud para intercambiar el code por tokens
         // this.authService.exchangeCodeForToken(code);

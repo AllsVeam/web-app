@@ -7,10 +7,12 @@
     <fa-icon icon="trash" class="m-r-10"></fa-icon>
     {{ 'labels.buttons.Delete' | translate }}
   </button>
+  <div *ngIf="userData.isSelfServiceUser === 'USER_STATE_ACTIVE' || userData.isSelfServiceUser === 'USER_STATE_INACTIVE'">
   <button mat-raised-button color="primary" (click)="changeUserPassword(userData.id)">
     <fa-icon icon="cog" class="m-r-10"></fa-icon>
     {{ 'labels.buttons.Change Password' | translate }}
   </button>
+</div>
   <div [ngSwitch]="userData.isSelfServiceUser">
     <button *ngSwitchCase="'USER_STATE_ACTIVE'" mat-raised-button color="warn" (click)="desactiveUser(userData.id)">
       <fa-icon icon="ban" class="m-r-10"></fa-icon>

@@ -25,7 +25,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   ) {}
 
     private api = environment.zitadel_api;
-  
+
   ngOnInit(): void {
     this.createChangePasswordForm();
     this.setupPasswordMatchValidation();
@@ -93,7 +93,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
     this.http.put(this.api+'user/update-passUser', requestBody).subscribe({
       next: (res) => {
-        console.log('Contraseña actualizada', res);
+        //console.log('Contraseña actualizada', res);
         this.dialogRef.close(true);
       },
       error: (err) => {

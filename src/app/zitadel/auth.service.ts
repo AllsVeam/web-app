@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../core/authentication/authentication.service';
 import { Credentials } from '../core/authentication/credentials.model';
 import { OAuth2Token } from '../core/authentication/o-auth2-token.model';
-import { environment } from 'environments/environment'; 
+import { environment } from 'environments/environment';
 import { forEach } from 'lodash';
 import { Console } from 'console';
 
@@ -132,8 +132,6 @@ export class AuthService {
           expires_in: number;
           token_type: string;
         }) => {
-          console.log('Tokens:', tokens);
-
           const token: OAuth2Token = {
             access_token: tokens.access_token,
             token_type: tokens.token_type,
@@ -192,7 +190,7 @@ export class AuthService {
 
 
   dtoToken() {
- 
+
       const parsedToken: OAuth2Token = JSON.parse(sessionStorage.getItem('mifosXZitadelTokenDetails'));
     fetch(this.api + 'auth/DTO-token', {
       method: 'POST',
@@ -213,7 +211,7 @@ export class AuthService {
     }).then((response) => {
       console.log(response);
     });
-    
+
   }
 
   public notification() {
@@ -230,7 +228,7 @@ export class AuthService {
         //console.log(res);
         if (res.status === 401 || res.status === 403) {
           console.warn('Token expirado o inválido');
-          //this.logout();
+          this.logout();
         }
         /*
           else {
@@ -275,7 +273,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.getAccessToken()}`
     },
-    body: JSON.stringify({ userId }) 
+    body: JSON.stringify({ userId })
   })
     .then((res) => res.json())
     .then((data) => {
@@ -296,7 +294,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.getAccessToken()}`
     },
-    body: JSON.stringify({ userId })  
+    body: JSON.stringify({ userId })
   })
     .then((res) => res.json())
     .then((data) => {
@@ -367,7 +365,7 @@ export class AuthService {
     })
       .then((res) => res.json())
       .then((data) => {
-        
+
       })
       .catch((error) => {
         alert(error.msg);
@@ -386,7 +384,7 @@ export class AuthService {
     })
       .then((res) => res.json())
       .then((data) => {
-        
+
       })
       .catch((error) => {
         alert(error.msg);

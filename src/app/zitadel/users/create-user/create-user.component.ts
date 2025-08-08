@@ -179,11 +179,8 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     private passwordsUtility: PasswordsUtility
   ) {
     this.route.data.subscribe((data: { usersTemplate: any }) => {
-      console.table(data);
       this.officesData = data.usersTemplate.allowedOffices;
       this.rolesData = data.usersTemplate.availableRoles;
-      console.log(this.officesData);
-      console.log(this.rolesData);
     });
   }
 
@@ -292,7 +289,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       this.staffData = [];
       this.usersService2.getStaff(officeId).subscribe((staff: any) => {
         this.staffData = staff;
-        console.log('Staff data:', this.staffData);
       });
     });
   }
@@ -361,8 +357,6 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     delete user.firstName;
     delete user.lastName;
 
-    console.log('User data to create:', user);
-
     this.usersService.createUser(user).subscribe((response: any) => {
       const userId = response.object?.userId;
 
@@ -377,11 +371,11 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
           roleIds: selectedRoleIds || []
         };
 
-        console.log('Sending to CrearBD:', bodyBD);
+        //console.log('Sending to CrearBD:', bodyBD);
 
         this.usersService.createUserBd(bodyBD).subscribe(
           (resBD: any) => {
-            console.log('Usuario creado en BD:', resBD);
+            //console.log('Usuario creado en BD:', resBD);
 
             if (selectedRoleIds?.length > 0) {
               this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(

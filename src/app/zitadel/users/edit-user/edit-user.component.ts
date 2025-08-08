@@ -48,11 +48,13 @@ export class EditUserComponent implements OnInit {
       this.rolesData = data.usersTemplate.availableRoles;
       this.UsersServiceZitadel.getDatosExtraUsuario(this.userData.id).subscribe((resp: any) => {
         const datos = resp.object;
+        console.table(datos);
+
         this.userData = {
           ...this.userData,
-          userName: datos.username,
-          officeId: datos.officeId,
-          staffId: datos.staffId,
+          userName: datos.username_zitadel,
+          officeId: datos.office_id,
+          staffId: datos.staff_id,
           selectedRoles: datos.roles || []
         };
         this.createEditUserForm();

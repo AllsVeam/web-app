@@ -57,7 +57,6 @@ export class ViewUserComponent {
       };
 
       this.userData = user;
-      console.log(this.userData.id);
     });
   }
 

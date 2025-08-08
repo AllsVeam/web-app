@@ -138,13 +138,11 @@ export class WebAppComponent implements OnInit {
    */
   checkLogin() {
     const token = this.authService.getAccessToken();
-    console.log('Access Token:', token);
     this.isLoggedIn = !!token;
   }
 
   login() {
     this.authService.login();
-    console.log('iniciado');
   }
 
   logout() {
@@ -155,7 +153,6 @@ export class WebAppComponent implements OnInit {
   loadProtectedData() {
     this.apiService.getProtectedResource().subscribe(
       (data) => {
-        console.log('Protected data:', data);
         this.protectedData = data;
       },
       (error) => {

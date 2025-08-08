@@ -27,7 +27,6 @@ export class UsersServiceZitadel {
    * @returns {Observable<any>}
    */
   createUser(user: any): Observable<any> {
-    console.log('Creating user:', user);
     return this.http.post(this.api+'auth/user/crear', user);
   }
 
@@ -84,7 +83,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
             }
           });
         }
-        console.log('Users:', out);
+        //console.log('Users:', out);
         return out;
       })
     );
@@ -110,7 +109,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
       map((response) => response)
     );
   }
-  
+
 
   editUser(user: any): Observable<any> {
     return this.http.put(this.api+'auth/user/update-user', user);

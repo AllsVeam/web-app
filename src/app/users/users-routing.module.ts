@@ -132,7 +132,8 @@ const routes: Routes = [
     UsersTemplateResolver,
     UserResolver,
     UsersZitadelResolver,
-    UserZitadelResolver
+    UserZitadelResolver,
+    UsersZitadelTemplateResolver
   ]
 })
 export class UsersRoutingModule {}
