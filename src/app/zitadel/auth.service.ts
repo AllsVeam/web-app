@@ -54,7 +54,7 @@ export class AuthService {
     }
 
     if (!idToken) {
-      console.warn('No hay id_token. Redirigiendo a login.');
+      console.warn('No id_token found. Redirecting to login.');
       window.location.href = postLogoutRedirectUri;
       return;
     }
@@ -120,7 +120,7 @@ export class AuthService {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`Error al intercambiar código: ${res.status} ${res.statusText}`);
+          throw new Error(`Error exchanging code: ${res.status} ${res.statusText}`);
         }
         return res.json();
       })
@@ -149,7 +149,7 @@ export class AuthService {
         }
       )
       .catch((error) => {
-        console.error('Error al intercambiar el código por tokens:', error);
+        console.error('Error exchanging the code for tokens:', error);
       });
   }
 
@@ -169,7 +169,7 @@ export class AuthService {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Error al obtener datos del usuario desde backend');
+          throw new Error('Error retrieving user data from backend');
         }
         return res.json();
       })
@@ -183,7 +183,7 @@ export class AuthService {
         window.location.href = '/#/home';
       })
       .catch((error) => {
-        console.error('Error al consumir el backend:', error);
+        console.error('Error consuming backend:', error);
       });
   }
 
@@ -227,7 +227,7 @@ export class AuthService {
       }).then((res) => {
         //console.log(res);
         if (res.status === 401 || res.status === 403) {
-          console.warn('Token expirado o inválido');
+          console.warn('Expired or invalid token');
           this.logout();
         }
         /*
@@ -281,7 +281,7 @@ export class AuthService {
     })
     .catch((error) => {
       alert(error.msg);
-      console.error('Error activando usuario:', error);
+      console.error('Error activating user:', error);
     });
 }
 
@@ -302,7 +302,7 @@ export class AuthService {
     })
     .catch((error) => {
       alert(error.msg);
-      console.error('Error desactivando usuario:', error);
+      console.error('Error deactivating user:', error);
     });
 }
 
@@ -328,10 +328,10 @@ export class AuthService {
           });
           console.log(getUsers);
         } else {
-          console.error('La respuesta no contiene usuarios válidos');
+          console.error('The response does not contain valid users');
         }
       })
-      .catch((error) => console.error(`Error al obtener los usuarios: ${error}`));
+      .catch((error) => console.error(`Error retrieving users: ${error}`));
   }
 
   /*** CRUD to Role */
@@ -350,7 +350,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error creando Rol:', error);
+        console.error('Error creating Role:', error);
       });
   }
 
@@ -369,7 +369,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error Actualizando Rol:', error);
+        console.error('Error updating Role:', error);
       });
   }
 
@@ -398,8 +398,8 @@ export class AuthService {
       const rt = localStorage.getItem('refresh_token');
 
       if (!rt) {
-        console.warn('[AuthService] ❌ No existe refresh_token en localStorage. Debes hacer login nuevamente.');
-        console.log("logout desde el refreshToken1");
+        console.warn('No refresh_token exists in localStorage. You must log in again.');
+        console.log("logout from refreshToken");
         //this.logout();
         return reject('Sin refresh_token');
       }
@@ -409,7 +409,7 @@ export class AuthService {
       payload.set('refresh_token', rt);
       payload.set('client_id', this.clientId);
 
-      console.log('[AuthService] 🔄 Iniciando refreshToken()');
+      console.log('Iniciando refreshToken()');
 
       fetch(this.tokenUrl, {
         method: 'POST',
@@ -420,20 +420,20 @@ export class AuthService {
       })
         .then((res) => {
           if (!res.ok) {
-            console.error(`[AuthService] ❌ Error HTTP en refresh: ${res.status} ${res.statusText}`);
+            console.error(`Error HTTP en refresh: ${res.status} ${res.statusText}`);
             return res.text().then((text) => {
-              console.error('[AuthService] ❌ Cuerpo de error:', text);
+              console.error('Cuerpo de error:', text);
               throw new Error(text);
             });
           }
           return res.json();
         })
         .then((tokens) => {
-          console.log('[AuthService] ✅ Respuesta del token refresh:', tokens);
+          console.log('Respuesta del token refresh:', tokens);
 
           if (!tokens || !tokens.access_token || !tokens.expires_in) {
-            throw new Error('La respuesta del servidor no tiene los campos esperados.');
-          }
+  throw new Error("The server's response does not contain the expected fields.");
+}
 
           localStorage.setItem('access_token', tokens.access_token);
           localStorage.setItem('id_token', tokens.id_token ?? '');
@@ -446,11 +446,11 @@ export class AuthService {
           resolve();
         })
         .catch((err) => {
-          console.warn('[AuthService] ❌ refreshToken falló, forzando logout en 2 segundos');
+          console.warn('refreshToken failed, forcing logout in 2 seconds');
           console.warn('→ Error:', err);
           console.warn('→ refresh_token usado:', rt);
           setTimeout(() => {
-            console.log('[AuthService] 🔄 Forzando logout tras error en refreshToken');
+            console.log('Forcing logout after refreshToken error');
             //this.logout();
           }, 300000);
 
@@ -460,14 +460,9 @@ export class AuthService {
   }
 
   private scheduleRefresh(expiresIn: number) {
-    console.log('Programando refresh en', expiresIn-3539, 'segundos');
-
     const refreshInMs = (expiresIn - 3539) * 1000;
-    //const refreshInMs = (expiresIn - 40090) * 1000;
-    console.log('Programando refresh en', expiresIn - 3539, 'segundos');
-
     if (refreshInMs <= 0) {
-      console.log('expiresIn muy pequeño o negativo, refrescando de inmediato');
+      console.log('expiresIn too small or negative, refreshing immediately');
       this.refreshToken();
       return;
     }

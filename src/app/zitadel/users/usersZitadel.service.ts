@@ -83,7 +83,6 @@ getDatosExtraUsuario(userId: string): Observable<any> {
             }
           });
         }
-        //console.log('Users:', out);
         return out;
       })
     );

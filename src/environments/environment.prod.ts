@@ -64,7 +64,7 @@ export const environment = {
   // OIDC Plugin Environment variables
 
   OIDC: {
-    oidcServerEnabled: window['env']['oidcServerEnabled'] || false,   // Enable/Disable OidC Plugin
+    oidcServerEnabled: window['env']['oidcServerEnabled'] || false, 
     oidcBaseUrl: window['env']['oidcBaseUrl'] || 'https://plugin-auth-ofrdfj.us1.zitadel.cloud',
     oidcClientId: window['env']['oidcClientId'] || '321191693166683125',
     oidcApiUrl: window['env']['oidcApiUrl'] || 'https://localhost:8443/fineract-provider/',

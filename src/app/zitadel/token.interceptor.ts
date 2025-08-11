@@ -19,8 +19,6 @@ export class TokenInterceptor implements HttpInterceptor {
       'Fineract-Platform-TenantId': this.FINERACT_PLATFORM_TENANT_IDENTIFIER,
       'Content-Type': req.headers.get('Content-Type') || 'application/json'
     };
-
-    // Definir endpoints públicos donde no se agrega Authorization
     const publicEndpoints = [ '/auth/test', '/health'];
     const isPublicEndpoint = publicEndpoints.some(url => req.url.includes(url));
 
@@ -54,12 +52,10 @@ export class TokenInterceptor implements HttpInterceptor {
         });
         return next.handle(retriedReq).toPromise() as Promise<HttpEvent<any>>;
       } else {
-        console.error("No se obtuvo nuevo access token tras refresh");
-        throw new Error('No se obtuvo nuevo access token tras refresh');
+        throw new Error('No new access token obtained after refresh');
       }
     } catch (e) {
-      console.error("Error en handle401Error, forzando logout");
-      // this.authService.logout(); // Descomentar si quieres forzar logout
+      console.error("Error in handle401Error, forcing logout");
       throw e;
     }
   }

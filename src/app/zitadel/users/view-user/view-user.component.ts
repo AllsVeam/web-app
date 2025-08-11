@@ -90,10 +90,7 @@ export class ViewUserComponent {
         const repeatPassword = response.repeatPassword;
         const firstname = this.userData.firstname;
         const data = { password: password, repeatPassword: repeatPassword, firstname: firstname };
-        /*
-        this.usersService.changePassword(this.userData.id, data).subscribe(() => {
-          this.router.navigate(['/appusers']);
-        });*/
+
       }
     });
   }

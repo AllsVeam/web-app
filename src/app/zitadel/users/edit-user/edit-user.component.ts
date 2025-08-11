@@ -190,11 +190,11 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit() {}
 
-  createEditUserForm() {
+createEditUserForm() {
     const profile = this.userData?.human?.profile ?? {};
     const email = this.userData?.human?.email?.email || '';
     const phone = this.userData?.human?.phone?.phone || '';
-    const defaultCode = '+52';
+    const defaultCode = '+1';
     let countryCode = defaultCode;
     let phoneNumber = phone;
     const gender = profile?.gender && profile.gender !== '' ? profile.gender : 'GENDER_MALE';
@@ -268,7 +268,7 @@ export class EditUserComponent implements OnInit {
    */
   officeChanged(officeId: number | undefined) {
     if (!officeId) {
-      console.warn('No se proporcionó officeId para cargar el staff.');
+      console.warn('No officeId provided to load staff.');
       return;
     }
 

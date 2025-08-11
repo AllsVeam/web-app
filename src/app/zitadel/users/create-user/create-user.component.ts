@@ -153,7 +153,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     { code: '+263', name: 'Zimbabue' }
   ];
 
-  /* Reference of create user form */
+ /* Reference of create user form */
   @ViewChild('userFormRef') userFormRef: ElementRef<any>;
   /* Template for popover on create user form */
   @ViewChild('templateUserFormRef') templateUserFormRef: TemplateRef<any>;
@@ -266,9 +266,9 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     });
 
     this.userForm.statusChanges.subscribe((status) => {
-      console.log('Status del formulario:', status);
+      console.log('Form status:', status);
       console.log(
-        'Campos inválidos:',
+        'Invalid fields:',
         Object.entries(this.userForm.controls)
           .filter(
             ([
@@ -375,7 +375,7 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
 
         this.usersService.createUserBd(bodyBD).subscribe(
           (resBD: any) => {
-            //console.log('Usuario creado en BD:', resBD);
+            //console.log('User created in DB:', resBD);
 
             if (selectedRoleIds?.length > 0) {
               this.usersService.assignRolesToUser(userId, selectedRoleIds).subscribe(
@@ -388,19 +388,19 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
                   }
                 },
                 (error) => {
-                  console.error('Error al asignar roles:', error);
+                  console.error('Error assigning roles:', error);
                 }
               );
             } else {
-              console.warn('No se encontraron roles seleccionados.');
+              console.warn('No selected roles found.');
             }
           },
           (error) => {
-            console.error('Error al crear en BD (CrearBD):', error);
+            console.error('Error creating in DB (CrearBD):', error);
           }
         );
       } else {
-        console.error('No se pudo obtener userId');
+        console.error('Could not get userId');
       }
     });
   }
@@ -475,4 +475,5 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 }

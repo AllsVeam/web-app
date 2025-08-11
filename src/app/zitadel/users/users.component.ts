@@ -19,25 +19,25 @@ import { ConfigurationWizardService } from '../../configuration-wizard/configura
 })
 export class UsersComponent implements OnInit, AfterViewInit {
 
-  /** Datos de usuarios */
+  /** User data */
   usersData: any[] = [];
   usersZitadelData: any[] = [];
 
-  /** Columnas */
+  /** Columns */
   displayedColumns: string[] = ['firstname', 'lastname', 'email', 'officeName'];
 
   /** DataSources */
   dataSource = new MatTableDataSource<any>();
   dataSourceZitadel = new MatTableDataSource<any>();
 
-  /** Referencias para paginación y ordenamiento */
+  /** References for pagination and sorting */
   @ViewChild('paginatorUsers', { static: true }) paginatorUsers!: MatPaginator;
   @ViewChild('sortUsers', { static: true }) sortUsers!: MatSort;
 
   @ViewChild('paginatorZitadel', { static: true }) paginatorZitadel!: MatPaginator;
   @ViewChild('sortZitadel', { static: true }) sortZitadel!: MatSort;
 
-  /* Botones y popovers */
+  /* Buttons and popovers */
   @ViewChild('buttonCreateUser') buttonCreateUser!: ElementRef<any>;
   @ViewChild('templateButtonCreateUser') templateButtonCreateUser!: TemplateRef<any>;
   @ViewChild('usersTable') usersTable!: ElementRef<any>;
@@ -51,16 +51,16 @@ export class UsersComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    // Obtener datos del resolver
+    // Get data from resolver
     this.route.data.subscribe((data: { users: any; usersZitadel: any }) => {
       this.usersData = data.users || [];
       this.usersZitadelData = data.usersZitadel || [];
 
-      // Inicializar tablas
+      // Initialize tables
       this.dataSource = new MatTableDataSource(this.usersData);
       this.dataSourceZitadel = new MatTableDataSource(this.usersZitadelData);
 
-      // Asignar paginator y sort DESPUÉS de tener datos
+      // Assign paginator and sort AFTER having data
       this.dataSource.paginator = this.paginatorUsers;
       this.dataSource.sort = this.sortUsers;
 
@@ -69,14 +69,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /** Filtrar tablas */
+  /** Filter tables */
   applyFilter(filterValue: string) {
     const filter = filterValue.trim().toLowerCase();
     this.dataSource.filter = filter;
     this.dataSourceZitadel.filter = filter;
   }
 
-  /** Mostrar popover */
+  /** Show popover */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean) {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
@@ -95,7 +95,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /** Navegar */
+  /** Navigate */
   nextStep() {
     this.configurationWizardService.showUsers = false;
     this.configurationWizardService.showUsersList = false;
