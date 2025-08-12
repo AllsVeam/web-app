@@ -27,13 +27,12 @@ export class UsersServiceZitadel {
    * @returns {Observable<any>}
    */
   createUser(user: any): Observable<any> {
-    return this.http.post(this.api+'auth/user/crear', user);
+    return this.http.post(this.api+'authentication/user', user);
   }
 
-getDatosExtraUsuario(userId: string): Observable<any> {
-  const body = { userId: userId };
-  return this.http.post(this.api + 'auth/user/dataUserBD', body);
-}
+  getDatosExtraUsuario(userId: string): Observable<any> {
+    return this.http.get(`${this.api}authentication/user/db/${userId}`);
+  }
 
 
   assignRolesToUser(userId: string, roleKeys: string[]): Observable<any> {
@@ -41,11 +40,11 @@ getDatosExtraUsuario(userId: string): Observable<any> {
       userId: userId,
       roleKeys: roleKeys.map(String)
     };
-    return this.http.post(this.api+'auth/user/assign-roles', payload);
+    return this.http.post(this.api+'authentication/user/role', payload);
   }
 
   createUserBd(user: any): Observable<any> {
-    return this.http.post(this.api+'auth/user/CrearBD', user);
+    return this.http.post(this.api+'authentication/user/db', user);
   }
 
   /**
@@ -60,7 +59,7 @@ getDatosExtraUsuario(userId: string): Observable<any> {
    */
   getUsers(): Observable<any[]> {
       const token = this.autservice.getAccessToken();
-    return from(fetch(`${this.api}auth/user/`, {
+    return from(fetch(`${this.api}authentication/user`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -93,15 +92,14 @@ getDatosExtraUsuario(userId: string): Observable<any> {
    * @returns {Observable<any>} User.
    */
   getUser(userId: string): Observable<any> {
-    const url = `${this.api}auth/user`;
+    const url = `${this.api}authentication/user/${userId}`;
     return from(
       fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.autservice.getAccessToken()}`
         },
-        body: JSON.stringify({ userId })
       })
     ).pipe(
       switchMap((res) => res.json()),
@@ -111,18 +109,18 @@ getDatosExtraUsuario(userId: string): Observable<any> {
 
 
   editUser(user: any): Observable<any> {
-    return this.http.put(this.api+'auth/user/update-user', user);
+    return this.http.put(this.api+'authentication/user', user);
   }
 
   editRoles(roles: any): Observable<any> {
-    return this.http.put(this.api+'auth/user/update-roles', roles);
+    return this.http.put(this.api+'authentication/user/role', roles);
   }
 
   editOffice(office: any): Observable<any> {
-    return this.http.put(this.api+'auth/user/update-office', office);
+    return this.http.put(this.api+'authentication/user/office', office);
   }
 
   getRoles() {
-    return this.http.get(this.api+'auth/roles');
+    return this.http.get(this.api+'authentication/role');
   }
 }

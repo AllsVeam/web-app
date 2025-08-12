@@ -67,11 +67,11 @@ export const environment = {
   minPasswordLength: loadedEnv['minPasswordLength'] || 12,
 
   OIDC: {
-    oidcServerEnabled: window['env']['oidcServerEnabled'] || false,   
-    oidcBaseUrl: window['env']['oidcBaseUrl'] || 'https://plugin-auth-ofrdfj.us1.zitadel.cloud',
-    oidcClientId: window['env']['oidcClientId'] || '321191693166683125',
-    oidcApiUrl: window['env']['oidcApiUrl'] || 'https://localhost:8443/fineract-provider/',
-    oidcFrontUrl: window['env']['oidcFrontUrl'] || 'http://localhost:4200/'
+    oidcServerEnabled: window['env']['oidcServerEnabled'] || false,
+    oidcBaseUrl: window['env']['oidcBaseUrl'] || '',
+    oidcClientId: window['env']['oidcClientId'] || '',
+    oidcApiUrl: window['env']['oidcApiUrl'] || '',
+    oidcFrontUrl: window['env']['oidcFrontUrl'] || ''
   }
 };
 

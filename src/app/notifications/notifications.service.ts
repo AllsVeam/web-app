@@ -25,10 +25,6 @@ export class NotificationsService {
    * @returns {Observable<any>} Notifications.
    */
   getNotifications(isRead: boolean, limit: number): Observable<any> {
-    if (localStorage.getItem('mifosXZitadel') === 'true') {
-      this.authService.notification();
-      return;
-    }
     const httpParams = new HttpParams().set('isRead', isRead.toString()).set('limit', limit);
     return this.http.get('/notifications', { params: httpParams });
   }
@@ -37,10 +33,6 @@ export class NotificationsService {
    * @returns {Observable<any>} Notifications.
    */
   updateNotifications(): Observable<any> {
-    if (localStorage.getItem('mifosXZitadel') === 'true') {
-      this.authService.notification();
-      return;
-    }
     return this.http.put('/notifications', {});
   }
 

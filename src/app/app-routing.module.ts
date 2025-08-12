@@ -5,35 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 // Not Found Component
 import { NotFoundComponent } from './not-found/not-found.component';
 
-import { WebAppComponent } from './web-app.component';
-import { LoginComponent } from './login/login.component'; 
-import { HomeComponent } from './home/home.component';
-import { authGuard } from './zitadel/auth.guard';
-import { CallbackComponent } from './zitadel/callback/callback.component';
-
 /**
  * Fallback to this route when no prior route is matched.
  */
 const routes: Routes = [
-  /*
-  {
-    path: 'login2',
-    component: WebAppComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },*/
-  {
-    path: 'callback',
-    component: CallbackComponent
-  },
   {
     path: '**',
     component: NotFoundComponent
@@ -46,10 +21,8 @@ const routes: Routes = [
  * Configures the fallback route.
  */
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: false })],
   exports: [RouterModule],
-  providers: [
-    CallbackComponent
-  ]
+  providers: []
 })
 export class AppRoutingModule {}

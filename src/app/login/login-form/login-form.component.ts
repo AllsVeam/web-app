@@ -14,7 +14,6 @@ import { environment } from '../../../environments/environment';
 
 
 
-
 /**
  * Login form component.
  */
@@ -24,8 +23,10 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
-    public environment = environment;
-  oidcServerEnabled = environment.OIDC.oidcServerEnabled;    
+  public environment = environment;
+  oidcServerEnabled = (window as any)?.env?.oidcServerEnabled === 'true';
+
+
   /** Login form group. */
   loginForm: FormGroup;
   /** Password input field type. */
@@ -53,6 +54,13 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
     this.createLoginForm();
     console.log(this.oidcServerEnabled);
+    console.log("Sera un boleano : ");
+    console.log(typeof this.oidcServerEnabled === 'boolean');
+    console.log((window as any).env.oidcServerEnabled);
+    console.log((window as any).env.oidcBaseUrl);
+    console.log((window as any).env.oidcClientId);
+    console.log((window as any).env.oidcApiUrl);
+    console.log((window as any).env.oidcFrontUrl);
   }
 
   login2() {
