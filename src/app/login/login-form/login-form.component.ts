@@ -23,8 +23,15 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
-  public environment = environment;
-  oidcServerEnabled = (window as any)?.env?.oidcServerEnabled === 'true';
+ public environment = environment;
+oidcServerEnabled = !(
+  (window as any)?.env?.oidcServerEnabled === false ||
+  (window as any)?.env?.oidcServerEnabled === 'false' ||
+  (window as any)?.env?.oidcServerEnabled === 0 ||
+  (window as any)?.env?.oidcServerEnabled === '0' ||
+  (window as any)?.env?.oidcServerEnabled === null ||
+  (window as any)?.env?.oidcServerEnabled === undefined
+);
 
 
   /** Login form group. */

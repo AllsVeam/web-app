@@ -126,10 +126,16 @@ export function HttpLoaderFactory(http: HttpClient) {
   AuthService,
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: environment.OIDC.oidcServerEnabled
-      ? TokenInterceptor
-      : ZitadelTokenInterceptor,
-    multi: true
+useClass: !(
+  environment.OIDC.oidcServerEnabled === false ||
+  environment.OIDC.oidcServerEnabled === 'false' ||
+  environment.OIDC.oidcServerEnabled === 0 ||
+  environment.OIDC.oidcServerEnabled === '0' ||
+  environment.OIDC.oidcServerEnabled === null ||
+  environment.OIDC.oidcServerEnabled === undefined
+) ? TokenInterceptor : ZitadelTokenInterceptor,
+multi: true
+
   }
 ],
   bootstrap: [WebAppComponent]
