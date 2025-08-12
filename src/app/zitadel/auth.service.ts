@@ -67,6 +67,7 @@ export class AuthService {
     localStorage.removeItem('token_start_time');
     localStorage.removeItem('code_verifier');
     localStorage.removeItem('mifosXZitadel');
+    localStorage.removeItem('auth_code');
 
     const logoutUrl = `${this.baseUrl}/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`;
     window.location.href = logoutUrl;
