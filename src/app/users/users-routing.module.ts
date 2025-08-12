@@ -11,7 +11,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
-/** Custom Components of Zitadel */
+/** Custom Components for Zitadel */
 import { UsersComponent as UserZitadelComponent } from '../zitadel/users/users.component';
 import { ViewUserComponent as ViewUserZitadelComponent } from '../zitadel/users/view-user/view-user.component';
 import { CreateUserComponent as CreateUserZitadelComponent } from '../zitadel/users/create-user/create-user.component';
@@ -22,7 +22,7 @@ import { UsersResolver } from './users.resolver';
 import { UsersTemplateResolver } from './users-template.resolver';
 import { UserResolver } from './user.resolver';
 
-/** Custom Resolvers Zitadel */
+/** Custom Resolvers for Zitadel */
 import { UsersZitadelResolver } from '../zitadel/users/usersZitadel.resolver';
 import { UsersZitadelTemplateResolver } from '../zitadel/users/usersZitadel-template.resolver';
 import { UserZitadelResolver } from '../zitadel/users/userZitadel.resolver';
@@ -30,7 +30,7 @@ import { UserZitadelResolver } from '../zitadel/users/userZitadel.resolver';
 /** Environment */
 import { environment } from 'environments/environment';
 
-/** Users Routes */
+/** Users Routes for Mifos */
 const mifosRoutes: Routes = [
   {
     path: '',
@@ -66,7 +66,7 @@ const mifosRoutes: Routes = [
 ];
 
 /**
- * Definición de rutas para Zitadel
+ * Route definition for Zitadel
  */
 const zitadelRoutes: Routes = [
   {
@@ -77,9 +77,8 @@ const zitadelRoutes: Routes = [
   {
     path: 'create',
     component: CreateUserZitadelComponent,
-    data: { title: 'Create User', breadcrumb: 'Create User'},
+    data: { title: 'Create User', breadcrumb: 'Create User' },
     resolve: { usersTemplate: UsersTemplateResolver }
-
   },
   {
     path: ':id',
@@ -104,14 +103,23 @@ const zitadelRoutes: Routes = [
 ];
 
 /**
- * Escoge el set de rutas correcto según el environment
+ * Choose the correct route set according to the environment
  */
-const selectedRoutes = environment.OIDC.oidcServerEnabled
-  ? mifosRoutes
-  : zitadelRoutes;
+const oidcFlag = environment.OIDC.oidcServerEnabled;
+
+const isOidcEnabled = !(
+  oidcFlag === false ||
+  oidcFlag === 'false' ||
+  oidcFlag === 0 ||
+  oidcFlag === '0' ||
+  oidcFlag === null ||
+  oidcFlag === undefined
+);
+
+const selectedRoutes = isOidcEnabled ? mifosRoutes : zitadelRoutes;
 
 /**
- * Rutas finales con el shell
+ * Final routes with the shell
  */
 const routes: Routes = [
   Route.withShell([
@@ -127,7 +135,7 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   providers: [
-    // Proveedores de ambos mundos
+    // Providers for both worlds
     UsersResolver,
     UsersTemplateResolver,
     UserResolver,
