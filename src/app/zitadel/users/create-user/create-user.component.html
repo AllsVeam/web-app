@@ -60,9 +60,9 @@
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
             <mat-select formControlName="gender" required>
-              <mat-option value="GENDER_MALE">{{ 'labels.inputs.Male' | translate }}</mat-option>
-              <mat-option value="GENDER_FEMALE">{{ 'labels.inputs.Female' | translate }}</mat-option>
-              <mat-option value="GENDER_OTHER">{{ 'labels.inputs.Other' | translate }}</mat-option>
+              <mat-option value="GENDER_MALE">{{ 'labels.catalogs.Male' | translate }}</mat-option>
+              <mat-option value="GENDER_FEMALE">{{ 'labels.catalogs.Female' | translate }}</mat-option>
+              <mat-option value="GENDER_OTHER">{{ 'labels.catalogs.Other' | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -78,7 +78,7 @@
             </mat-form-field>
 
             <mat-form-field class="flex-48">
-              <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
+              <mat-label>{{ 'labels.inputs.Phone Number' | translate }}</mat-label>
               <input matInput formControlName="phoneNumber" required maxlength="12" minlength="4" />
             </mat-form-field>
           </div>
