@@ -41,7 +41,7 @@
 
           <!-- Preferred Language -->
           <mat-form-field class="flex-48">
-            <mat-label>{{ 'labels.inputs.Preferred Language' | translate }}</mat-label>
+            <mat-label>{{ 'labels.inputs.Language' | translate }}</mat-label>
             <mat-select formControlName="preferredLanguage" required>
               <mat-option value="en">English</mat-option>
               <mat-option value="es">Español</mat-option>
@@ -60,16 +60,16 @@
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
             <mat-select formControlName="gender" required>
-              <mat-option value="GENDER_MALE">{{ 'labels.inputs.Male' | translate }}</mat-option>
-              <mat-option value="GENDER_FEMALE">{{ 'labels.inputs.Female' | translate }}</mat-option>
-              <mat-option value="GENDER_OTHER">{{ 'labels.inputs.Other' | translate }}</mat-option>
+              <mat-option value="GENDER_MALE">{{ 'labels.catalogs.Male' | translate }}</mat-option>
+              <mat-option value="GENDER_FEMALE">{{ 'labels.catalogs.Female' | translate }}</mat-option>
+              <mat-option value="GENDER_OTHER">{{ 'labels.catalogs.Other' | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <!-- Country code and phone -->
           <div class="flex items-center gap-2">
             <mat-form-field class="flex-48">
-              <mat-label>Código</mat-label>
+              <mat-label>{{ 'labels.inputs.Code' | translate }}</mat-label>
               <mat-select formControlName="countryCode" required>
                 <mat-option *ngFor="let country of countryCodes" [value]="country.code">
                   {{ country.name }} ({{ country.code }})
@@ -78,7 +78,7 @@
             </mat-form-field>
 
             <mat-form-field class="flex-48">
-              <mat-label>{{ 'labels.inputs.phone' | translate }}</mat-label>
+              <mat-label>{{ 'labels.inputs.Phone Number' | translate }}</mat-label>
               <input matInput formControlName="phoneNumber" required maxlength="12" minlength="4" />
             </mat-form-field>
           </div>
