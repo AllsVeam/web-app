@@ -69,7 +69,7 @@
           <!-- Country code and phone -->
           <div class="flex items-center gap-2">
             <mat-form-field class="flex-48">
-              <mat-label>Código</mat-label>
+              <mat-label>{{ 'labels.inputs.Code' | translate }}</mat-label>
               <mat-select formControlName="countryCode" required>
                 <mat-option *ngFor="let country of countryCodes" [value]="country.code">
                   {{ country.name }} ({{ country.code }})
