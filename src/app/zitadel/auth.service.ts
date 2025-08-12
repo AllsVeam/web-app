@@ -11,12 +11,12 @@ import { environment } from 'environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = environment.OIDC.oidcBaseUrl;
-  private authUrl = `${this.baseUrl}/oauth/v2/authorize`;
-  private tokenUrl = `${this.baseUrl}/oauth/v2/token`;
+  private authUrl = `${this.baseUrl}oauth/v2/authorize`;
+  private tokenUrl = `${this.baseUrl}oauth/v2/token`;
   private clientId = environment.OIDC.oidcClientId;
   private api = environment.OIDC.oidcApiUrl;
   private frontUrl = environment.OIDC.oidcFrontUrl;
-  private redirectUri = `${this.frontUrl}#/login`; // localhost:4200/callback
+  private redirectUri = `${this.frontUrl}#/login`;
   private refreshTimeoutId: any = null;
 
   constructor(

@@ -162,8 +162,7 @@ export class WebAppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
+    let code = localStorage.getItem('auth_code');
 
     if (code) {
       //this.router.navigate(['/callback'], { queryParams: { code } });
