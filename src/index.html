@@ -19,22 +19,12 @@
   </head>
   <body class="h-full">
     <script>
-      // Función para obtener parámetros URL
       function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
       }
-
-      // Capturar el 'code' si existe
-      const code = getQueryParam('code');
       if (code) {
-        // Guardar en localStorage (puedes cambiarlo por sessionStorage o donde prefieras)
         localStorage.setItem('auth_code', code);
-        console.log('Código guardado:', code);
-        // Opcional: si quieres redirigir o limpiar la URL para no mostrar el código
-        // history.replaceState(null, '', window.location.pathname);
-      }else{
-        console.warn('no hay para guardar:');
       }
     </script>
 

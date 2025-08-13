@@ -60,14 +60,6 @@ oidcServerEnabled = !(
    */
   ngOnInit() {
     this.createLoginForm();
-    console.log(this.oidcServerEnabled);
-    console.log("Sera un boleano : ");
-    console.log(typeof this.oidcServerEnabled === 'boolean');
-    console.log((window as any).env.oidcServerEnabled);
-    console.log((window as any).env.oidcBaseUrl);
-    console.log((window as any).env.oidcClientId);
-    console.log((window as any).env.oidcApiUrl);
-    console.log((window as any).env.oidcFrontUrl);
   }
 
   login2() {
