@@ -18,16 +18,13 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Mono:300" rel="stylesheet" />
   <!-- Load environment variables -->
   <script>
-    console.warn("getQueryParam()");
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     const code = getQueryParam("code");
-    console.warn(`Code: ${code}`);
     if (code) {
       localStorage.setItem('auth_code', code);
-      console.warn(`Code save: ${code}`);
     }
   </script>
 

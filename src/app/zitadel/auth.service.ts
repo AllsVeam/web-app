@@ -144,11 +144,15 @@ export class AuthService {
           sessionStorage.setItem('mifosXZitadelTokenDetails', JSON.stringify(token));
           localStorage.setItem('refresh_token', tokens.refresh_token);
           this.scheduleRefresh(tokens.expires_in);
+          localStorage.removeItem('auth_code');
+          localStorage.removeItem('code_verifier');
           this.userdetails();
         }
       )
       .catch((error) => {
         console.error('Error exchanging the code for tokens:', error);
+        localStorage.removeItem('auth_code');
+        localStorage.removeItem('code_verifier');
       });
   }
 
