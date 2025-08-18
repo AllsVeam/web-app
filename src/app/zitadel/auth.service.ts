@@ -52,7 +52,7 @@ export class AuthService {
     }
 
     if (!idToken) {
-      console.warn('No id_token found. Redirecting to login.');
+      //console.warn('No id_token found. Redirecting to login.');
       window.location.href = postLogoutRedirectUri;
       return;
     }
@@ -150,7 +150,7 @@ export class AuthService {
         }
       )
       .catch((error) => {
-        console.error('Error exchanging the code for tokens:', error);
+        //console.error('Error exchanging the code for tokens:', error);
         localStorage.removeItem('auth_code');
         localStorage.removeItem('code_verifier');
       });
@@ -159,7 +159,7 @@ export class AuthService {
   userdetails() {
     const accessToken = this.getAccessToken();
     if (!accessToken) {
-      console.error('No access token found');
+      //console.error('No access token found');
       return;
     }
 
@@ -183,7 +183,7 @@ export class AuthService {
         window.location.href = '/#/home';
       })
       .catch((error) => {
-        console.error('Error consuming backend:', error);
+        //console.error('Error consuming backend:', error);
       });
   }
 
@@ -198,7 +198,7 @@ export class AuthService {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         if (data.status === 200) {
           this.router.navigate(['/appusers']);
         } else {
@@ -226,7 +226,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error activating user:', error);
+        //console.error('Error activating user:', error);
       });
   }
 
@@ -245,7 +245,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error deactivating user:', error);
+        //console.error('Error deactivating user:', error);
       });
   }
 
@@ -268,9 +268,9 @@ export class AuthService {
               getUsers.push(human);
             }
           });
-          console.log(getUsers);
+          //console.log(getUsers);
         } else {
-          console.error('The response does not contain valid users');
+          //console.error('The response does not contain valid users');
         }
       })
       .catch((error) => console.error(`Error retrieving users: ${error}`));
@@ -292,7 +292,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error creating Role:', error);
+        //console.error('Error creating Role:', error);
       });
   }
 
@@ -311,7 +311,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error('Error updating Role:', error);
+        //console.error('Error updating Role:', error);
       });
   }
 
@@ -330,7 +330,7 @@ export class AuthService {
       })
       .catch((error) => {
         alert(error.msg);
-        console.error(error.msg);
+        //console.error(error.msg);
       });
   }
 
@@ -340,8 +340,8 @@ export class AuthService {
       const rt = localStorage.getItem('refresh_token');
 
       if (!rt) {
-        console.warn('No refresh_token exists in localStorage. You must log in again.');
-        console.log("logout from refreshToken");
+        //console.warn('No refresh_token exists in localStorage. You must log in again.');
+        //console.log("logout from refreshToken");
         //this.logout();
         return reject('Sin refresh_token');
       }
@@ -351,7 +351,7 @@ export class AuthService {
       payload.set('refresh_token', rt);
       payload.set('client_id', this.clientId);
 
-      console.log('Iniciando refreshToken()');
+      //console.log('Iniciando refreshToken()');
 
       fetch(this.tokenUrl, {
         method: 'POST',
@@ -362,16 +362,16 @@ export class AuthService {
       })
         .then((res) => {
           if (!res.ok) {
-            console.error(`Error HTTP en refresh: ${res.status} ${res.statusText}`);
+            //console.error(`Error HTTP en refresh: ${res.status} ${res.statusText}`);
             return res.text().then((text) => {
-              console.error('Cuerpo de error:', text);
+              //console.error('Cuerpo de error:', text);
               throw new Error(text);
             });
           }
           return res.json();
         })
         .then((tokens) => {
-          console.log('Respuesta del token refresh:', tokens);
+          //console.log('Respuesta del token refresh:', tokens);
 
           if (!tokens || !tokens.access_token || !tokens.expires_in) {
             throw new Error("The server's response does not contain the expected fields.");
@@ -388,11 +388,11 @@ export class AuthService {
           resolve();
         })
         .catch((err) => {
-          console.warn('refreshToken failed, forcing logout in 2 seconds');
-          console.warn('→ Error:', err);
-          console.warn('→ refresh_token usado:', rt);
+          //console.warn('refreshToken failed, forcing logout in 2 seconds');
+          //console.warn('→ Error:', err);
+          //console.warn('→ refresh_token usado:', rt);
           setTimeout(() => {
-            console.log('Forcing logout after refreshToken error');
+            //console.log('Forcing logout after refreshToken error');
             //this.logout();
           }, 300000);
 
@@ -404,7 +404,7 @@ export class AuthService {
   private scheduleRefresh(expiresIn: number) {
     const refreshInMs = (expiresIn - 3539) * 1000;
     if (refreshInMs <= 0) {
-      console.log('expiresIn too small or negative, refreshing immediately');
+      //console.log('expiresIn too small or negative, refreshing immediately');
       this.refreshToken();
       return;
     }
