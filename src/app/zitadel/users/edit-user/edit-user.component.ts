@@ -5,13 +5,17 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 /** Custom Services */
 import { UsersServiceZitadel } from '../usersZitadel.service';
 import { UsersService } from 'app/users/users.service';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 /**
  * Edit User Component.
  */
 @Component({
   selector: 'mifosx-edit-user',
   templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.scss']
+  styleUrls: ['./edit-user.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS
+  ]
 })
 export class EditUserComponent implements OnInit {
   /** User Data */

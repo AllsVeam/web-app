@@ -1,13 +1,16 @@
+import { MatPaginatorModule } from '@angular/material/paginator';
 /** Angular Imports */
 import { Component, OnInit, TemplateRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 /** Custom Services */
 import { PopoverService } from '../../configuration-wizard/popover/popover.service';
 import { ConfigurationWizardService } from '../../configuration-wizard/configuration-wizard.service';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 /**
  * Users component.
@@ -15,7 +18,14 @@ import { ConfigurationWizardService } from '../../configuration-wizard/configura
 @Component({
   selector: 'mifosx-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    FontAwesomeModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
+  ]
 })
 export class UsersComponent implements OnInit, AfterViewInit {
 

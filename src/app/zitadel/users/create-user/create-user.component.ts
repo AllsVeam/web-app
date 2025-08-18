@@ -1,7 +1,7 @@
 /** Angular Imports */
 import { Component, OnInit, TemplateRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 /** Custom Services */
@@ -15,7 +15,7 @@ import { confirmPasswordValidator } from 'app/login/reset-password/confirm-passw
 import { ConfigurationWizardService } from 'app/configuration-wizard/configuration-wizard.service';
 import { ContinueSetupDialogComponent } from 'app/configuration-wizard/continue-setup-dialog/continue-setup-dialog.component';
 import { UsersService } from 'app/users/users.service';
-import { constant } from 'lodash';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
  * Create user component.
@@ -23,7 +23,11 @@ import { constant } from 'lodash';
 @Component({
   selector: 'mifosx-create-user',
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss']
+  styleUrls: ['./create-user.component.scss'],
+  standalone: true,
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS
+  ]
 })
 export class CreateUserComponent implements OnInit, AfterViewInit {
   /** User form. */

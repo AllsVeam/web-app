@@ -14,6 +14,8 @@ import { AuthService } from 'app/zitadel/auth.service';
 import { DeleteDialogComponent } from 'app/shared/delete-dialog/delete-dialog.component';
 import { ChangePasswordDialogComponent } from 'app/zitadel/shared/change-password-dialog/change-password-dialog.component';
 import { strings } from '@angular-devkit/schematics';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 /**
  * View user component.
@@ -21,7 +23,11 @@ import { strings } from '@angular-devkit/schematics';
 @Component({
   selector: 'mifosx-view-user',
   templateUrl: './view-user.component.html',
-  styleUrls: ['./view-user.component.scss']
+  styleUrls: ['./view-user.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    FontAwesomeModule
+  ]
 })
 export class ViewUserComponent {
   /** User Data. */

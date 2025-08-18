@@ -14,9 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 
 @NgModule({
-  declarations: [
-    ChangePasswordDialogComponent
-  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -26,7 +23,8 @@ import { ChangePasswordDialogComponent } from './change-password-dialog/change-p
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ChangePasswordDialogComponent
   ],
   exports: [
     ChangePasswordDialogComponent

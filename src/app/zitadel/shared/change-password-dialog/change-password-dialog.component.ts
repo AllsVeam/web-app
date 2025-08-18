@@ -1,17 +1,24 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogActions } from '@angular/material/dialog';
 import { UntypedFormBuilder, Validators, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { environment } from 'environments/environment';
 import { confirmPasswordValidator } from 'app/login/reset-password/confirm-password.validator';
 import { HttpClient } from '@angular/common/http';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+import { environment } from '../../../../environments/environment';
+
+
 /**
  * Change Password Dialog component.
  */
 @Component({
   selector: 'mifosx-change-password-dialog',
   templateUrl: './change-password-dialog.component.html',
-  styleUrls: ['./change-password-dialog.component.scss']
+  styleUrls: ['./change-password-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    MatDialogActions
+  ]
 })
 export class ChangePasswordDialogComponent implements OnInit {
   minPasswordLength: number = environment.minPasswordLength || 12;
@@ -25,7 +32,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   ) {}
 
     private api = environment.OIDC.oidcApiUrl;
-  
+
   ngOnInit(): void {
     this.createChangePasswordForm();
     this.setupPasswordMatchValidation();
