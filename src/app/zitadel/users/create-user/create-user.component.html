@@ -43,16 +43,8 @@
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Language' | translate }}</mat-label>
             <mat-select formControlName="preferredLanguage" required>
-              <mat-option value="en">English</mat-option>
-              <mat-option value="es">Español</mat-option>
-              <mat-option value="de">Deutsch</mat-option>
-              <mat-option value="fr">Français</mat-option>
-              <mat-option value="it">Italiano</mat-option>
-              <mat-option value="pt">Português</mat-option>
-              <mat-option value="ru">Русский</mat-option>
-              <mat-option value="zh">中文</mat-option>
-              <mat-option value="ja">日本語</mat-option>
-              <mat-option value="ko">한국어</mat-option>
+              <mat-option value="es">{{'languages.es-MX' | translate}}</mat-option>
+              <mat-option value="en">{{'languages.en-US' | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -60,9 +52,9 @@
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
             <mat-select formControlName="gender" required>
-              <mat-option value="GENDER_MALE">{{ 'labels.catalogs.Male' | translate }}</mat-option>
-              <mat-option value="GENDER_FEMALE">{{ 'labels.catalogs.Female' | translate }}</mat-option>
-              <mat-option value="GENDER_OTHER">{{ 'labels.catalogs.Other' | translate }}</mat-option>
+              <mat-option value="GENDER_MALE">{{ 'labels.catalogs.male' | translate }}</mat-option>
+              <mat-option value="GENDER_FEMALE">{{ 'labels.catalogs.female' | translate }}</mat-option>
+              <mat-option value="GENDER_OTHER">{{ 'labels.catalogs.other' | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -72,8 +64,8 @@
               <mat-label>{{ 'labels.inputs.Code' | translate }}</mat-label>
               <mat-select formControlName="countryCode" required>
                 <mat-option *ngFor="let country of countryCodes" [value]="country.code">
-                  {{ country.name }} ({{ country.code }})
-                </mat-option>
+                {{ 'countries.' + country.key | translate }} ({{ country.code }})
+              </mat-option>
               </mat-select>
             </mat-form-field>
 

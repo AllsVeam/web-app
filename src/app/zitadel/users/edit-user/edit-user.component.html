@@ -5,7 +5,7 @@
         <div class="layout-row-wrap gap-2px responsive-column">
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Username' | translate }}</mat-label>
-            <input matInput required formControlName="username" readonline/>
+            <input matInput required formControlName="username" readonline />
             <mat-error *ngIf="editUserForm.controls.username.hasError('required')">
               {{ 'labels.inputs.Username' | translate }} {{ 'labels.commons.is' | translate }}
               <strong>{{ 'labels.commons.required' | translate }}</strong>
@@ -55,10 +55,11 @@
             <mat-label>{{ 'labels.inputs.Code' | translate }}</mat-label>
             <mat-select formControlName="countryCode" required>
               <mat-option *ngFor="let country of countryCodes" [value]="country.code">
-                {{ country.name }} ({{ country.code }})
+                {{ 'countries.' + country.key | translate }} ({{ country.code }})
               </mat-option>
             </mat-select>
           </mat-form-field>
+
 
           <mat-form-field class="flex-75">
             <mat-label>{{ 'labels.inputs.Phone Number' | translate }}</mat-label>
@@ -68,16 +69,17 @@
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Gender' | translate }}</mat-label>
             <mat-select formControlName="gender" required>
-              <mat-option value="GENDER_MALE">{{ 'Male' | translate }}</mat-option>
-              <mat-option value="GENDER_FEMALE">{{ 'Female' | translate }}</mat-option>
+              <mat-option value="GENDER_MALE">{{ 'labels.catalogs.male' | translate }}</mat-option>
+              <mat-option value="GENDER_FEMALE">{{ 'labels.catalogs.female' | translate }}</mat-option>
+              <mat-option value="GENDER_OTHER">{{ 'labels.catalogs.other' | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field class="flex-48">
             <mat-label>{{ 'labels.inputs.Language' | translate }}</mat-label>
             <mat-select formControlName="preferredLanguage" required>
-              <mat-option value="es">Español</mat-option>
-              <mat-option value="en">English</mat-option>
+              <mat-option value="es">{{'languages.es-MX' | translate}}</mat-option>
+              <mat-option value="en">{{'languages.en-US' | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
 
