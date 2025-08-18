@@ -5,6 +5,8 @@
   "errors": {
     "Capitalized Income amount adjusted already adjusted": "Valor da Renda Capitalizada ajustado já ajustado",
     "Capitalized Income Adjustment amount must be lower or equal to": "O valor do ajuste de renda capitalizada deve ser menor ou igual a",
+    "Buy Down Fee amount already adjusted": "Montante da comissão de compra já ajustado",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "O montante do ajustamento da comissão de compra deve ser inferior ou igual a",
     "Email not valid": "E-mail não válido",
     "Filling Details": "Clique para começar a preencher os dados. * os campos de marcação são necessários. Para mais detalhes clique:",
     "Password is required": "Senha requerida",
@@ -367,6 +369,7 @@
       "Create Group": "Criar grupo",
       "Create Holiday": "Criar feriado",
       "Create Hook": "Criar gancho",
+      "Create Interest Refund": "Criar reembolso de juros",
       "Create Journal Entries": "Criar lançamentos contábeis manuais",
       "Create Loan Product": "Criar produto de empréstimo",
       "Create Office": "Criar escritório",
@@ -540,6 +543,8 @@
       "CENTER": "CENTRO",
       "Capitalized Income": "Renda Capitalizada",
       "Capitalized Income Adjustment": "Ajuste de Renda Capitalizada",
+      "Buy Down Fee": "Taxa de compra",
+      "Buy Down Fee Adjustment": "Ajuste da taxa de compra",
       "Client": "Cliente",
       "cash_mgmt": "dinheiro_mgmt",
       "collection_sheet": "planilha_de_coleção",
@@ -815,6 +820,7 @@
       "Add/Edit Currency": "Adicionar/editar moeda",
       "Address": "Endereço",
       "Adjustment Capitalized Income Transaction": "Transação de Renda Capitalizada de Ajuste",
+      "Adjustment Buy Down Fee Transaction": "Transação da taxa de recompra de ajuste",
       "Advanced Accounting Rules": "Regras de contabilidade avançada",
       "All Charges": "Todas as cobranças",
       "All Dividends": "Todos os dividendos",
@@ -1159,7 +1165,14 @@
       "Grace On Principal": "Graça no diretor",
       "Insert Installment": "Inserir parcela",
       "Interest Rate": "Taxa de juro",
-      "Principal Amount": "Valor principal"
+      "Principal Amount": "Valor principal",
+      "Buy Down Fees": "Taxas de compra",
+      "Fee Amount": "Valor da taxa",
+      "Amortized Amount": "Valor amortizado",
+      "Not Yet Amortized Amount": "Valor ainda nao amortizado",
+      "Adjusted Amount": "Valor ajustado",
+      "Charged Off Amount": "Valor baixado",
+      "Date": "Data"
     },
     "inputs": {
       "accounting": {
@@ -1217,6 +1230,7 @@
       "Address Type": "tipo de endereço",
       "Adjust advance payments toward future installments": "Ajustar pagamentos antecipados para parcelas futuras",
       "Adjust interest rates for remainder of loan": "Ajustar as taxas de juros para o restante do empréstimo",
+      "Adjustment Amount": "Valor do ajuste",
       "Advance payments adjustment type": "Tipo de ajuste de adiantamento",
       "Advanced Payment Allocation Transactions": "Transações de alocação de pagamento avançado",
       "Advanced Payment Allocation Transaction Type": "Tipo de transação de alocação avançada de pagamento",
@@ -1240,6 +1254,7 @@
       "Alt": "Alt.",
       "Amortization": "Amortização",
       "Amortization Type": "Tipo de Amortização",
+      "Amortized Amount": "Valor Amortizado",
       "Amount": "Quantia",
       "Amount Collected": "Valor arrecadado",
       "Amount Paid": "Quantia paga",
@@ -1342,6 +1357,7 @@
       "ChargeOff Fraud Expense": "Cobrar despesas de fraude",
       "Charges": "Cobranças",
       "Checked Date": "Data verificada",
+      "Client Ip": "IP do cliente",
       "Checked To Date": "Verificado até o momento",
       "Checker": "Verificador",
       "Checker From Date": "Verificador de data",
@@ -1425,6 +1441,7 @@
       "Created At": "Criado em",
       "Created By": "Criado por",
       "Created On": "Criado em",
+      "Creation Date": "Data de Criação",
       "Credit": "Crédito",
       "Credit Account": "Conta de crédito",
       "Credit Account Name": "Nome da conta de crédito",
@@ -1877,6 +1894,7 @@
       "Mandatory": "Obrigatório",
       "Mandatory Guarantee(%)": "Garantia Obrigatória(%)",
       "Manual Entries Allowed": "Entradas manuais permitidas",
+      "Manual Journal Entry": "Lançamento Manual de Diário",
       "Mapper Key": "Chave do mapeador",
       "Mapper Value": "Valor do mapeador",
       "Mapping id": "ID de mapeamento",
@@ -2375,6 +2393,7 @@
       "Unassignment Date": "Data de cancelamento de atribuição",
       "Unique": "Exclusivo",
       "Unit Type": "Tipo de unidade",
+      "Unrecognized Amount": "Valor não reconhecido",
       "Updated By": "Atualizado por",
       "Updated on": "Atualizado em",
       "Url": "URL",
@@ -2471,7 +2490,17 @@
       "Enable income capitalization": "Habilitar capitalização de renda",
       "Income capitalization calculation type": "Tipo de cálculo de capitalização de renda",
       "Income capitalization strategy": "Estratégia de capitalização de renda",
-      "Income capitalization type": "Tipo de capitalização de renda"
+      "Income capitalization type": "Tipo de capitalização de renda",
+      "DEFERRED INCOME RECOGNITION": "Reconhecimento de receita diferida",
+      "Enable Buy down fee": "Habilitar taxa de aquisição",
+      "Merchant Buy down fee": "Taxa de compra inicial do comerciante",
+      "Buy down fee calculation type": "Tipo de cálculo de taxa de aquisição",
+      "Buy down fee strategy": "Estratégia de taxa de aquisição",
+      "Buy down fee income type": "Tipo de receita de taxa de aquisição",
+      "Buy down fees": "Taxas de compra antecipada",
+      "Income from Buy down fees": "Receita com taxas de recompra",
+      "Buy down fee Expense": "Despesa com taxas de recompra",
+      "Skip Interest Refund Transaction Posting": "Ignorar o lançamento do reembolso de juros"
     },
     "links": {
       "Community": "Comunidade",
@@ -2507,6 +2536,8 @@
       "Block Deposit": "Bloquear Depósito",
       "Block Withdrawal": "Retirada de bloco",
       "Breadcrumbs": "Migalhas de pão",
+      "Buy Down Fee": "Taxa de compra inicial",
+      "Buy Down Fee Adjustment": "Ajuste de taxa de compra para baixo",
       "Calculate Interest": "Calcular juros",
       "Capitalized Income": "Renda Capitalizada",
       "Capitalized Income Adjustment": "Ajuste de Renda Capitalizada",
@@ -3280,12 +3311,16 @@
       "Mandatory": "Obrigatório",
       "Voluntary": "Voluntário",
       "Write a note": "Escreva uma nota",
-      "“Maker-Checker” principle requires every tasks": "O princípio “Maker-Checker” exige que todas as tarefas sejam concluídas por duas pessoas para reduzir a chance de erros e uso indevido. Uma pessoa inicia o processo e a segunda o conclui."
+      "“Maker-Checker” principle requires every tasks": "O princípio “Maker-Checker” exige que todas as tarefas sejam concluídas por duas pessoas para reduzir a chance de erros e uso indevido. Uma pessoa inicia o processo e a segunda o conclui.",
+      "Buy Down Fees": "Taxas de compra"
     },
     "titles": {
       "Dashboard": "Painel",
       "Home": "Lar",
       "Login": "Conecte-se"
+    },
+    "messages": {
+      "No Data Found": "Nenhum dado encontrado"
     }
   },
   "languages": {
@@ -3498,6 +3533,7 @@
     "Yes": "Sim",
     "loan product will be active and available to clients": "A data em que o produto de empréstimo estará ativo e disponível para os clientes. Se estiver em branco, o produto de empréstimo estará ativo assim que for criado.",
     "loan product will become inactive and unavailable to clients": "A data em que o produto de empréstimo ficará inativo e indisponível para os clientes. Se estiver em branco, o produto de carregamento nunca ficará inativo.",
-    "Refund transactions where interest refund will automatically be calculated": "Transações de reembolso em que o reembolso de juros será calculado automaticamente"
+    "Refund transactions where interest refund will automatically be calculated": "Transações de reembolso em que o reembolso de juros será calculado automaticamente",
+    "Create Interest Refund": "Criar reembolso de juros"
   }
 }

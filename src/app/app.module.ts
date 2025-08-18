@@ -90,7 +90,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     PortalModule,
     CoreModule,
     HomeModule,

@@ -71,6 +71,11 @@ export interface LoanProduct {
   capitalizedIncomeStrategy?: OptionData;
   capitalizedIncomeType?: OptionData;
 
+  enableBuyDownFee?: boolean;
+  buyDownFeeCalculationType?: OptionData;
+  buyDownFeeStrategy?: OptionData;
+  buyDownFeeIncomeType?: OptionData;
+
   canDefineInstallmentAmount: boolean;
   graceOnArrearsAgeing?: number;
   overdueDaysForNPA?: number;
@@ -116,8 +121,10 @@ export interface LoanProduct {
   // Accounting
   accountingRule: any;
   accountingMappings?: { [key: string]: AccountingMapping };
+  buyDownExpenseAccountId?: number;
   fundSourceAccountId?: number;
   goodwillCreditAccountId?: number;
+  incomeFromBuyDownAccountId?: number;
   incomeFromCapitalizationAccountId?: number;
   incomeFromChargeOffFeesAccountId?: number;
   incomeFromChargeOffInterestAccountId?: number;

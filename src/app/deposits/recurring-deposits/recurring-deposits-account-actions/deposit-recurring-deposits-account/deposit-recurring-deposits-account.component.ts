@@ -1,13 +1,24 @@
 /** Angular Imports */
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+  UntypedFormControl,
+  ReactiveFormsModule
+} from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 /** Custom Services */
 import { RecurringDepositsService } from '../../recurring-deposits.service';
 import { SettingsService } from 'app/settings/settings.service';
 import { Dates } from 'app/core/utils/dates';
 import { Currency } from 'app/shared/models/general.model';
+import { TransactionCommand, TransactionTypeFlags } from '../../../transaction.model';
+import { InputAmountComponent } from '../../../../shared/input-amount/input-amount.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
  * Deposits Recurring Deposits Account Component
@@ -15,7 +26,13 @@ import { Currency } from 'app/shared/models/general.model';
 @Component({
   selector: 'mifosx-deposit-recurring-deposits-account',
   templateUrl: './deposit-recurring-deposits-account.component.html',
-  styleUrls: ['./deposit-recurring-deposits-account.component.scss']
+  styleUrls: ['./deposit-recurring-deposits-account.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    InputAmountComponent,
+    MatSlideToggle,
+    CdkTextareaAutosize
+  ]
 })
 export class DepositRecurringDepositsAccountComponent implements OnInit {
   @Input() currency: Currency;
@@ -39,8 +56,8 @@ export class DepositRecurringDepositsAccountComponent implements OnInit {
 
   action: string;
   actionName: string;
-  transactionCommand: string;
-  transactionType: { deposit: boolean; withdrawal: boolean } = { deposit: false, withdrawal: false };
+  transactionCommand: TransactionCommand;
+  transactionType: TransactionTypeFlags = { deposit: false, withdrawal: false };
 
   /**
    * Retrieves action details transactions template data from `resolve`
@@ -66,13 +83,18 @@ export class DepositRecurringDepositsAccountComponent implements OnInit {
         data.recurringDepositsAccountActionData.outstandingChargeAmount > 0
       ) {
         this.outstandingChargeAmount = data.recurringDepositsAccountActionData.outstandingChargeAmount;
-        this.transactionAmount = this.transactionAmount + this.outstandingChargeAmount;
+        this.transactionAmount += this.outstandingChargeAmount;
       }
     });
     this.actionName = this.route.snapshot.params['name'];
     this.action = this.actionName.toLowerCase();
-    this.transactionCommand = this.action.toLowerCase();
-    this.transactionType[this.transactionCommand] = true;
+    if (this.action === 'deposit' || this.action === 'withdrawal') {
+      this.transactionCommand = this.action;
+      this.transactionType[this.transactionCommand] = true;
+    } else {
+      throw new Error(`Invalid transaction action: ${this.actionName}`);
+    }
+
     this.accountId = this.route.parent.snapshot.params['recurringDepositAccountId'];
   }
 

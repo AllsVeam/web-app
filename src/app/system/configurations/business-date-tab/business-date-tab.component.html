@@ -10,18 +10,18 @@
       <mat-card>
         <form [formGroup]="businessDateForm">
           <mat-card-content>
-            <div class="flex-fill layout-row-wrap gap-2percent layout-lt-md-column space">
+            <div class="flex-100 layout-row layout-lt-md-column space">
               <div class="flex-50">
                 <span class="date-type flex-40">{{ 'labels.inputs.User date format' | translate }}: </span>
-                <span class="date-value flex-60">{{ userDateFormat }}</span>
+                <span class="date-value flex-60 m-l-30">{{ userDateFormat }}</span>
               </div>
             </div>
 
             <!-- Business Date -->
-            <div class="flex-fill layout-row-wrap gap-2percent layout-lt-md-column">
-              <div class="flex-50" *ngIf="!isEditInProgress">
+            <div class="flex-100 layout-row layout-lt-md-column">
+              <div class="flex-50 table-row" *ngIf="!isEditInProgress">
                 <span class="date-type flex-40">{{ 'labels.inputs.Business Date' | translate }}: </span>
-                <span class="date-value flex-60">{{ businessDate | dateFormat }}</span>
+                <span class="date-value flex-60 m-l-40">{{ businessDate | dateFormat }}</span>
               </div>
 
               <mat-form-field (click)="businessDatePicker.open()" *ngIf="isEditInProgress && dateIndex === 0">
@@ -71,10 +71,10 @@
             </div>
 
             <!-- COB Date -->
-            <div class="flex-fill layout-row-wrap gap-2percent layout-lt-md-column">
-              <div class="flex-50" *ngIf="!isEditInProgress">
+            <div class="flex-100 layout-row layout-lt-md-column">
+              <div class="flex-50 table-row" *ngIf="!isEditInProgress">
                 <span class="date-type">{{ 'labels.inputs.COB Date' | translate }}: </span>
-                <span class="date-value flex-60">{{ cobDate | dateFormat }}</span>
+                <span class="date-value flex-60 m-l-80">{{ cobDate | dateFormat }}</span>
               </div>
 
               <mat-form-field (click)="cobDatePicker.open()" *ngIf="isEditInProgress && dateIndex === 1">

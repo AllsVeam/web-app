@@ -13,7 +13,7 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 /** Environment Configuration */
-import { environment } from 'environments/environment';
+import { environment } from '../environments/environment';
 
 /** Custom Services */
 import { Logger } from './core/logger/logger.service';
@@ -51,6 +51,7 @@ import localeLV from '@angular/common/locales/lv';
 import localeNE from '@angular/common/locales/ne';
 import localePT from '@angular/common/locales/pt';
 import localeSW from '@angular/common/locales/sw';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 registerLocaleData(localeCS);
 registerLocaleData(localeEN);
 registerLocaleData(localeES);
@@ -82,7 +83,10 @@ registerLocaleData(localeSW);
 
     ])
 
-  ]
+  ],
+
+  // eslint-disable-next-line @angular-eslint/prefer-standalone
+  standalone: false
 })
 export class WebAppComponent implements OnInit {
   buttonConfig: KeyboardShortcutsConfiguration;
@@ -247,8 +251,10 @@ export class WebAppComponent implements OnInit {
     }
     // Set default max date picker as Today
     this.settingsService.setBusinessDate(this.dateUtils.formatDate(new Date(), SettingsService.businessDateFormat));
-    // Set the server list from the env var FINERACT_API_URLS
-    this.settingsService.setServers(environment.baseApiUrls.split(','));
+    // Set the server list from the env var FINERACT_API_URLS, but avoid overwriting "Add new server" user choice
+    if (!this.settingsService.servers) {
+      this.settingsService.setServers(environment.baseApiUrls.split(','));
+    }
     // Set the Tenant Identifier(s) list from the env var
     if (!localStorage.getItem('mifosXTenantIdentifier')) {
       this.settingsService.setTenantIdentifier(environment.fineractPlatformTenantId || 'default');

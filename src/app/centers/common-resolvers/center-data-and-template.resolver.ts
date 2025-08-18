@@ -20,6 +20,7 @@ export class CenterDataAndTemplateResolver {
 
   /**
    * Returns the Centers and template data.
+   * @param {ActivatedRouteSnapshot} route Route Snapshot
    * @returns {Observable<any>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {

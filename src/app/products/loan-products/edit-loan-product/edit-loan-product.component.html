@@ -1,5 +1,11 @@
 <div class="container">
-  <mat-horizontal-stepper class="mat-elevation-z8" labelPosition="bottom" #loanProductStepper>
+  <mat-stepper
+    orientation="vertical"
+    [linear]="false"
+    class="mat-elevation-z8"
+    labelPosition="bottom"
+    #loanProductStepper
+  >
     <ng-template matStepperIcon="number">
       <fa-icon icon="pencil-alt" size="sm"></fa-icon>
     </ng-template>
@@ -94,19 +100,19 @@
     </mat-step>
 
     <mat-step *ngIf="isAdvancedPaymentStrategy" [stepControl]="loanIncomeCapitalizationForm" completed>
-      <ng-template matStepLabel>{{ 'labels.inputs.INCOME CAPITALIZATION' | translate }}</ng-template>
+      <ng-template matStepLabel>{{ 'labels.inputs.DEFERRED INCOME RECOGNITION' | translate }}</ng-template>
 
       <mifosx-loan-product-capitalized-income-step
-        [capitalizedIncome]="capitalizedIncome"
+        [deferredIncomeRecognition]="deferredIncomeRecognition"
         [capitalizedIncomeCalculationTypeOptions]="loanProductAndTemplate.capitalizedIncomeCalculationTypeOptions"
         [capitalizedIncomeStrategyOptions]="loanProductAndTemplate.capitalizedIncomeStrategyOptions"
         [capitalizedIncomeTypeOptions]="loanProductAndTemplate.capitalizedIncomeTypeOptions"
-        (setCapitalizedIncome)="setCapitalizedIncome($event)"
+        [buyDownFeeCalculationTypeOptions]="loanProductAndTemplate.buyDownFeeCalculationTypeOptions"
+        [buyDownFeeStrategyOptions]="loanProductAndTemplate.buyDownFeeStrategyOptions"
+        [buyDownFeeIncomeTypeOptions]="loanProductAndTemplate.buyDownFeeIncomeTypeOptions"
         (setViewChildForm)="setViewChildForm($event)"
       >
       </mifosx-loan-product-capitalized-income-step>
-
-      <mifosx-stepper-buttons></mifosx-stepper-buttons>
     </mat-step>
 
     <mat-step [stepControl]="loanProductAccountingForm" completed>
@@ -116,7 +122,7 @@
         [loanProductsTemplate]="loanProductAndTemplate"
         [accountingRuleData]="accountingRuleData"
         [loanProductFormValid]="loanProductFormValidAndNotPristine"
-        [capitalizedIncome]="capitalizedIncome"
+        [deferredIncomeRecognition]="deferredIncomeRecognition"
       >
       </mifosx-loan-product-accounting-step>
     </mat-step>
@@ -132,5 +138,5 @@
       >
       </mifosx-loan-product-preview-step>
     </mat-step>
-  </mat-horizontal-stepper>
+  </mat-stepper>
 </div>

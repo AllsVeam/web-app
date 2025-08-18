@@ -1,3 +1,6 @@
+@use 'assets/styles/helper';
+@use 'assets/styles/colours' as *;
+
 h2,
 h3,
 h4 {
@@ -44,4 +47,10 @@ mat-divider {
 
 .margin-t {
   margin-top: 1em;
+}
+
+.mat-h3 {
+  margin-top: 10px !important;
+  font-weight: 300;
+  color: $status-approved;
 }

@@ -1,10 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "src",
-    "downlevelIteration": true,
+    "baseUrl": "./",
+    "paths": {
+      "@pipes/*": ["src/app/pipes/*"],
+      "app/*": ["src/app/*"]
+    },
     "importHelpers": true,
     "module": "es2022",
+    "esModuleInterop": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -12,7 +16,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types",

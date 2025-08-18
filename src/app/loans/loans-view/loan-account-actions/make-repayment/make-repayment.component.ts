@@ -8,6 +8,11 @@ import { LoansService } from 'app/loans/loans.service';
 import { SettingsService } from 'app/settings/settings.service';
 import { Dates } from 'app/core/utils/dates';
 import { Currency } from 'app/shared/models/general.model';
+import { InputAmountComponent } from '../../../../shared/input-amount/input-amount.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { FormatNumberPipe } from '../../../../pipes/format-number.pipe';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
  * Loan Make Repayment Component
@@ -15,7 +20,14 @@ import { Currency } from 'app/shared/models/general.model';
 @Component({
   selector: 'mifosx-make-repayment',
   templateUrl: './make-repayment.component.html',
-  styleUrls: ['./make-repayment.component.scss']
+  styleUrls: ['./make-repayment.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    InputAmountComponent,
+    MatSlideToggle,
+    CdkTextareaAutosize,
+    FormatNumberPipe
+  ]
 })
 export class MakeRepaymentComponent implements OnInit {
   @Input() dataObject: any;
@@ -78,7 +90,8 @@ export class MakeRepaymentComponent implements OnInit {
       ],
       externalId: '',
       paymentTypeId: '',
-      note: ''
+      note: '',
+      skipInterestRefund: [false]
     });
 
     if (this.isCapitalizedIncome()) {
@@ -127,7 +140,7 @@ export class MakeRepaymentComponent implements OnInit {
   }
 
   showDetails(): boolean {
-    return !this.isCapitalizedIncome();
+    return !this.isCapitalizedIncome() && !this.isBuyDownFee();
   }
 
   isCapitalizedIncome(): boolean {
@@ -135,6 +148,17 @@ export class MakeRepaymentComponent implements OnInit {
       'capitalizedIncome',
       'capitalizedIncomeAdjustment'
     ].includes(this.command);
+  }
+
+  isBuyDownFee(): boolean {
+    return [
+      'buyDownFee'
+    ].includes(this.command);
+  }
+
+  showInterestRefundCheckbox(): boolean {
+    const code = this.dataObject?.type?.code?.toLowerCase() || '';
+    return code.includes('merchantissuedrefund') || code.includes('payoutrefund');
   }
 
   /** Submits the repayment form */
@@ -146,12 +170,16 @@ export class MakeRepaymentComponent implements OnInit {
     if (repaymentLoanFormData.transactionDate instanceof Date) {
       repaymentLoanFormData.transactionDate = this.dateUtils.formatDate(prevTransactionDate, dateFormat);
     }
-    const data = {
+    const data: any = {
       ...repaymentLoanFormData,
       dateFormat,
       locale
     };
     data['transactionAmount'] = data['transactionAmount'] * 1;
+    if (repaymentLoanFormData.skipInterestRefund) {
+      data.interestRefundCalculation = false;
+    }
+    delete data.skipInterestRefund;
     this.loanService.submitLoanActionButton(this.loanId, data, this.command).subscribe((response: any) => {
       this.router.navigate(['../../transactions'], { relativeTo: this.route });
     });

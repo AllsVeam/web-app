@@ -4,15 +4,53 @@ import { RevertTransactionComponent } from 'app/accounting/revert-transaction/re
 import { AccountingService } from 'app/accounting/accounting.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Location } from '@angular/common';
+import {
+  MatTableDataSource,
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow
+} from '@angular/material/table';
+import { Location, NgIf } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { DateFormatPipe } from '../../../pipes/date-format.pipe';
+import { DatetimeFormatPipe } from '../../../pipes/datetime-format.pipe';
+import { FormatNumberPipe } from '../../../pipes/format-number.pipe';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+import { YesnoPipe } from '@pipes/yesno.pipe';
 
 @Component({
   selector: 'mifosx-view-journal-entry-transaction',
   templateUrl: './view-journal-entry-transaction.component.html',
-  styleUrls: ['./view-journal-entry-transaction.component.scss']
+  styleUrls: ['./view-journal-entry-transaction.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    FaIconComponent,
+    MatTable,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatSortHeader,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    DateFormatPipe,
+    DatetimeFormatPipe,
+    FormatNumberPipe,
+    YesnoPipe
+  ]
 })
 export class ViewJournalEntryTransactionComponent implements OnInit {
   title: string;
@@ -40,6 +78,8 @@ export class ViewJournalEntryTransactionComponent implements OnInit {
 
   isJournalEntryLoaded = false;
 
+  isManualJournalEntry = false;
+
   /**
    * @param {AccountingService} accountingService Accounting Service.
    * @param {ActivatedRoute} route Activated Route.
@@ -66,6 +106,7 @@ export class ViewJournalEntryTransactionComponent implements OnInit {
         if (data.transaction.pageItems.length > 0) {
           this.isJournalEntryLoaded = true;
           this.transactionId = data.transaction.pageItems[0].transactionId;
+          this.isManualJournalEntry = data.transaction.pageItems[0].manualEntry;
         }
       } else if (this.isViewTransfer()) {
         this.journalEntriesData = data.transferJournalEntryData.journalEntryData.content;
@@ -148,5 +189,12 @@ export class ViewJournalEntryTransactionComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  journalEntryColor(): string {
+    if (this.isManualJournalEntry) {
+      return 'manual-entry';
+    }
+    return '';
   }
 }

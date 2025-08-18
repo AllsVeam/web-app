@@ -14,7 +14,11 @@
 
 <div class="container">
   <mat-card>
-    <mat-card-title>{{ reportData.reportName }}</mat-card-title>
+    <mat-card-title class="layout-row-wrap flex-100">
+      <div class="flex-100 report-name">
+        {{ 'labels.catalogs.Report' | translate }} : <b>{{ reportData.reportName }}</b>
+      </div>
+    </mat-card-title>
 
     <mat-card-content>
       <div class="layout-row-wrap">

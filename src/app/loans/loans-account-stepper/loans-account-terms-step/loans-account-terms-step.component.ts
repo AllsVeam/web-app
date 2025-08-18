@@ -1,6 +1,6 @@
 /** Angular Imports */
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, FormArray, UntypedFormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { LoansAccountAddCollateralDialogComponent } from 'app/loans/custom-dialog/loans-account-add-collateral-dialog/loans-account-add-collateral-dialog.component';
@@ -14,6 +14,35 @@ import { FormfieldBase } from 'app/shared/form-dialog/formfield/model/formfield-
 import { InputBase } from 'app/shared/form-dialog/formfield/model/input-base';
 import { Currency } from 'app/shared/models/general.model';
 import { CodeName, OptionData } from 'app/shared/models/option-data.model';
+import { InputAmountComponent } from '../../../shared/input-amount/input-amount.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatDivider } from '@angular/material/divider';
+import { MatIconButton } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow
+} from '@angular/material/table';
+import { MatStepperPrevious, MatStepperNext } from '@angular/material/stepper';
+import { FindPipe } from '../../../pipes/find.pipe';
+import { DateFormatPipe } from '../../../pipes/date-format.pipe';
+import { YesnoPipe } from '../../../pipes/yesno.pipe';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+
+interface DisbursementData {
+  id?: number;
+  principal: number;
+  expectedDisbursementDate: string | Date;
+}
 
 /**
  * Create Loans Account Terms Step
@@ -21,7 +50,31 @@ import { CodeName, OptionData } from 'app/shared/models/option-data.model';
 @Component({
   selector: 'mifosx-loans-account-terms-step',
   templateUrl: './loans-account-terms-step.component.html',
-  styleUrls: ['./loans-account-terms-step.component.scss']
+  styleUrls: ['./loans-account-terms-step.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    InputAmountComponent,
+    MatTooltip,
+    MatCheckbox,
+    MatDivider,
+    MatIconButton,
+    FaIconComponent,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatStepperPrevious,
+    MatStepperNext,
+    FindPipe,
+    DateFormatPipe,
+    YesnoPipe
+  ]
 })
 export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
   /** Loans Product Options */
@@ -62,7 +115,7 @@ export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
   /** Client Active Loan Data */
   clientActiveLoanData: any;
   /** Multi Disbursement Data */
-  disbursementDataSource: {}[] = [];
+  disbursementDataSource: DisbursementData[] = [];
   /** Loan repayment strategies */
   transactionProcessingStrategyOptions: any = [];
   repaymentStrategyDisabled = false;
@@ -101,6 +154,7 @@ export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
 
   productEnableDownPayment = false;
   enableIncomeCapitalization = false;
+  enableBuyDownFee = false;
   isProgressive = false;
 
   /**
@@ -130,6 +184,7 @@ export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
       }
       this.productEnableDownPayment = this.loansAccountTermsData.product.enableDownPayment;
       this.enableIncomeCapitalization = this.loansAccountTermsData.product.enableIncomeCapitalization;
+      this.enableBuyDownFee = this.loansAccountTermsData.product.enableBuyDownFee;
       this.isProgressive =
         this.loansAccountTermsData.loanScheduleType.code == LoanProducts.LOAN_SCHEDULE_TYPE_PROGRESSIVE;
       if (this.loansAccountTermsData.product) {
@@ -231,6 +286,19 @@ export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
         this.loansAccountTermsForm.controls.graceOnArrearsAgeing.disable();
       }
       this.setOptions();
+
+      this.loansAccountTermsForm.removeControl('maxOutstandingLoanBalance');
+      if (this.allowAddDisbursementDetails()) {
+        this.loansAccountTermsForm.addControl(
+          'maxOutstandingLoanBalance',
+          new UntypedFormControl(this.loansAccountTermsData.maxOutstandingLoanBalance, Validators.required)
+        );
+      } else {
+        this.loansAccountTermsForm.addControl(
+          'maxOutstandingLoanBalance',
+          new UntypedFormControl(this.loansAccountTermsData.maxOutstandingLoanBalance)
+        );
+      }
     }
   }
 
@@ -284,11 +352,26 @@ export class LoansAccountTermsStepComponent implements OnInit, OnChanges {
     this.setAdvancedPaymentStrategyControls();
     // this.setCustomValidators();
     this.setLoanTermListener();
+
+    this.loansAccountTermsForm.removeControl('maxOutstandingLoanBalance');
+    if (this.allowAddDisbursementDetails()) {
+      this.loansAccountTermsForm.removeControl('maxOutstandingLoanBalance');
+      this.loansAccountTermsForm.addControl(
+        'maxOutstandingLoanBalance',
+        new UntypedFormControl(this.loansAccountTermsData.maxOutstandingLoanBalance, Validators.required)
+      );
+    } else {
+      this.loansAccountTermsForm.addControl(
+        'maxOutstandingLoanBalance',
+        new UntypedFormControl(this.loansAccountTermsData.maxOutstandingLoanBalance)
+      );
+    }
   }
 
   allowAddDisbursementDetails() {
     return this.multiDisburseLoan && !this.loansAccountTermsData.disallowExpectedDisbursements;
   }
+
   formatDateToDDMMYYYY(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

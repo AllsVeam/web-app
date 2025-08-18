@@ -23,7 +23,7 @@
 
           <div
             *ngIf="chargeForm.controls.chargeAppliesTo.value"
-            class="flex-fill layout-row-wrap gap-2percent responsive-column"
+            class="layout-row-wrap gap-2percent layout-lt-md-column form-section"
           >
             <mat-form-field class="flex-48">
               <mat-label>{{ 'labels.inputs.Charge Name' | translate }}</mat-label>
@@ -216,20 +216,6 @@
               </mat-error>
             </mat-form-field>
 
-            <div class="flex-48 layout-row gap-2percent layout-lt-md-column">
-              <div class="flex-50 active-wrapper">
-                <mat-checkbox labelPosition="before" formControlName="active">
-                  {{ 'labels.status.Active' | translate }}
-                </mat-checkbox>
-              </div>
-
-              <div class="flex-50 penalty-wrapper">
-                <mat-checkbox labelPosition="before" formControlName="penalty">
-                  {{ 'labels.commons.Is' | translate }} {{ 'labels.inputs.Penalty' | translate }}
-                </mat-checkbox>
-              </div>
-            </div>
-
             <mifosx-gl-account-selector
               class="flex-48"
               *ngIf="chargeForm.controls.chargeAppliesTo.value === 3"
@@ -247,6 +233,20 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+
+            <div class="flex-48 layout-row gap-2percent layout-lt-md-column">
+              <div class="flex-50 active-wrapper">
+                <mat-checkbox labelPosition="before" formControlName="active">
+                  {{ 'labels.status.Active' | translate }}
+                </mat-checkbox>
+              </div>
+
+              <div class="flex-50 penalty-wrapper">
+                <mat-checkbox labelPosition="before" formControlName="penalty">
+                  {{ 'labels.commons.Is' | translate }} {{ 'labels.inputs.Penalty' | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
           </div>
         </div>
       </mat-card-content>

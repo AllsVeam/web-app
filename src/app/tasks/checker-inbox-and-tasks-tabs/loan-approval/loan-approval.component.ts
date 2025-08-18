@@ -1,9 +1,21 @@
 /** Angular Imports */
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as _ from 'lodash';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  MatTableDataSource,
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow
+} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 /** Dialog Imports */
@@ -14,11 +26,37 @@ import { TasksService } from '../../tasks.service';
 import { SettingsService } from 'app/settings/settings.service';
 import { Dates } from 'app/core/utils/dates';
 import { TranslateService } from '@ngx-translate/core';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormatNumberPipe } from '../../../pipes/format-number.pipe';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
+
+interface OfficeNode {
+  id: number;
+  name: string;
+  loans: any[];
+}
 
 @Component({
   selector: 'mifosx-loan-approval',
   templateUrl: './loan-approval.component.html',
-  styleUrls: ['./loan-approval.component.scss']
+  styleUrls: ['./loan-approval.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    FaIconComponent,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCheckbox,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    FormatNumberPipe
+  ]
 })
 export class LoanApprovalComponent {
   /** Offices Data */
@@ -32,7 +70,7 @@ export class LoanApprovalComponent {
   /** Row Selection Data */
   selection: SelectionModel<any>;
   /** Map data */
-  idToNodeMap = {};
+  idToNodeMap: { [key: number]: OfficeNode } = {};
   /** Grouped Office Data */
   officesArray: any[];
   /** List of Requests */
@@ -79,15 +117,15 @@ export class LoanApprovalComponent {
     });
     this.loans.forEach((loanEle: any) => {
       if (loanEle.status.pendingApproval) {
-        let tempOffice = {};
+        let tempOffice: OfficeNode | undefined;
         if (loanEle.clientOfficeId) {
           tempOffice = this.idToNodeMap[loanEle.clientOfficeId];
-          tempOffice['loans'].push(loanEle);
-        } else {
-          if (loanEle.group) {
-            tempOffice = this.idToNodeMap[loanEle.group.officeId];
-            tempOffice['loans'].push(loanEle);
-          }
+        } else if (loanEle.group?.officeId) {
+          tempOffice = this.idToNodeMap[loanEle.group.officeId];
+        }
+
+        if (tempOffice) {
+          tempOffice.loans.push(loanEle);
         }
       }
     });

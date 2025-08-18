@@ -25,9 +25,7 @@ import { UsersComponent as UserZitadelComponent } from '../zitadel/users/users.c
 @NgModule({
   imports: [
     SharedModule,
-    UsersRoutingModule
-  ],
-  declarations: [
+    UsersRoutingModule,
     UsersComponent,
     CreateUserComponent,
     ViewUserComponent,

@@ -32,9 +32,7 @@ RUN npm cache clear --force
 RUN npm config set fetch-retry-maxtimeout 120000
 RUN npm config set registry $NPM_REGISTRY_URL --location=global
 
-RUN npm install --location=global @angular/cli@16.0.2
-
-RUN npm install
+RUN npm ci
 
 RUN sh -c "ng build --output-path=/dist $BUILD_ENVIRONMENT_OPTIONS"
 
@@ -43,7 +41,7 @@ RUN sh -c "ng build --output-path=/dist $BUILD_ENVIRONMENT_OPTIONS"
 ###############
 FROM $NGINX_IMAGE
 
-COPY --from=builder /dist /usr/share/nginx/html
+COPY --from=builder /dist/browser /usr/share/nginx/html
 
 EXPOSE 80
 

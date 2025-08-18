@@ -1,6 +1,6 @@
 /** Angular Imports */
 import { Component, OnInit, TemplateRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormArray, UntypedFormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -13,13 +13,25 @@ import { ConfigurationWizardService } from '../../configuration-wizard/configura
 
 /** Custom Dialog Component */
 import { NextStepDialogComponent } from '../../configuration-wizard/next-step-dialog/next-step-dialog.component';
+import { GlAccountSelectorComponent } from '../../shared/accounting/gl-account-selector/gl-account-selector.component';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 /**
  * Create Journal Entry component.
  */
 @Component({
   selector: 'mifosx-create-journal-entry',
   templateUrl: './create-journal-entry.component.html',
-  styleUrls: ['./create-journal-entry.component.scss']
+  styleUrls: ['./create-journal-entry.component.scss'],
+  imports: [
+    ...STANDALONE_SHARED_IMPORTS,
+    GlAccountSelectorComponent,
+    MatIconButton,
+    FaIconComponent,
+    CdkTextareaAutosize
+  ]
 })
 export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
   /** Minimum transaction date allowed. */
@@ -36,6 +48,9 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
   paymentTypeData: any;
   /** Gl Account data. */
   glAccountData: any;
+  /** Asset Externalization */
+  assetExternalizationConfig: any;
+  assetExternalizationEnabled = false;
 
   /* Reference of create journal form */
   @ViewChild('createJournalFormRef') createJournalFormRef: ElementRef<any>;
@@ -63,12 +78,16 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
     private configurationWizardService: ConfigurationWizardService,
     private popoverService: PopoverService
   ) {
-    this.route.data.subscribe((data: { offices: any; currencies: any; paymentTypes: any; glAccounts: any }) => {
-      this.officeData = data.offices;
-      this.currencyData = data.currencies.selectedCurrencyOptions;
-      this.paymentTypeData = data.paymentTypes;
-      this.glAccountData = data.glAccounts;
-    });
+    this.assetExternalizationEnabled = false;
+    this.route.data.subscribe(
+      (data: { offices: any; currencies: any; paymentTypes: any; glAccounts: any; globalConfig: any }) => {
+        this.officeData = data.offices;
+        this.currencyData = data.currencies.selectedCurrencyOptions;
+        this.paymentTypeData = data.paymentTypes;
+        this.glAccountData = data.glAccounts;
+        this.assetExternalizationConfig = data.globalConfig;
+      }
+    );
   }
 
   /**
@@ -174,6 +193,9 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
         this.settingsService.dateFormat
       );
     }
+    if (!journalEntry['externalAssetOwner']) {
+      delete journalEntry['externalAssetOwner'];
+    }
     this.accountingService.createJournalEntry(journalEntry).subscribe((response) => {
       this.router.navigate(
         [
@@ -209,6 +231,10 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.showPopover(this.templateCreateJournalFormRef, this.createJournalFormRef.nativeElement, 'top', true);
       });
+    }
+    this.assetExternalizationEnabled = this.assetExternalizationConfig.enabled;
+    if (this.assetExternalizationEnabled) {
+      this.journalEntryForm.addControl('externalAssetOwner', new UntypedFormControl());
     }
   }
 

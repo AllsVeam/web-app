@@ -5,6 +5,8 @@
   "errors": {
     "Capitalized Income amount adjusted already adjusted": "Kapitalizēto ienākumu summa jau koriģēta",
     "Capitalized Income Adjustment amount must be lower or equal to": "Kapitalizēto ienākumu korekcijas summai ir jābūt mazākai vai vienādai ar",
+    "Buy Down Fee amount already adjusted": "Jau koriģētā atpirkšanas maksas summa",
+    "Buy Down Fee Adjustment amount must be lower or equal to": "Izpirkšanas maksas korekcijas summai jābūt mazākai vai vienādai ar",
     "Email not valid": "E-pasts nav derīgs",
     "Filling Details": "Noklikšķiniet, lai sāktu aizpildīt informāciju. * ir nepieciešami atzīmju lauki. Lai iegūtu sīkāku informāciju, noklikšķiniet:",
     "Password is required": "nepieciešama parole",
@@ -367,6 +369,7 @@
       "Create Group": "Izveidot grupu",
       "Create Holiday": "Izveidojiet svētkus",
       "Create Hook": "Izveidojiet āķi",
+      "Create Interest Refund": "Izveidot procentu atmaksu",
       "Create Journal Entries": "Izveidojiet žurnāla ierakstus",
       "Create Loan Product": "Izveidojiet aizdevuma produktu",
       "Create Office": "Izveidojiet biroju",
@@ -540,6 +543,8 @@
       "CENTER": "CENTRS",
       "Capitalized Income": "Kapitalizētie ienākumi",
       "Capitalized Income Adjustment": "Kapitalizēto ienākumu korekcija",
+      "Buy Down Fee": "Pirkšanas maksa",
+      "Buy Down Fee Adjustment": "Izpirkšanas maksas korekcija",
       "Client": "Klients",
       "cash_mgmt": "naudas_mgmt",
       "collection_sheet": "kolekcijas_lapa",
@@ -815,6 +820,7 @@
       "Add/Edit Currency": "Pievienot/rediģēt valūtu",
       "Address": "Adrese",
       "Adjustment Capitalized Income Transaction": "Korekcija Kapitalizētā ienākuma darījums",
+      "Adjustment Buy Down Fee Transaction": "Korekcijas izpirkšanas maksas darījums",
       "Advanced Accounting Rules": "Uzlaboti grāmatvedības noteikumi",
       "All Charges": "Visas maksas",
       "All Dividends": "Visas dividendes",
@@ -1159,7 +1165,14 @@
       "Grace On Principal": "Grace On Principal",
       "Insert Installment": "Ievietojiet iemaksu",
       "Interest Rate": "Procentu likme",
-      "Principal Amount": "Pamatsumma"
+      "Principal Amount": "Pamatsumma",
+      "Buy Down Fees": "Izpirkšanas maksas",
+      "Fee Amount": "Maksas summa",
+      "Amortized Amount": "Amortizētā summa",
+      "Not Yet Amortized Amount": "Vel nav amortizeta summa",
+      "Adjusted Amount": "Koriģētā summa",
+      "Charged Off Amount": "Norakstītā summa",
+      "Date": "Datums"
     },
     "inputs": {
       "accounting": {
@@ -1217,6 +1230,7 @@
       "Address Type": "Adreses veids",
       "Adjust advance payments toward future installments": "Pielāgojiet avansa maksājumus turpmākajām iemaksām",
       "Adjust interest rates for remainder of loan": "Pielāgojiet procentu likmes atlikušajai aizdevuma daļai",
+      "Adjustment Amount": "Korekcijas summa",
       "Advance payments adjustment type": "Avansa maksājumu korekcijas veids",
       "Advanced Payment Allocation Transactions": "Papildu maksājumu piešķiršanas darījumi",
       "Advanced Payment Allocation Transaction Type": "Papildu maksājuma sadales darījuma veids",
@@ -1240,6 +1254,7 @@
       "Alt": "Alt",
       "Amortization": "Amortizācija",
       "Amortization Type": "Amortizācijas veids",
+      "Amortized Amount": "Amortizētā summa",
       "Amount": "Summa",
       "Amount Collected": "Iekasētā summa",
       "Amount Paid": "Samaksātā summa",
@@ -1342,6 +1357,7 @@
       "ChargeOff Fraud Expense": "Atstāj krāpšanas izdevumus",
       "Charges": "Maksas",
       "Checked Date": "Pārbaudes datums",
+      "Client Ip": "Klienta IP",
       "Checked To Date": "Pārbaudīts līdz datumam",
       "Checker": "Pārbaudītājs",
       "Checker From Date": "Pārbaudītājs no datuma",
@@ -1425,6 +1441,7 @@
       "Created At": "Izveidots plkst",
       "Created By": "Radīts",
       "Created On": "Izveidots",
+      "Creation Date": "Izveidošanas datums",
       "Credit": "Kredīts",
       "Credit Account": "Kredīta konts",
       "Credit Account Name": "Kredīta konta nosaukums",
@@ -1877,6 +1894,7 @@
       "Mandatory": "Obligāts",
       "Mandatory Guarantee(%)": "Obligātā garantija (%)",
       "Manual Entries Allowed": "Manuālas ievades ir atļautas",
+      "Manual Journal Entry": "Manuālais žurnāla ieraksts",
       "Mapper Key": "Mapper Key",
       "Mapper Value": "Kartētāja vērtība",
       "Mapping id": "Kartēšanas ID",
@@ -2375,6 +2393,7 @@
       "Unassignment Date": "Atcelšanas datums",
       "Unique": "Unikāls",
       "Unit Type": "Vienības veids",
+      "Unrecognized Amount": "Neatpazīta summa",
       "Updated By": "Atjaunināja",
       "Updated on": "Atjaunināts",
       "Url": "URL",
@@ -2471,7 +2490,17 @@
       "Enable income capitalization": "Iespējot ienākumu kapitalizāciju",
       "Income capitalization calculation type": "Ienākumu kapitalizācijas aprēķina veids",
       "Income capitalization strategy": "Ienākumu kapitalizācijas stratēģija",
-      "Income capitalization type": "Ienākumu kapitalizācijas veids"
+      "Income capitalization type": "Ienākumu kapitalizācijas veids",
+      "DEFERRED INCOME RECOGNITION": "Atliktā ienākuma atzīšana",
+      "Enable Buy down fee": "Iespējot atpirkšanas maksu",
+      "Merchant Buy down fee": "Merchant Buy down maksa",
+      "Buy down fee calculation type": "Atpirkšanas maksas aprēķina veids",
+      "Buy down fee strategy": "Atpirkšanas maksas stratēģija",
+      "Buy down fee income type": "Atpirkšanas maksas ienākumu veids",
+      "Buy down fees": "Iepirkuma maksas",
+      "Income from Buy down fees": "Ienākumi no akciju izpirkšanas komisijas maksām",
+      "Buy down fee Expense": "Akciju izpirkšanas komisijas izdevumi",
+      "Skip Interest Refund Transaction Posting": "Izlaist procentu atmaksas ierakstu"
     },
     "links": {
       "Community": "kopiena",
@@ -2507,6 +2536,8 @@
       "Block Deposit": "Bloķēt depozītu",
       "Block Withdrawal": "Bloķēt izņemšanu",
       "Breadcrumbs": "Maizes drupačas",
+      "Buy Down Fee": "Nopirkt Down Fee",
+      "Buy Down Fee Adjustment": "Pirkšanas maksas korekcija",
       "Calculate Interest": "Aprēķināt procentus",
       "Capitalized Income": "Kapitalizētie ienākumi",
       "Capitalized Income Adjustment": "Kapitalizēto ienākumu korekcija",
@@ -3280,12 +3311,16 @@
       "Mandatory": "Obligāts",
       "Voluntary": "Brīvprātīgi",
       "Write a note": "Uzrakstiet piezīmi",
-      "“Maker-Checker” principle requires every tasks": "“Maker-Checker” princips paredz, ka katrs uzdevums ir jāveic diviem cilvēkiem, lai samazinātu kļūdu un nepareizas lietošanas iespējamību. Viens cilvēks uzsāk procesu, bet otrs to pabeidz."
+      "“Maker-Checker” principle requires every tasks": "“Maker-Checker” princips paredz, ka katrs uzdevums ir jāveic diviem cilvēkiem, lai samazinātu kļūdu un nepareizas lietošanas iespējamību. Viens cilvēks uzsāk procesu, bet otrs to pabeidz.",
+      "Buy Down Fees": "Izpirkšanas maksas"
     },
     "titles": {
       "Dashboard": "Mērinstrumentu panelis",
       "Home": "Mājas",
       "Login": "Pieslēgties"
+    },
+    "messages": {
+      "No Data Found": "Dati nav atrasti"
     }
   },
   "languages": {
@@ -3498,6 +3533,7 @@
     "Yes": "Jā",
     "loan product will be active and available to clients": "Datums, kad aizdevuma produkts būs aktīvs un pieejams klientiem. Ja lauks ir tukšs, aizdevuma produkts būs aktīvs, tiklīdz tas tiks izveidots.",
     "loan product will become inactive and unavailable to clients": "Datums, kad aizdevuma produkts kļūs neaktīvs un klientiem nebūs pieejams. Ja lauks ir tukšs, ielādes produkts nekad nekļūs neaktīvs.",
-    "Refund transactions where interest refund will automatically be calculated": "Grąžinimo operacijos, kai palūkanų grąžinimas bus skaičiuojamas automatiškai"
+    "Refund transactions where interest refund will automatically be calculated": "Grąžinimo operacijos, kai palūkanų grąžinimas bus skaičiuojamas automatiškai",
+    "Create Interest Refund": "Izveidot procentu atmaksu"
   }
 }
