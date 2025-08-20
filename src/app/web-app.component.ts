@@ -283,7 +283,7 @@ export class WebAppComponent implements OnInit {
           } else {
             this.authService.logout();
           }
-        }, 10000);
+        }, 1000);
       });
     }
 
