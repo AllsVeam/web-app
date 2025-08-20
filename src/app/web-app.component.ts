@@ -66,8 +66,8 @@ registerLocaleData(localePT);
 registerLocaleData(localeSW);
 
 /**
- * Main web app component.
- */
+* Main web app component.
+*/
 @Component({
   selector: 'mifosx-web-app',
   templateUrl: './web-app.component.html',
@@ -89,6 +89,16 @@ registerLocaleData(localeSW);
   standalone: false
 })
 export class WebAppComponent implements OnInit {
+  public environment = environment;
+  oidcServerEnabled = !(
+    (window as any)?.env?.oidcServerEnabled === false ||
+    (window as any)?.env?.oidcServerEnabled === 'false' ||
+    (window as any)?.env?.oidcServerEnabled === 0 ||
+    (window as any)?.env?.oidcServerEnabled === '0' ||
+    (window as any)?.env?.oidcServerEnabled === null ||
+    (window as any)?.env?.oidcServerEnabled === undefined
+  );
+
   buttonConfig: KeyboardShortcutsConfiguration;
 
   i18nService: I18nService;
@@ -125,7 +135,7 @@ export class WebAppComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     private apiService: ApiService
-  ) {}
+  ) { }
 
   @HostBinding('class') public cssClass: string;
 
@@ -150,9 +160,7 @@ export class WebAppComponent implements OnInit {
   }
 
   logout() {
-    //this.authService.logout();
-    // Log modify
-    this.isLoggedIn = false;
+    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
   }
 
   loadProtectedData() {
@@ -170,9 +178,9 @@ export class WebAppComponent implements OnInit {
     let code = localStorage.getItem('auth_code');
 
     if (code) {
-      //this.router.navigate(['/callback'], { queryParams: { code } });
       const codeVerifier = localStorage.getItem('code_verifier');
       this.authService.exchangeCodeForTokens(code, codeVerifier);
+      this.isLoggedIn = !this.isLoggedIn;
     }
 
     //this.checkLogin();
@@ -187,7 +195,6 @@ export class WebAppComponent implements OnInit {
     if (environment.production) {
       Logger.enableProductionMode();
     }
-    log.debug('init');
 
     // Setup translations
     this.translateService.addLangs(environment.supportedLanguages.split(','));
@@ -263,18 +270,23 @@ export class WebAppComponent implements OnInit {
     this.settingsService.setTenantIdentifiers(environment.fineractPlatformTenantIds.split(','));
 
     // Subscribe to session timeout If IdleTimeout is higher than 0 (zero)
-    if (environment.session.timeout.idleTimeout > 0) {
+    if (environment.session.timeout.idleTimeout > 0 && this.isLoggedIn) {
       this.idle.$onSessionTimeout.subscribe(() => {
-        if (this.authenticationService.getUserLoggedIn()) {
-          this.alertService.alert({
-            type: 'Session timeout',
-            message: this.translateService.instant('labels.text.Session timed out')
-          });
-          this.dialog.open(SessionTimeoutDialogComponent);
-          this.logout();
-        }
+        this.alertService.alert({
+          type: 'Session timeout',
+          message: this.translateService.instant('labels.text.Session timed out')
+        });
+        this.dialog.open(SessionTimeoutDialogComponent);
+        setTimeout(() => {
+          if (this.oidcServerEnabled) {
+            this.logout();
+          } else {
+            this.authService.logout();
+          }
+        }, 10000);
       });
     }
+
   }
 
 

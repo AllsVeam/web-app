@@ -44,8 +44,8 @@ import { ThemeToggleComponent } from '../../../shared/theme-toggle/theme-toggle.
 import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
 /**
- * Toolbar component.
- */
+* Toolbar component.
+*/
 @Component({
   selector: 'mifosx-toolbar',
   templateUrl: './toolbar.component.html',
@@ -145,7 +145,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit, AfterContentChec
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
   }
 
-  logout2() {
+  logoutOIDC() {
     this.authService.logout();
   }
 

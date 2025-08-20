@@ -24,9 +24,13 @@ import { MatIcon } from '@angular/material/icon';
 import { MatLine } from '@angular/material/grid-list';
 import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
 
+/** Environment Configuration */
+import { environment } from '../../../../environments/environment';
+
+import { AuthService } from 'app/zitadel/auth.service';
 /**
- * Sidenav component.
- */
+* Sidenav component.
+*/
 @Component({
   selector: 'mifosx-sidenav',
   templateUrl: './sidenav.component.html',
@@ -46,6 +50,16 @@ import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
   ]
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
+public environment = environment;
+oidcServerEnabled = !(
+  (window as any)?.env?.oidcServerEnabled === false ||
+  (window as any)?.env?.oidcServerEnabled === 'false' ||
+  (window as any)?.env?.oidcServerEnabled === 0 ||
+  (window as any)?.env?.oidcServerEnabled === '0' ||
+  (window as any)?.env?.oidcServerEnabled === null ||
+  (window as any)?.env?.oidcServerEnabled === undefined
+);
+
   /** True if sidenav is in collapsed state. */
   @Input() sidenavCollapsed: boolean;
   /** Tooltip position */
@@ -82,6 +96,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private settingsService: SettingsService,
     private configurationWizardService: ConfigurationWizardService,
+    private authService: AuthService,
     private popoverService: PopoverService
   ) {
     this.userActivity = JSON.parse(localStorage.getItem('mifosXLocation'));
@@ -100,7 +115,11 @@ export class SidenavComponent implements OnInit, AfterViewInit {
    * Logs out the authenticated user and redirects to login page.
    */
   logout() {
-    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+    if(this.oidcServerEnabled){
+      this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+    }else{
+      this.authService.logout();
+    }
   }
 
   /**
