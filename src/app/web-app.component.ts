@@ -151,6 +151,7 @@ export class WebAppComponent implements OnInit {
 
   logout() {
     //this.authService.logout();
+    // Log modify
     this.isLoggedIn = false;
   }
 
